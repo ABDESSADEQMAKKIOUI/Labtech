@@ -1,0 +1,16 @@
+package com.example.LabTech.entite;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.util.ArrayList;
+import java.util.Collection;
+
+@Entity
+@NoArgsConstructor
+@Data
+public class Patient extends Personne {
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private Collection<Echantillon> echantillons = new ArrayList<>();
+}
+
