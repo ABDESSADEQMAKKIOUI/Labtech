@@ -34,4 +34,5 @@ public class TypeAnalyseService {
     public void deletetypeAnalyse(long id) {
         typeAnalyseRepository.deleteById(id);
     }
+
 }

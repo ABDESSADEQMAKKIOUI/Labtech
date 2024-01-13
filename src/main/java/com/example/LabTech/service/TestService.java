@@ -1,5 +1,6 @@
 package com.example.LabTech.service;
 
+import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.entite.Test_analyse;
 import com.example.LabTech.repository.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,10 @@ public class TestService {
 
     public void deleteTest(long id) {
         testRepository.deleteById(id);
+    }
+
+    // Méthode pour récupérer les tests associés à une analyse
+    public List<Test_analyse> getTestsByAnalyse(Analyse analyse) {
+        return testRepository.findByAnalyse(analyse);
     }
 }
