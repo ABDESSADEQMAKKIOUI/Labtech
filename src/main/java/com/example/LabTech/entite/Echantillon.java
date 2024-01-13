@@ -1,6 +1,6 @@
 package com.example.LabTech.entite;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Date;

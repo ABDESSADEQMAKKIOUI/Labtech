@@ -1,6 +1,8 @@
 package com.example.LabTech.service;
 
 import com.example.LabTech.entite.Responsable;
+import com.example.LabTech.entite.Test_analyse;
+import com.example.LabTech.entite.Type_Analyse;
 import com.example.LabTech.repository.ResponsbleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import java.util.Optional;
 public class ResponsableService {
     @Autowired
     private ResponsbleRepository responsbleRepository;
+
 
 
 
@@ -33,4 +36,6 @@ public class ResponsableService {
     public void deleteResponsable(long id) {
         responsbleRepository.deleteById(id);
     }
+
+
 }

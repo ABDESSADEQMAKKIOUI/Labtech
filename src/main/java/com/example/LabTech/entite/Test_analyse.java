@@ -2,7 +2,7 @@ package com.example.LabTech.entite;
 
 
 import com.example.LabTech.entite.enums.Status;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,32 +17,19 @@ public class Test_analyse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    private Type_Analyse typeAnalyse;
 
-    private String name ;
-    @OneToOne(mappedBy = "nom_testAnalyse" , cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "name", referencedColumnName = "name")
     private Enorm enorm;
 
     @ManyToOne
     private Technitien technitien;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date_debut;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date_fin;
-
     private float resultat;
     private String commentaire;
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
-    @ManyToOne
-    private Reactif reactif;
-
 
 }
 

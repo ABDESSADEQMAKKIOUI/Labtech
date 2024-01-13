@@ -1,8 +1,12 @@
 package com.example.LabTech.entite;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @Data
@@ -10,9 +14,14 @@ public class Enorm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id ;
-    @OneToOne
+    @OneToMany
     @JoinColumn(name = "name", referencedColumnName = "name")
-    private Test_analyse nom_testAnalyse;
+    private List<Test_analyse> testAnalyses = new ArrayList<>();
+    @ManyToOne
+    private Type_Analyse typeAnalyse;
+    @ManyToOne
+    private Reactif reactif;
+    private String name ;
     private String unite_mesure ;
     private float plage_normale_min ;
     private float plage_normale_max ;

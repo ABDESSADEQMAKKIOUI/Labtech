@@ -2,7 +2,7 @@ package com.example.LabTech.entite;
 
 
 import com.example.LabTech.entite.enums.Type_Analyse_name;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +22,7 @@ public class Type_Analyse {
     private List<Materiel> materiels = new ArrayList<>();
 
     @OneToMany(mappedBy = "typeAnalyse", cascade = CascadeType.ALL)
-    private List<Test_analyse> testAnalyses = new ArrayList<>();
+    private List<Enorm> enorms = new ArrayList<>();
 
     @OneToMany(mappedBy = "typeAnalyse", cascade = CascadeType.ALL)
     private List<Analyse> analyses = new ArrayList<>();

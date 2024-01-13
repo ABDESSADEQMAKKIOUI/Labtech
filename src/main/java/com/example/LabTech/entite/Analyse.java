@@ -3,9 +3,7 @@ package com.example.LabTech.entite;
 
 import com.example.LabTech.entite.enums.Status;
 import com.example.LabTech.entite.enums.Status_Analyse;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

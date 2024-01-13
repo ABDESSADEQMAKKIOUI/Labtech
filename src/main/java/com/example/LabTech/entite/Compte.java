@@ -1,7 +1,7 @@
 package com.example.LabTech.entite;
 
 import com.example.LabTech.entite.enums.Role;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

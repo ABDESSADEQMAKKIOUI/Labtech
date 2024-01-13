@@ -3,7 +3,7 @@ package com.example.LabTech.entite;
 
 import com.example.LabTech.entite.enums.Periode_Rapport;
 import com.example.LabTech.entite.enums.Type_Rapport;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
