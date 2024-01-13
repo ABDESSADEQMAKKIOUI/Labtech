@@ -7,7 +7,9 @@ import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -36,7 +38,8 @@ public class Analyse {
 
     @ManyToOne
     private Responsable responsable;
-
+    @OneToMany(mappedBy = "analyse", cascade = CascadeType.ALL)
+    private List<Test_analyse> testAnalyses = new ArrayList<>() ;
     @Enumerated(EnumType.STRING)
     private Status status ;
 

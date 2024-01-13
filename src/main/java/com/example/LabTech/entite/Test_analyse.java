@@ -24,6 +24,8 @@ public class Test_analyse {
 
     @ManyToOne
     private Technitien technitien;
+    @ManyToOne
+    private Analyse analyse ;
 
     private float resultat;
     private String commentaire;
