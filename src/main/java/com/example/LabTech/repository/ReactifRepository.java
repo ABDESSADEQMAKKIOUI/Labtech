@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ReactifRepository extends JpaRepository<Reactif, Long> {
-    @Query("SELECT r FROM reactif r WHERE r.dateExpiration < CURRENT_DATE")
+    @Query(value = "SELECT r FROM Reactif r WHERE r.dateExpiration < CURRENT_DATE" , nativeQuery = true)
     List<Reactif> findByDateExpirationBeforeNow();
 
 }

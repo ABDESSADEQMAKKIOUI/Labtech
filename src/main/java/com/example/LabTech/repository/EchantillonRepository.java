@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface EchantillonRepository extends JpaRepository<Echantillon, Long> {
-    @Query("SELECT e FROM echantillon e WHERE e.datePrend BETWEEN :startDate AND :endDate")
+    @Query(value = "SELECT e FROM echantillon e WHERE e.datePrend BETWEEN :startDate AND :endDate" , nativeQuery = true)
     List<Echantillon> findByDatePrendBetween(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 }

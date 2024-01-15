@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface EnormRepository extends JpaRepository<Enorm, Long> {
 
-    @Query("SELECT e FROM Enorm e JOIN e.typeAnalyse t WHERE t.id = :typeAnalyseId")
+    @Query(value = "SELECT e FROM Enorm e JOIN e.typeAnalyse t WHERE t.id = :typeAnalyseId" , nativeQuery = true)
     List<Enorm> findByTypeAnalyseId(@Param("typeAnalyseId") Long typeAnalyseId);
 }

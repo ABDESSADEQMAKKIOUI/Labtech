@@ -13,16 +13,16 @@ import java.util.List;
 public interface AnalyseRepository extends JpaRepository<Analyse, Long> {
 
     // Méthode pour récupérer les analyses dans une plage de dates spécifiée avec une requête JPQL
-    @Query("SELECT a FROM Analyse a WHERE a.dateDebut BETWEEN :startDate AND :endDate ")
+    @Query(value = "SELECT a FROM Analyse a WHERE a.dateDebut BETWEEN :startDate AND :endDate " , nativeQuery = true)
     List<Analyse> findByDateDebutBetween(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 
     // Méthode pour compter les analyses par statut avec une requête JPQL
-    @Query("SELECT COUNT(a) FROM Analyse a WHERE a.statusAnalyse = :statusAnalyse")
+    @Query(value = "SELECT COUNT(a) FROM Analyse a WHERE a.statusAnalyse = :statusAnalyse " , nativeQuery = true)
     long countByStatusAnalyse(@Param("statusAnalyse") Status_Analyse statusAnalyse);
 
     // Méthode pour compter les analyses par statut avec une requête JPQL
-    @Query("SELECT a FROM Analyse a WHERE a.statusAnalyse = :statusAnalyse")
+    @Query(value = "SELECT a FROM Analyse a WHERE a.statusAnalyse = :statusAnalyse" , nativeQuery = true)
     List<Analyse> getAnalyseByStatus(@Param("statusAnalyse") Status_Analyse statusAnalyse);
 
 
