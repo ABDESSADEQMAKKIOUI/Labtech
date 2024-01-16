@@ -1,7 +1,7 @@
 package com.example.LabTech.DTO;
 
-import com.example.demo.DTO.enums.Periode_RapportDTO;
-import com.example.demo.DTO.enums.Type_RapportDTO;
+import com.example.LabTech.DTO.enums.Periode_RapportDTO;
+import com.example.LabTech.DTO.enums.Type_RapportDTO;
 import lombok.Data;
 
 

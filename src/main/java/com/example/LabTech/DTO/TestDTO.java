@@ -1,6 +1,6 @@
 package com.example.LabTech.DTO;
 
-import com.example.demo.DTO.enums.StatusDTO;
+import com.example.LabTech.DTO.enums.StatusDTO;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,7 +11,7 @@ public class TestDTO {
 
     private long id;
     private AnalyseDTO analyse;
-    private UserDTO technitien;
+    private Compte technitien;
     private Date date_debut;
     private Date date_fin;
     private float resultat;

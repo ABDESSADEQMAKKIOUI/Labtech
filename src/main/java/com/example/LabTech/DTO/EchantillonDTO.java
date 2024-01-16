@@ -1,6 +1,6 @@
 package com.example.LabTech.DTO;
 
-import com.example.demo.entite.Patient;
+import com.example.LabTech.entite.Patient;
 import lombok.Data;
 
 import java.util.Date;
