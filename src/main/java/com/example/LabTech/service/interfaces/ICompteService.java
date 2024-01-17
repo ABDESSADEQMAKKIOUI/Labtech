@@ -1,5 +1,6 @@
 package com.example.LabTech.service.interfaces;
 
+import com.example.LabTech.DTO.CompteDto;
 import com.example.LabTech.entite.Compte;
 
 import java.util.List;
@@ -7,13 +8,13 @@ import java.util.Optional;
 
 public interface ICompteService {
 
-    List<Compte> getAllComptes();
+    List<CompteDto> getAllComptes();
 
-    Optional<Compte> getCompteById(long id);
+    Optional<CompteDto> getCompteById(long id);
 
-    Compte addCompte(Compte compte);
+    CompteDto addCompte(CompteDto compte);
 
-    Compte updateCompte(Compte compte);
+    CompteDto updateCompte(CompteDto compte);
 
     void deleteCompte(long id);
 }

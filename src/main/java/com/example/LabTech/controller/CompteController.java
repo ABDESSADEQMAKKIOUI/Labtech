@@ -1,6 +1,6 @@
 package com.example.LabTech.controller;
 
-import com.example.LabTech.entite.Compte;
+import com.example.LabTech.DTO.CompteDto;
 import com.example.LabTech.service.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/comptes")
@@ -18,29 +17,29 @@ public class CompteController {
     private CompteService compteService;
 
     @GetMapping
-    public List<Compte> getAllComptes() {
+    public List<CompteDto> getAllComptes() {
         return compteService.getAllComptes();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Compte> getCompteById(@PathVariable long id) {
-        Optional<Compte> compte = compteService.getCompteById(id);
-        return compte.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+    public ResponseEntity<CompteDto> getCompteById(@PathVariable long id) {
+        return compteService.getCompteById(id)
+                .map(compte -> new ResponseEntity<>(compte, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
-    public ResponseEntity<Compte> addCompte(@RequestBody Compte compte) {
-        Compte newCompte = compteService.addCompte(compte);
+    public ResponseEntity<CompteDto> addCompte(@RequestBody CompteDto compteDto) {
+        CompteDto newCompte = compteService.addCompte(compteDto);
         return new ResponseEntity<>(newCompte, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Compte> updateCompte(@PathVariable long id, @RequestBody Compte compte) {
+    public ResponseEntity<CompteDto> updateCompte(@PathVariable long id, @RequestBody CompteDto compteDto) {
         if (!compteService.getCompteById(id).isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Compte updatedCompte = compteService.updateCompte(compte);
+        CompteDto updatedCompte = compteService.updateCompte(compteDto);
         return new ResponseEntity<>(updatedCompte, HttpStatus.OK);
     }
 

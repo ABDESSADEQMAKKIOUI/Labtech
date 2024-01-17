@@ -1,6 +1,6 @@
 package com.example.LabTech.controller;
 
-import com.example.LabTech.entite.Echantillon;
+import com.example.LabTech.DTO.EchantillonDto;
 import com.example.LabTech.service.EchantillonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,28 +17,28 @@ public class EchantillonController {
     private EchantillonService echantillonService;
 
     @GetMapping
-    public List<Echantillon> getAllEchantillons() {
+    public List<EchantillonDto> getAllEchantillons() {
         return echantillonService.getAllEchantillons();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Echantillon> getEchantillonById(@PathVariable long id) {
+    public ResponseEntity<EchantillonDto> getEchantillonById(@PathVariable long id) {
         return echantillonService.getEchantillonById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Echantillon> addEchantillon(@RequestBody Echantillon echantillon) {
-        Echantillon addedEchantillon = echantillonService.addEchantillon(echantillon);
+    public ResponseEntity<EchantillonDto> addEchantillon(@RequestBody EchantillonDto echantillonDto) {
+        EchantillonDto addedEchantillon = echantillonService.addEchantillon(echantillonDto);
         return new ResponseEntity<>(addedEchantillon, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Echantillon> updateEchantillon(@PathVariable long id, @RequestBody Echantillon echantillon) {
+    public ResponseEntity<EchantillonDto> updateEchantillon(@PathVariable long id, @RequestBody EchantillonDto echantillonDto) {
         if (echantillonService.getEchantillonById(id).isPresent()) {
-            echantillon.setId(id);
-            Echantillon updatedEchantillon = echantillonService.updateEchantillon(echantillon);
+            echantillonDto.setId(id);
+            EchantillonDto updatedEchantillon = echantillonService.updateEchantillon(echantillonDto);
             return ResponseEntity.ok(updatedEchantillon);
         } else {
             return ResponseEntity.notFound().build();

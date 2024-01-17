@@ -1,14 +1,15 @@
 package com.example.LabTech.service;
 
+import com.example.LabTech.DTO.AnalyseDto;
+import com.example.LabTech.DTO.EnormDto;
 import com.example.LabTech.entite.Analyse;
-
 import com.example.LabTech.entite.Enorm;
 import com.example.LabTech.entite.Test_analyse;
 import com.example.LabTech.entite.Type_Analyse;
 import com.example.LabTech.repository.AnalyseRepository;
 import com.example.LabTech.repository.EnormRepository;
 import com.example.LabTech.repository.TestRepository;
-import com.example.LabTech.service.interfaces.IAnalyseService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,47 +18,66 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class AnalyseService implements IAnalyseService {
+public class AnalyseService {
 
     @Autowired
     private AnalyseRepository analyseRepository;
+
     @Autowired
     private TestRepository testAnalyseRepository;
+
     @Autowired
-    private EnormRepository enormRepository ;
+    private EnormRepository enormRepository;
 
-    // Méthodes de service pour la logique métier liée à Analyse
+    @Autowired
+    private ModelMapper modelMapper; // Ajout du ModelMapper
 
-    @Override
-    public List<Analyse> getAllAnalyses() {
-        return analyseRepository.findAll();
+    public List<AnalyseDto> getAllAnalyses() {
+        List<Analyse> analyses = analyseRepository.findAll();
+        return analyses.stream()
+                .map(analyse -> modelMapper.map(analyse, AnalyseDto.class))
+                .collect(Collectors.toList());
     }
-    @Override
-    public Optional<Analyse> getAnalyseById(long id) {
-        return analyseRepository.findById(id);
+
+    public Optional<AnalyseDto> getAnalyseById(long id) {
+        Optional<Analyse> analyse = analyseRepository.findById(id);
+        return analyse.map(value -> modelMapper.map(value, AnalyseDto.class));
     }
-    @Override
-    public Analyse addAnalyse(Analyse analyse) {
-        return analyseRepository.save(analyse);
+
+    public AnalyseDto addAnalyse(AnalyseDto analyseDto) {
+        Analyse analyse = modelMapper.map(analyseDto, Analyse.class);
+        Analyse savedAnalyse = analyseRepository.save(analyse);
+        return modelMapper.map(savedAnalyse, AnalyseDto.class);
     }
-    @Override
-    public Analyse updateAnalyse(Analyse analyse) {
-        return analyseRepository.save(analyse);
+
+    public AnalyseDto updateAnalyse(AnalyseDto analyseDto, long id) {
+        Optional<Analyse> existingAnalyse = analyseRepository.findById(id);
+        if (existingAnalyse.isPresent()) {
+            Analyse analyse = modelMapper.map(analyseDto, Analyse.class);
+            analyse.setId(id);
+            Analyse updatedAnalyse = analyseRepository.save(analyse);
+            return modelMapper.map(updatedAnalyse, AnalyseDto.class);
+        }
+        return null; // Gérer le cas où l'analyse n'existe pas
     }
-    @Override
+
     public void deleteAnalyse(long id) {
         analyseRepository.deleteById(id);
     }
-    @Override
-    public List<Enorm> getEnormsByTypeAnalyseAndCreateTests(Type_Analyse typeAnalyse, Analyse analyse) {
-        List<Enorm> norms = enormRepository.findByTypeAnalyseId(typeAnalyse.getId());
+
+    public List<EnormDto> getEnormsByTypeAnalyseAndCreateTests(long typeAnalyseId, AnalyseDto analyseDto) {
+        Type_Analyse typeAnalyse = new Type_Analyse();
+        typeAnalyse.setId(typeAnalyseId);
+
+        List<EnormDto> norms = enormRepository.findByTypeAnalyseId(typeAnalyse.getId()).stream()
+                .map(enorm -> modelMapper.map(enorm, EnormDto.class))
+                .collect(Collectors.toList());
 
         List<Test_analyse> tests = norms.stream()
-                .map(enorm -> {
+                .map(enormDto -> {
                     Test_analyse testAnalyse = new Test_analyse();
-                    // Configurer les propriétés du testAnalyse en fonction des besoins
-                    testAnalyse.setEnorm(enorm);
-                    testAnalyse.setAnalyse(analyse);
+                    testAnalyse.setEnorm(modelMapper.map(enormDto, Enorm.class));
+                    testAnalyse.setAnalyse(modelMapper.map(analyseDto, Analyse.class));
                     return testAnalyse;
                 })
                 .collect(Collectors.toList());
@@ -67,4 +87,3 @@ public class AnalyseService implements IAnalyseService {
         return norms;
     }
 }
-

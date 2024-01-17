@@ -1,14 +1,17 @@
 package com.example.LabTech.entite;
 
 import javax.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
 @Data
 public class Enorm {
     @Id

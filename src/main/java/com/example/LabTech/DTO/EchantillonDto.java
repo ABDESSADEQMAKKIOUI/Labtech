@@ -2,6 +2,8 @@ package com.example.LabTech.DTO;
 
 import com.example.LabTech.entite.enums.Status;
 import com.example.LabTech.entite.enums.Status_Analyse;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -11,8 +13,12 @@ import java.util.List;
 /**
  * DTO for {@link com.example.LabTech.entite.Echantillon}
  */
-@Value
+
+@Data
+@NoArgsConstructor(force = true)
 public class EchantillonDto implements Serializable {
+    private long id;
+
     Long patientId;
     String patientNom;
     String patientPrenom;
