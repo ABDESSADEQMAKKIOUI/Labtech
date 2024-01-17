@@ -8,6 +8,7 @@ import com.example.LabTech.entite.Type_Analyse;
 import com.example.LabTech.repository.AnalyseRepository;
 import com.example.LabTech.repository.EnormRepository;
 import com.example.LabTech.repository.TestRepository;
+import com.example.LabTech.service.interfaces.IAnalyseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class AnalyseService {
+public class AnalyseService implements IAnalyseService {
 
     @Autowired
     private AnalyseRepository analyseRepository;
@@ -27,26 +28,27 @@ public class AnalyseService {
 
     // Méthodes de service pour la logique métier liée à Analyse
 
+    @Override
     public List<Analyse> getAllAnalyses() {
         return analyseRepository.findAll();
     }
-
+    @Override
     public Optional<Analyse> getAnalyseById(long id) {
         return analyseRepository.findById(id);
     }
-
+    @Override
     public Analyse addAnalyse(Analyse analyse) {
         return analyseRepository.save(analyse);
     }
-
+    @Override
     public Analyse updateAnalyse(Analyse analyse) {
         return analyseRepository.save(analyse);
     }
-
+    @Override
     public void deleteAnalyse(long id) {
         analyseRepository.deleteById(id);
     }
-
+    @Override
     public List<Enorm> getEnormsByTypeAnalyseAndCreateTests(Type_Analyse typeAnalyse, Analyse analyse) {
         List<Enorm> norms = enormRepository.findByTypeAnalyseId(typeAnalyse.getId());
 
