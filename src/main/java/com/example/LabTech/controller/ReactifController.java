@@ -20,23 +20,19 @@ public class ReactifController {
 
     @GetMapping
     public List<ReactifDto> getAllReactifs() {
-        List<ReactifDto> reactifDtos = reactifService.getAllReactifs().stream()
-                .map(ReactifDto::new)
-                .collect(Collectors.toList());
-        return reactifDtos;
+       return reactifService.getAllReactifs();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ReactifDto> getReactifById(@PathVariable long id) {
         return reactifService.getReactifById(id)
-                .map(ReactifDto::new)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<ReactifDto> addReactif(@RequestBody ReactifDto reactifDto) {
-        ReactifDto addedReactif = new ReactifDto(reactifService.addReactif(reactifDto.toReactif()));
+        ReactifDto addedReactif = reactifService.addReactif(reactifDto);
         return new ResponseEntity<>(addedReactif, HttpStatus.CREATED);
     }
 
@@ -46,7 +42,7 @@ public class ReactifController {
             return ResponseEntity.notFound().build();
         }
         reactifDto.setId(id);
-        ReactifDto updatedReactif = new ReactifDto(reactifService.updateReactif(reactifDto.toReactif()));
+        ReactifDto updatedReactif = reactifService.updateReactif(reactifDto);
         return ResponseEntity.ok(updatedReactif);
     }
 

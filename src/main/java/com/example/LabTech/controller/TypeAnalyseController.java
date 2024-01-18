@@ -21,12 +21,12 @@ public class TypeAnalyseController {
 
     @GetMapping
     public List<TypeAnalyseDto> getAllTypeAnalyses() {
-      return typeAnalyseService.getAllTypeAnalyses();
+      return typeAnalyseService.getAllttypeAnalyse();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TypeAnalyseDto> getTypeAnalyseById(@PathVariable long id) {
-        return typeAnalyseService.getTypeAnalyseById(id)
+        return typeAnalyseService.gettypeAnalyseById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -14,7 +14,6 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-
 public class CompteDto implements Serializable {
     String username;
     private String password;

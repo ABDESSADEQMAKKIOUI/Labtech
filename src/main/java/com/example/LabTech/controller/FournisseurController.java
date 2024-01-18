@@ -1,7 +1,6 @@
 package com.example.LabTech.controller;
 
 import com.example.LabTech.DTO.FournisseurDto;
-import com.example.LabTech.dto.FournisseurDto;
 import com.example.LabTech.service.FournisseurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

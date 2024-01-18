@@ -55,13 +55,18 @@ public class TestService implements ITestService {
     }
 
     @Override
-    public List<TestAnalyseDto> getTestsByAnalyse(Analyse analyse) {
-        List<Test_analyse> tests = testRepository.findByAnalyse(analyse);
-        return tests.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
-
+    public List<TypeAnalyseDto> getTestsByAnalyse(Analyse analyse) {
+        return null;
     }
+
+//    @Override
+//    public List<TestAnalyseDto> getTestsByAnalyse(Analyse analyse) {
+//        List<Test_analyse> tests = testRepository.findByAnalyse(analyse);
+//        return tests.stream()
+//                .map(this::convertToDto)
+//                .collect(Collectors.toList());
+//
+//    }
 
     // Helper methods for mapping
     private TestAnalyseDto convertToDto(Test_analyse testAnalyse) {

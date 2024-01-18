@@ -1,7 +1,6 @@
 package com.example.LabTech.controller;
 
 import com.example.LabTech.DTO.MaterielDto;
-import com.example.LabTech.dto.MaterielDto;
 import com.example.LabTech.service.MaterielService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,7 @@ public class MaterielController {
 
     @GetMapping
     public List<MaterielDto> getAllMateriels() {
-        return materielService.getAllMateriels();
+        return materielService.getAllMateriel();
     }
 
     @GetMapping("/{id}")

@@ -20,7 +20,7 @@ public class ResponsableController {
     private ResponsableService responsableService;
 
     @GetMapping
-    public List<ResponsableDto> getAllResponsables() {return responsableService.getAllResponsable();}
+    public List<ResponsableDto> getAllResponsables() {return responsableService.getAllresponsable();}
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponsableDto> getResponsableById(@PathVariable long id) {

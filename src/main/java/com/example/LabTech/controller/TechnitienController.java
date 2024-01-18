@@ -22,14 +22,14 @@ public class TechnitienController {
 
     @GetMapping
     public List<TechnitienDto> getAllTechnitiens() {
-       return technitienService.getAllTechnitiens();
+       return technitienService.getAlltechnitiens();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TechnitienDto> getTechnitienById(@PathVariable long id ,TechnitienDto technitienDto) {
-        if (technitienService.getTechnitienById(id).isPresent()) {
+        if (technitienService.gettechnitienById(id).isPresent()) {
             technitienDto.setId(id);
-            TechnitienDto updatedEnorm = technitienService.updateTechnitien(technitienDto);
+            TechnitienDto updatedEnorm = technitienService.updatetechnitien(technitienDto);
             return ResponseEntity.ok(updatedEnorm);
         } else {
             return ResponseEntity.notFound().build();
