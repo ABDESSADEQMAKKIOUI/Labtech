@@ -1,18 +1,19 @@
 package com.example.LabTech.service.interfaces;
 
+import com.example.LabTech.DTO.ResponsableDto;
 import com.example.LabTech.entite.Responsable;
 import java.util.List;
 import java.util.Optional;
 
 public interface IResponsableService {
 
-    List<Responsable> getAllresponsable();
+    List<ResponsableDto> getAllresponsable();
 
-    Optional<Responsable> getResponsableById(long id);
+    Optional<ResponsableDto> getResponsableById(long id);
 
-    Responsable addResponsable(Responsable responsable);
+    ResponsableDto addResponsable(ResponsableDto responsable);
 
-    Responsable updateResponsable(Responsable responsable);
+    ResponsableDto updateResponsable(ResponsableDto responsable);
 
     void deleteResponsable(long id);
 }

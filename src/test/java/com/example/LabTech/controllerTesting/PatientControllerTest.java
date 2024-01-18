@@ -109,16 +109,16 @@ public class PatientControllerTest {
     @Test
     public void getPatientByIdTest() throws Exception {
         Long patientId = 1L;
-        Mockito.when(patientService.getPatientById(patientId).thenReturn(
-                Optional.of(patientDto));
+        PatientDto patientDto = new PatientDto(); // assuming you have initialized patientDto
 
-        ResultActions response = mockMvc.perform(get("/api/patients/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(patientDto)));
+        when(patientService.getPatientById(patientId)).thenReturn(Optional.of(patientDto));
+
+        ResultActions response = mockMvc.perform(get("/api/patients/{id}", patientId)
+                .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(patientDto.getNom())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.prenom", CoreMatchers.is(patientDto.getPrenom())))
+                .andExpect(jsonPath("$.prenom", CoreMatchers.is(patientDto.getPrenom())))
                 .andExpect(jsonPath("$.email", CoreMatchers.is(patientDto.getEmail())));
     }
 

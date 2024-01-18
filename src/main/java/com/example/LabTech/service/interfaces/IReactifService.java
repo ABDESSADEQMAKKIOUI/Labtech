@@ -1,5 +1,6 @@
 package com.example.LabTech.service.interfaces;
 
+import com.example.LabTech.DTO.ReactifDto;
 import com.example.LabTech.entite.Reactif;
 
 import java.util.Date;
@@ -8,13 +9,13 @@ import java.util.Optional;
 
 public interface IReactifService {
 
-    List<Reactif> getAllReactifs();
+    List<ReactifDto> getAllReactifs();
 
-    Optional<Reactif> getReactifById(long id);
+    Optional<ReactifDto> getReactifById(long id);
 
-    Reactif addReactif(Reactif reactif);
+    ReactifDto addReactif(ReactifDto reactif);
 
-    Reactif updateReactif(Reactif reactif);
+    ReactifDto updateReactif(ReactifDto reactif);
 
     void deleteReactif(long id);
 

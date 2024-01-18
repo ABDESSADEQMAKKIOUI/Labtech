@@ -1,18 +1,19 @@
 package com.example.LabTech.service.interfaces;
 
+import com.example.LabTech.DTO.PatientDto;
 import com.example.LabTech.entite.Patient;
 import java.util.List;
 import java.util.Optional;
 
 public interface IPatientService {
 
-    List<Patient> getAllPatients();
+    List<PatientDto> getAllPatients();
 
-    Optional<Patient> getPatientById(long id);
+    Optional<PatientDto> getPatientById(long id);
 
-    Patient addPatient(Patient patient);
+    PatientDto addPatient(PatientDto patient);
 
-    Patient updatePatient(Patient patient);
+    PatientDto updatePatient(PatientDto patient);
 
     void deletePatient(long id);
 }

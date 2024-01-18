@@ -1,6 +1,6 @@
 package com.example.LabTech.controller;
 
-import com.example.LabTech.entite.Fournisseur;
+import com.example.LabTech.DTO.FournisseurDto;
 import com.example.LabTech.service.FournisseurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,28 +17,28 @@ public class FournisseurController {
     private FournisseurService fournisseurService;
 
     @GetMapping
-    public List<Fournisseur> getAllFournisseurs() {
+    public List<FournisseurDto> getAllFournisseurs() {
         return fournisseurService.getAllFournisseurs();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Fournisseur> getFournisseurById(@PathVariable long id) {
+    public ResponseEntity<FournisseurDto> getFournisseurById(@PathVariable long id) {
         return fournisseurService.getFournisseurById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Fournisseur> addFournisseur(@RequestBody Fournisseur fournisseur) {
-        Fournisseur addedFournisseur = fournisseurService.addFournisseur(fournisseur);
+    public ResponseEntity<FournisseurDto> addFournisseur(@RequestBody FournisseurDto fournisseurDto) {
+        FournisseurDto addedFournisseur = fournisseurService.addFournisseur(fournisseurDto);
         return new ResponseEntity<>(addedFournisseur, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Fournisseur> updateFournisseur(@PathVariable long id, @RequestBody Fournisseur fournisseur) {
+    public ResponseEntity<FournisseurDto> updateFournisseur(@PathVariable long id, @RequestBody FournisseurDto fournisseurDto) {
         if (fournisseurService.getFournisseurById(id).isPresent()) {
-            fournisseur.setId(id);
-            Fournisseur updatedFournisseur = fournisseurService.updateFournisseur(fournisseur);
+            fournisseurDto.setId(id);
+            FournisseurDto updatedFournisseur = fournisseurService.updateFournisseur(fournisseurDto);
             return ResponseEntity.ok(updatedFournisseur);
         } else {
             return ResponseEntity.notFound().build();
@@ -51,4 +51,3 @@ public class FournisseurController {
         return ResponseEntity.noContent().build();
     }
 }
-

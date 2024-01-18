@@ -1,5 +1,6 @@
 package com.example.LabTech.service.interfaces;
 
+import com.example.LabTech.DTO.TechnitienDto;
 import com.example.LabTech.entite.Technitien;
 
 import java.util.List;
@@ -7,13 +8,13 @@ import java.util.Optional;
 
 public interface ITechnitientService {
 
-    List<Technitien>  getAlltechnitiens();
+    List<TechnitienDto>  getAlltechnitiens();
 
-    Optional<Technitien> gettechnitienById(long id);
+    Optional<TechnitienDto> gettechnitienById(long id);
 
-    Technitien addtechnitien(Technitien technitien);
+    TechnitienDto addtechnitien(TechnitienDto technitien);
 
-    Technitien updatetechnitien(Technitien technitien);
+    TechnitienDto updatetechnitien(TechnitienDto technitien);
 
     void deletetechnitien(long id);
 }

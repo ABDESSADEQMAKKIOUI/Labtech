@@ -1,4 +1,4 @@
-package com.example.LabTech;
+package com.example.LabTech.servicesTesting;
 
 import com.example.LabTech.entite.RapportStatistique;
 import com.example.LabTech.entite.enums.Periode_Rapport;

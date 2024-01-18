@@ -1,5 +1,6 @@
 package com.example.LabTech.service.interfaces;
 
+import com.example.LabTech.DTO.FournisseurDto;
 import com.example.LabTech.entite.Fournisseur;
 
 import java.util.List;
@@ -7,13 +8,13 @@ import java.util.Optional;
 
 public interface IFournisseurService {
 
-    List<Fournisseur> getAllFournisseurs();
+    List<FournisseurDto> getAllFournisseurs();
 
-    Optional<Fournisseur> getFournisseurById(long id);
+    Optional<FournisseurDto> getFournisseurById(long id);
 
-    Fournisseur addFournisseur(Fournisseur fournisseur);
+    FournisseurDto addFournisseur(FournisseurDto fournisseur);
 
-    Fournisseur updateFournisseur(Fournisseur fournisseur);
+    FournisseurDto updateFournisseur(FournisseurDto fournisseur);
 
     void deleteFournisseur(long id);
 }

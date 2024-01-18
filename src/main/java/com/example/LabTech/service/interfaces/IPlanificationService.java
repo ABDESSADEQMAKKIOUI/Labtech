@@ -1,5 +1,9 @@
 package com.example.LabTech.service.interfaces;
 
+import com.example.LabTech.DTO.AnalyseDto;
+import com.example.LabTech.DTO.ResponsableDto;
+import com.example.LabTech.DTO.TechnitienDto;
+import com.example.LabTech.DTO.TestAnalyseDto;
 import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.entite.Responsable;
 import com.example.LabTech.entite.Technitien;
@@ -9,13 +13,13 @@ import java.util.Date;
 
 public interface IPlanificationService {
 
-    void affecterTechnicien(Technitien technitien, Test_analyse test_analyse);
+    void affecterTechnicien(TechnitienDto technitien, TestAnalyseDto test_analyse);
 
-    void ChangerDateAnalyse(Analyse analyse, Date dateDebut, Date dateFin);
+    void ChangerDateAnalyse(AnalyseDto analyse, Date dateDebut, Date dateFin);
 
-    void ChangerTechnicien(Technitien technitien, Test_analyse test_analyse);
+    void ChangerTechnicien(TechnitienDto technitien, TestAnalyseDto test_analyse);
 
-    void ChangerResponsable(Responsable responsable, Analyse analyse);
+    void ChangerResponsable(ResponsableDto responsable, AnalyseDto analyse);
 
-    void AjouterTest(Analyse analyse, Test_analyse test_analyse);
+    void AjouterTest(AnalyseDto analyse, TestAnalyseDto test_analyse);
 }

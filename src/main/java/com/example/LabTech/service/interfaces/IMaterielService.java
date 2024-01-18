@@ -1,5 +1,6 @@
 package com.example.LabTech.service.interfaces;
 
+import com.example.LabTech.DTO.MaterielDto;
 import com.example.LabTech.entite.Materiel;
 
 import java.util.List;
@@ -7,13 +8,13 @@ import java.util.Optional;
 
 public interface IMaterielService {
 
-    List<Materiel> getAllMateriel();
+    List<MaterielDto> getAllMateriel();
 
-    Optional<Materiel> getMaterielById(long id);
+    Optional<MaterielDto> getMaterielById(long id);
 
-    Materiel addMateriel(Materiel materiel);
+    MaterielDto addMateriel(MaterielDto materiel);
 
-    Materiel updateMateriel(Materiel materiel);
+    MaterielDto updateMateriel(MaterielDto materiel);
 
     void deleteMateriel(long id);
 }

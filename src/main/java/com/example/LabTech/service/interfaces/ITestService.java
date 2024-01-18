@@ -1,5 +1,7 @@
 package com.example.LabTech.service.interfaces;
 
+import com.example.LabTech.DTO.TestAnalyseDto;
+import com.example.LabTech.DTO.TypeAnalyseDto;
 import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.entite.Test_analyse;
 
@@ -8,15 +10,15 @@ import java.util.Optional;
 
 public interface ITestService {
 
-    List<Test_analyse> getAllTests();
+    List<TestAnalyseDto> getAllTests();
 
-    Optional<Test_analyse> getTestById(long id);
+    Optional<TestAnalyseDto> getTestById(long id);
 
-    Test_analyse addTest(Test_analyse testAnalyse);
+    TestAnalyseDto addTest(TestAnalyseDto testAnalyse);
 
-    Test_analyse updateTest(Test_analyse testAnalyse);
+    TestAnalyseDto updateTest(TestAnalyseDto testAnalyse);
 
     void deleteTest(long id);
 
-    List<Test_analyse> getTestsByAnalyse(Analyse analyse);
+    List<TypeAnalyseDto> getTestsByAnalyse(Analyse analyse);
 }
