@@ -134,7 +134,7 @@ public class CompteControllerTest {
         Long compteId = 1L;
         doNothing().when(compteService).deleteCompte(compteId);
 
-        ResultActions response = mockMvc.perform(delete("/api/utilisateurs/1")
+        ResultActions response = mockMvc.perform(delete("/api/comptes/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk());
