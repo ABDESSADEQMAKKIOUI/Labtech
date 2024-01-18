@@ -2,6 +2,7 @@ package com.example.LabTech.DTO;
 
 import com.example.LabTech.entite.enums.Status;
 import com.example.LabTech.entite.enums.Status_Analyse;
+import com.example.LabTech.entite.enums.Type_Analyse_name;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
@@ -28,6 +29,7 @@ public class EchantillonDto implements Serializable {
     Date date_prend;
     List<AnalyseDto> analyses;
 
+
     /**
      * DTO for {@link com.example.LabTech.entite.Analyse}
      */
@@ -38,5 +40,7 @@ public class EchantillonDto implements Serializable {
         Date date_fin;
         Status_Analyse statusAnalyse;
         Status status;
+        long typeAnalyseId;
+        Type_Analyse_name typeAnalyseTypeAnalyseName;
     }
 }
