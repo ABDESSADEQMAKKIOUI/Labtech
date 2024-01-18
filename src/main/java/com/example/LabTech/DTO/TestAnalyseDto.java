@@ -2,7 +2,8 @@ package com.example.LabTech.DTO;
 
 import com.example.LabTech.entite.enums.Status;
 import com.example.LabTech.entite.enums.Status_Analyse;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,8 +11,11 @@ import java.util.Date;
 /**
  * DTO for {@link com.example.LabTech.entite.Test_analyse}
  */
-@Value
-public class Test_analyseDto implements Serializable {
+@NoArgsConstructor
+@Data
+public class TestAnalyseDto implements Serializable {
+    private long id;
+
     long analyseId;
     Date analyseDate_debut;
     Date analyseDate_fin;

@@ -1,5 +1,7 @@
 package com.example.LabTech.DTO;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -9,8 +11,10 @@ import java.util.Date;
 /**
  * DTO for {@link com.example.LabTech.entite.Patient}
  */
-@Value
+@NoArgsConstructor
+@Data
 public class PatientDto implements Serializable {
+    private Long id;
     String nom;
     String prenom;
     String email;

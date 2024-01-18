@@ -1,5 +1,6 @@
 package com.example.LabTech.controller;
 
+import com.example.LabTech.DTO.ResponsableDto;
 import com.example.LabTech.entite.Responsable;
 import com.example.LabTech.service.ResponsableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/responsables")
@@ -18,29 +20,28 @@ public class ResponsableController {
     private ResponsableService responsableService;
 
     @GetMapping
-    public List<Responsable> getAllResponsables() {
-        return responsableService.getAllresponsable();
-    }
+    public List<ResponsableDto> getAllResponsables() {return responsableService.getAllResponsable();}
 
     @GetMapping("/{id}")
-    public ResponseEntity<Responsable> getResponsableById(@PathVariable long id) {
-        Optional<Responsable> responsable = responsableService.getResponsableById(id);
-        return responsable.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponsableDto> getResponsableById(@PathVariable long id) {
+       return responsableService.getResponsableById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Responsable> addResponsable(@RequestBody Responsable responsable) {
-        Responsable newResponsable = responsableService.addResponsable(responsable);
+    public ResponseEntity<ResponsableDto> addResponsable(@RequestBody ResponsableDto responsableDto) {
+        ResponsableDto newResponsable = responsableService.addResponsable(responsableDto);
         return new ResponseEntity<>(newResponsable, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Responsable> updateResponsable(@PathVariable long id, @RequestBody Responsable responsable) {
+    public ResponseEntity<ResponsableDto> updateResponsable(@PathVariable long id, @RequestBody ResponsableDto responsableDto) {
         if (!responsableService.getResponsableById(id).isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Responsable updatedResponsable = responsableService.updateResponsable(responsable);
+        responsableDto.setId(id);
+        ResponsableDto updatedResponsable = responsableService.updateResponsable(responsableDto);
         return new ResponseEntity<>(updatedResponsable, HttpStatus.OK);
     }
 

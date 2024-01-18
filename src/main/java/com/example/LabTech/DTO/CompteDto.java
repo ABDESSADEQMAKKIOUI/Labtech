@@ -1,6 +1,8 @@
 package com.example.LabTech.DTO;
 
 import com.example.LabTech.entite.enums.Role;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -8,7 +10,8 @@ import java.io.Serializable;
 /**
  * DTO for {@link com.example.LabTech.entite.Compte}
  */
-@Value
+@NoArgsConstructor
+@Data
 public class CompteDto implements Serializable {
     String username;
     Role role;

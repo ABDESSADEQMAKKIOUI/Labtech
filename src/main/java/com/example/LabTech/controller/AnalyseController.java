@@ -1,8 +1,10 @@
 package com.example.LabTech.controller;
 
 
+import com.example.LabTech.DTO.AnalyseDto;
 import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.service.AnalyseService;
+import com.example.LabTech.service.PlanificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,30 +18,31 @@ public class AnalyseController {
 
     @Autowired
     private AnalyseService analyseService;
+    private PlanificationService planificationService ;
 
     @GetMapping
-    public List<Analyse> getAllAnalyses() {
+    public List<AnalyseDto> getAllAnalyses() {
         return analyseService.getAllAnalyses();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Analyse> getAnalyseById(@PathVariable long id) {
+    public ResponseEntity<AnalyseDto> getAnalyseById(@PathVariable long id) {
         return analyseService.getAnalyseById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Analyse> addAnalyse(@RequestBody Analyse analyse) {
-        Analyse addedAnalyse = analyseService.addAnalyse(analyse);
+    public ResponseEntity<AnalyseDto> addAnalyse(@RequestBody AnalyseDto analyse) {
+        AnalyseDto addedAnalyse = analyseService.addAnalyse(analyse);
         return new ResponseEntity<>(addedAnalyse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Analyse> updateAnalyse(@PathVariable long id, @RequestBody Analyse analyse) {
+    public ResponseEntity<AnalyseDto> updateAnalyse(@PathVariable long id, @RequestBody AnalyseDto analyse) {
         if (analyseService.getAnalyseById(id).isPresent()) {
             analyse.setId(id);
-            Analyse updatedAnalyse = analyseService.updateAnalyse(analyse);
+            AnalyseDto updatedAnalyse = analyseService.updateAnalyse(analyse ,id);
             return ResponseEntity.ok(updatedAnalyse);
         } else {
             return ResponseEntity.notFound().build();
