@@ -1,7 +1,6 @@
 package com.example.LabTech.service;
 
-import com.example.LabTech.DTO.TestAnalyseDto;
-import com.example.LabTech.DTO.TypeAnalyseDto;
+import com.example.LabTech.DTO.Test_analyseDto;
 import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.entite.Test_analyse;
 import com.example.LabTech.repository.TestRepository;
@@ -24,7 +23,7 @@ public class TestService implements ITestService {
     private ModelMapper modelMapper;
 
     @Override
-    public List<TestAnalyseDto> getAllTests() {
+    public List<Test_analyseDto> getAllTests() {
         List<Test_analyse> tests = testRepository.findAll();
         return tests.stream()
                 .map(this::convertToDto)
@@ -32,19 +31,19 @@ public class TestService implements ITestService {
     }
 
     @Override
-    public Optional<TestAnalyseDto> getTestById(long id) {
+    public Optional<Test_analyseDto> getTestById(long id) {
         Optional<Test_analyse> testAnalyse = testRepository.findById(id);
         return testAnalyse.map(this::convertToDto);
     }
 
     @Override
-    public TestAnalyseDto addTest(TestAnalyseDto testAnalyseDTO) {
+    public Test_analyseDto addTest(Test_analyseDto testAnalyseDTO) {
         Test_analyse testAnalyse = convertToEntity(testAnalyseDTO);
         return convertToDto(testRepository.save(testAnalyse));
     }
 
     @Override
-    public TestAnalyseDto updateTest(TestAnalyseDto testAnalyseDTO) {
+    public Test_analyseDto updateTest(Test_analyseDto testAnalyseDTO) {
         Test_analyse testAnalyse = convertToEntity(testAnalyseDTO);
         return convertToDto(testRepository.save(testAnalyse));
     }
@@ -55,7 +54,7 @@ public class TestService implements ITestService {
     }
 
     @Override
-    public List<TypeAnalyseDto> getTestsByAnalyse(Analyse analyse) {
+    public List<Test_analyseDto> getTestsByAnalyse(Analyse analyse) {
         return null;
     }
 
@@ -69,11 +68,11 @@ public class TestService implements ITestService {
 //    }
 
     // Helper methods for mapping
-    private TestAnalyseDto convertToDto(Test_analyse testAnalyse) {
-        return modelMapper.map(testAnalyse, TestAnalyseDto.class);
+    private Test_analyseDto convertToDto(Test_analyse testAnalyse) {
+        return modelMapper.map(testAnalyse, Test_analyseDto.class);
     }
 
-    private Test_analyse convertToEntity(TestAnalyseDto testAnalyseDTO) {
+    private Test_analyse convertToEntity(Test_analyseDto testAnalyseDTO) {
         return modelMapper.map(testAnalyseDTO, Test_analyse.class);
     }
 }

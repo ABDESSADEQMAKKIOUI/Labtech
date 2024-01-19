@@ -3,10 +3,7 @@ package com.example.LabTech.service.interfaces;
 
 import com.example.LabTech.DTO.AnalyseDto;
 import com.example.LabTech.DTO.EnormDto;
-import com.example.LabTech.DTO.TypeAnalyseDto;
-import com.example.LabTech.entite.Analyse;
-import com.example.LabTech.entite.Enorm;
-import com.example.LabTech.entite.Type_Analyse;
+import com.example.LabTech.DTO.Type_AnalyseDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,5 +20,5 @@ public interface  IAnalyseService{
 
     void deleteAnalyse(long id);
 
-    List<EnormDto> getEnormsByTypeAnalyseAndCreateTests(TypeAnalyseDto typeAnalyse, AnalyseDto analyse);
+    List<EnormDto> getEnormsByTypeAnalyseAndCreateTests(Type_AnalyseDto typeAnalyse, AnalyseDto analyse);
 }

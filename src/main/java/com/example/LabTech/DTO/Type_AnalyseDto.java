@@ -1,32 +1,37 @@
 package com.example.LabTech.DTO;
 
+import com.example.LabTech.entite.Test_analyse;
+import com.example.LabTech.entite.Type_Analyse;
 import com.example.LabTech.entite.enums.Status;
+import com.example.LabTech.entite.enums.Status_Analyse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
- * DTO for {@link com.example.LabTech.entite.Enorm}
+ * DTO for {@link Type_Analyse}
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnormDto implements Serializable {
+public class Type_AnalyseDto implements Serializable {
     long id;
-    List<Test_analyseDto> testAnalyses;
-    long reactifId;
-    String reactifNom;
     String name;
-    String unite_mesure;
-    float plage_normale_min;
-    float plage_normale_max;
+    List<Test_analyseDto> testAnalyses;
+    long analyseId;
+    String analyseName;
+    Date analyseDate_debut;
+    Date analyseDate_fin;
+    Status_Analyse analyseStatusAnalyse;
+    Status analyseStatus;
 
     /**
-     * DTO for {@link com.example.LabTech.entite.Test_analyse}
+     * DTO for {@link Test_analyse}
      */
     @Value
     public static class Test_analyseDto implements Serializable {

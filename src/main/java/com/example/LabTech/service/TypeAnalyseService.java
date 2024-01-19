@@ -1,6 +1,6 @@
 package com.example.LabTech.service;
 
-import com.example.LabTech.DTO.TypeAnalyseDto;
+import com.example.LabTech.DTO.Type_AnalyseDto;
 import com.example.LabTech.entite.Type_Analyse;
 import com.example.LabTech.repository.TypeAnalyseRepository;
 import com.example.LabTech.service.interfaces.ITypeAnalyseService;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TypeAnalyseService implements ITypeAnalyseService {
@@ -30,24 +29,24 @@ public class TypeAnalyseService implements ITypeAnalyseService {
 //    }
 
     @Override
-    public List<TypeAnalyseDto> getAllttypeAnalyse() {
+    public List<Type_AnalyseDto> getAllttypeAnalyse() {
         return null;
     }
 
     @Override
-    public Optional<TypeAnalyseDto> gettypeAnalyseById(long id) {
+    public Optional<Type_AnalyseDto> gettypeAnalyseById(long id) {
         Optional<Type_Analyse> typeAnalyse = typeAnalyseRepository.findById(id);
         return typeAnalyse.map(this::convertToDto);
     }
 
     @Override
-    public TypeAnalyseDto addtypeAnalyse(TypeAnalyseDto typeAnalyseDTO) {
+    public Type_AnalyseDto addtypeAnalyse(Type_AnalyseDto typeAnalyseDTO) {
         Type_Analyse typeAnalyse = convertToEntity(typeAnalyseDTO);
         return convertToDto(typeAnalyseRepository.save(typeAnalyse));
     }
 
     @Override
-    public TypeAnalyseDto updatetypeAnalyse(TypeAnalyseDto typeAnalyseDTO) {
+    public Type_AnalyseDto updatetypeAnalyse(Type_AnalyseDto typeAnalyseDTO) {
         Type_Analyse typeAnalyse = convertToEntity(typeAnalyseDTO);
         return convertToDto(typeAnalyseRepository.save(typeAnalyse));
     }
@@ -58,11 +57,11 @@ public class TypeAnalyseService implements ITypeAnalyseService {
     }
 
     // Helper methods for mapping
-    private TypeAnalyseDto convertToDto(Type_Analyse typeAnalyse) {
-        return modelMapper.map(typeAnalyse, TypeAnalyseDto.class);
+    private Type_AnalyseDto convertToDto(Type_Analyse typeAnalyse) {
+        return modelMapper.map(typeAnalyse, Type_AnalyseDto.class);
     }
 
-    private Type_Analyse convertToEntity(TypeAnalyseDto typeAnalyseDTO) {
+    private Type_Analyse convertToEntity(Type_AnalyseDto typeAnalyseDTO) {
         return modelMapper.map(typeAnalyseDTO, Type_Analyse.class);
     }
 }

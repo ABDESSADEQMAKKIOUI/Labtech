@@ -3,8 +3,13 @@ package com.example.LabTech.entite;
 
 import com.example.LabTech.entite.enums.Type_Analyse_name;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,17 +20,16 @@ public class Type_Analyse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id ;
-    @Enumerated(EnumType.STRING)
-    private Type_Analyse_name typeAnalyseName ;
+    private String name ;
 
     @OneToMany(mappedBy = "typeAnalyse", cascade = CascadeType.ALL)
-    private List<Materiel> materiels = new ArrayList<>();
+    @ToString.Exclude
+    @JsonIgnore
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Test_analyse> testAnalyses = new ArrayList<>();
 
-    @OneToMany(mappedBy = "typeAnalyse", cascade = CascadeType.ALL)
-    private List<Enorm> enorms = new ArrayList<>();
-
-    @OneToMany(mappedBy = "typeAnalyse", cascade = CascadeType.ALL)
-    private List<Analyse> analyses = new ArrayList<>();
+    @ManyToOne
+    private Analyse analyse ;
 
 
 }

@@ -13,7 +13,7 @@ public class Materiel {
     private long id ;
     private String nom ;
     @ManyToOne
-    private Type_Analyse typeAnalyse ;
+    private Echantillon echantillon ;
     @Enumerated(EnumType.STRING)
     private Materiel_type materielType ;
 }

@@ -77,7 +77,7 @@ public class AnalyseService {
                 .map(enormDto -> {
                     Test_analyse testAnalyse = new Test_analyse();
                     testAnalyse.setEnorm(modelMapper.map(enormDto, Enorm.class));
-                    testAnalyse.setAnalyse(modelMapper.map(analyseDto, Analyse.class));
+//                    testAnalyse.setTypeAnalyse(modelMapper.map(analyseDto, Analyse.class));
                     return testAnalyse;
                 })
                 .collect(Collectors.toList());

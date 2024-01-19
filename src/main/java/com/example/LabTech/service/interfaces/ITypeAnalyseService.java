@@ -1,20 +1,19 @@
 package com.example.LabTech.service.interfaces;
 
-import com.example.LabTech.DTO.TypeAnalyseDto;
-import com.example.LabTech.entite.Type_Analyse;
+import com.example.LabTech.DTO.Type_AnalyseDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ITypeAnalyseService {
 
-    List<TypeAnalyseDto> getAllttypeAnalyse();
+    List<Type_AnalyseDto> getAllttypeAnalyse();
 
-    Optional<TypeAnalyseDto> gettypeAnalyseById(long id);
+    Optional<Type_AnalyseDto> gettypeAnalyseById(long id);
 
-    TypeAnalyseDto addtypeAnalyse(TypeAnalyseDto typeAnalyse);
+    Type_AnalyseDto addtypeAnalyse(Type_AnalyseDto typeAnalyse);
 
-    TypeAnalyseDto updatetypeAnalyse(TypeAnalyseDto typeAnalyse);
+    Type_AnalyseDto updatetypeAnalyse(Type_AnalyseDto typeAnalyse);
 
     void deletetypeAnalyse(long id);
 }
