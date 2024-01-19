@@ -1,15 +1,10 @@
 package com.example.LabTech.controllerTesting;
 
-import com.example.LabTech.DTO.CompteDto;
 import com.example.LabTech.DTO.MaterielDto;
-import com.example.LabTech.controller.CompteController;
 import com.example.LabTech.controller.MaterielController;
-import com.example.LabTech.entite.Compte;
 import com.example.LabTech.entite.Materiel;
 import com.example.LabTech.entite.enums.Materiel_type;
-import com.example.LabTech.entite.enums.Role;
 import com.example.LabTech.entite.enums.Type_Analyse_name;
-import com.example.LabTech.service.CompteService;
 import com.example.LabTech.service.MaterielService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
@@ -38,44 +33,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-public class  {
-}
-////////////////////////////
-
-package com.example.LabTech.controllerTesting;
-
-import com.example.LabTech.DTO.CompteDto;
-import com.example.LabTech.controller.CompteController;
-import com.example.LabTech.entite.Compte;
-import com.example.LabTech.entite.enums.Role;
-import com.example.LabTech.service.CompteService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-        import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -158,7 +115,7 @@ public class MaterielControllerTest {
 
         ResultActions response = mockMvc.perform(get("/api/materiels/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(materielDtoDto)));
+                .content(objectMapper.writeValueAsString(materielDto)));
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(materielDto.getNom())))
@@ -168,25 +125,27 @@ public class MaterielControllerTest {
     }
 
     @Test
-    public void updateCompteTest() throws Exception {
-        Long compteId = 1L;
-        when(compteService.updateCompte(compteDto)).thenReturn(compteDto);
+    public void updateMaterielTest() throws Exception {
+        Long materielId = 1L;
+        when(materielService.updateMateriel(materielDto)).thenReturn(materielDto);
 
         ResultActions response;
-        response = mockMvc.perform(put("/api/comptes/1")
+        response = mockMvc.perform(put("/api/materiels/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(compteDto)));
+                .content(objectMapper.writeValueAsString(materielDto)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.username", CoreMatchers.is(compteDto.getUsername())))
-                .andExpect(jsonPath("$.role", CoreMatchers.is(compteDto.getRole().toString())));
+                .andExpect(jsonPath("$.nom", CoreMatchers.is(materielDto.getNom())))
+                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(materielDto.getTypeAnalyseId())))
+                .andExpect(jsonPath("$.typeAnalyseTypeAnalyseName", CoreMatchers.is(materielDto.getTypeAnalyseTypeAnalyseName())))
+                .andExpect(jsonPath("$.materielType", CoreMatchers.is(materielDto.getMaterielType())));
     }
     @Test
-    public void deleteCompteTest() throws Exception {
-        Long compteId = 1L;
-        doNothing().when(compteService).deleteCompte(compteId);
+    public void deleteMaterielTest() throws Exception {
+        Long materielId = 1L;
+        doNothing().when(materielService).deleteMateriel(materielId);
 
-        ResultActions response = mockMvc.perform(delete("/api/comptes/1")
+        ResultActions response = mockMvc.perform(delete("/api/materiels/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk());

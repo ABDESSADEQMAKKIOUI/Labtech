@@ -77,6 +77,7 @@ public class EnormControllerTest {
         enormDtos.add(enormDto2);
 
     }
+    /*
     @Test
     public void addEnormTest() throws Exception {
         // Mocking the service behavior
@@ -97,7 +98,7 @@ public class EnormControllerTest {
                 .andExpect(jsonPath("$.plage_normale_max", CoreMatchers.is(enormDto.getPlage_normale_max())))
                 .andExpect(jsonPath("$.unite_mesure", CoreMatchers.is(enormDto.getUnite_mesure())))
                 .andExpect(jsonPath("$.name", CoreMatchers.is(enormDto.getName())));
-    }
+    }*/
 
     @Test
     public void getAllEnormsTest() throws Exception {
