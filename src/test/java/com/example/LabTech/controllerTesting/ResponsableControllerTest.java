@@ -139,7 +139,7 @@ public class ResponsableControllerTest {
     @Test
     public void deleteResponsableTest() throws Exception {
         Long responsableId = 1L;
-        doNothing().when(responsableService).deleteCompte(responsableId);
+        doNothing().when(responsableService).deleteResponsable(responsableId);
 
         ResultActions response = mockMvc.perform(delete("/api/responsables/1")
                 .contentType(MediaType.APPLICATION_JSON));

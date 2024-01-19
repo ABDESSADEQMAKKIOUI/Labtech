@@ -1,10 +1,10 @@
 package com.example.LabTech.controllerTesting;
 
-import com.example.LabTech.DTO.CompteDto;
+
+import com.example.LabTech.DTO.TechnitienDto;
 import com.example.LabTech.controller.CompteController;
-import com.example.LabTech.entite.Compte;
-import com.example.LabTech.entite.enums.Role;
-import com.example.LabTech.service.CompteService;
+import com.example.LabTech.entite.Technitien;
+import com.example.LabTech.service.TechnitientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,97 +35,62 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class TechnitienControllerTest {
-}
-//////
-package com.example.LabTech.controllerTesting;
-
-import com.example.LabTech.DTO.CompteDto;
-import com.example.LabTech.controller.CompteController;
-import com.example.LabTech.entite.Compte;
-import com.example.LabTech.entite.enums.Role;
-import com.example.LabTech.service.CompteService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-        import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = CompteController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
-public class CompteControllerTest {
+public class TechnitienControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private CompteService compteService;
+    private TechnitientService technicienService;
 
     @Autowired
     private ObjectMapper objectMapper;
-    private CompteDto compteDto, compteDto2;
-    private List<CompteDto> compteDtos;
-    private Compte compte;
+    private TechnitienDto technicienDto, technicienDto2;
+    private List<TechnitienDto> technitienDtos;
+    private Technitien technitien;
 
     @BeforeEach
     public void init() {
-        compteDto = new CompteDto(); // Initialize  compteDto
-        compteDto.setUsername("sami");
-        compteDto.setRole(Role.technicien);
-        compteDto.setPassword("123");
-        compteDtos = new ArrayList<>();
-        compteDtos.add(compteDto);
-        compteDto2 = new CompteDto();
-        compteDto2.setUsername("ahmed");
-        compteDto2.setRole(Role.responsable);
-        compteDto.setPassword("123");
-        compteDtos.add(compteDto2);
+        technicienDto = new TechnitienDto(); // Initialize  technicienDto
+        technicienDto.setNom("mounir");
+        technicienDto.setPrenom("mourad");
+        technicienDto.setEmail("mounir@gmail");
+
+        technitienDtos = new ArrayList<>();
+        technitienDtos.add(technicienDto);
+        technicienDto2 = new TechnitienDto(); // Initialize  technicienDto
+        technicienDto2.setNom("kamal");
+        technicienDto2.setPrenom("karim");
+        technicienDto2.setEmail("kamal@gmail");
+        technitienDtos.add(technicienDto2);
 
     }
     @Test
-    public void addCompteTest() throws Exception {
+    public void addTechnitienTest() throws Exception {
         // Mocking the service behavior
-        given(compteService.addCompte(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
+        given(technicienService.addtechnitien(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
 
         // Performing HTTP POST request
-        ResultActions response = mockMvc.perform(post("/api/comptes")
+        ResultActions response = mockMvc.perform(post("/api/technitiens")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(compteDto))); // Setting JSON content
+                .content(objectMapper.writeValueAsString(technicienDto))); // Setting JSON content
 
         // Verifying HTTP status and JSON content
         response.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.username", CoreMatchers.is(compteDto.getUsername())))
-                .andExpect(jsonPath("$.password", CoreMatchers.is(compteDto.getPassword())))
-                .andExpect(jsonPath("$.role", CoreMatchers.is(compteDto.getRole().toString())));
+                .andExpect(jsonPath("$.nom", CoreMatchers.is(technicienDto.getNom())))
+                .andExpect(jsonPath("$.prenom", CoreMatchers.is(technicienDto.getPrenom())))
+                .andExpect(jsonPath("$.email", CoreMatchers.is(technicienDto.getEmail())));
     }
 
     @Test
-    public void getAllComptesTest() throws Exception {
-        Mockito.when(compteService.getAllComptes()).thenReturn(compteDtos);
-        mockMvc.perform(get("/api/comptes"))
+    public void getAllTechnitiensTest() throws Exception {
+        Mockito.when(technicienService.getAlltechnitiens()).thenReturn(technitienDtos);
+        mockMvc.perform(get("/api/technitiens"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(compteDtos.size()))
+                .andExpect(jsonPath("$.size()").value(technitienDtos.size()))
                 .andDo(print());
 
 //                             .andExpect(jsonPath("$[0].username").value("sami"))
@@ -140,41 +105,42 @@ public class CompteControllerTest {
     }
 
     @Test
-    public void getCompteByIdTest() throws Exception {
-        Long compteId = 1L;
-        Mockito.when(compteService.getCompteById(compteId)).thenReturn(
-                Optional.of(compteDto));
+    public void getTechnitienByIdTest() throws Exception {
+        Long technicienId = 1L;
+        Mockito.when(technicienService.gettechnitienById(technicienId)).thenReturn(
+                Optional.of(technicienDto));
 
-        ResultActions response = mockMvc.perform(get("/api/comptes/1")
+        ResultActions response = mockMvc.perform(get("/api/technitiens/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(compteDto)));
+                .content(objectMapper.writeValueAsString(technicienDto)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.username", CoreMatchers.is(compteDto.getUsername())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(compteDto.getPassword())))
-                .andExpect(jsonPath("$.role", CoreMatchers.is(compteDto.getRole().toString())));
+                .andExpect(jsonPath("$.nom", CoreMatchers.is(technicienDto.getNom())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.prenom", CoreMatchers.is(technicienDto.getPrenom())))
+                .andExpect(jsonPath("$.email", CoreMatchers.is(technicienDto.getEmail())));
     }
 
     @Test
-    public void updateCompteTest() throws Exception {
-        Long compteId = 1L;
-        when(compteService.updateCompte(compteDto)).thenReturn(compteDto);
+    public void updateTechnitienTest() throws Exception {
+        Long technicienId = 1L;
+        when(technicienService.updatetechnitien(technicienDto)).thenReturn(technicienDto);
 
         ResultActions response;
-        response = mockMvc.perform(put("/api/comptes/1")
+        response = mockMvc.perform(put("/api/technitiens/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(compteDto)));
+                .content(objectMapper.writeValueAsString(technicienDto)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.username", CoreMatchers.is(compteDto.getUsername())))
-                .andExpect(jsonPath("$.role", CoreMatchers.is(compteDto.getRole().toString())));
+                .andExpect(jsonPath("$.nom", CoreMatchers.is(technicienDto.getNom())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.prenom", CoreMatchers.is(technicienDto.getPrenom())))
+                .andExpect(jsonPath("$.email", CoreMatchers.is(technicienDto.getEmail())));
     }
     @Test
-    public void deleteCompteTest() throws Exception {
-        Long compteId = 1L;
-        doNothing().when(compteService).deleteCompte(compteId);
+    public void deleteTechnitienTest() throws Exception {
+        Long technicienId = 1L;
+        doNothing().when(technicienService).deletetechnitien(technicienId);
 
-        ResultActions response = mockMvc.perform(delete("/api/comptes/1")
+        ResultActions response = mockMvc.perform(delete("/api/technitiens/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
         response.andExpect(status().isOk());

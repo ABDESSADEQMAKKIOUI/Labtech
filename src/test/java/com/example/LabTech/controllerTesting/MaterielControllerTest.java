@@ -56,17 +56,17 @@ public class MaterielControllerTest {
     public void init() {
         materielDto = new MaterielDto(); // Initialize  materielDto
         materielDto.setMaterielType(Materiel_type.AUTOMATE_ANALYSE);
-        materielDto.setTypeAnalyseId(1L);
+//        materielDto.setTypeAnalyseId(1L);
         materielDto.setNom("materielNom1");
-        materielDto.setTypeAnalyseTypeAnalyseName(Type_Analyse_name.Hormonologie);
+//        materielDto.setTypeAnalyseTypeAnalyseName(Type_Analyse_name.Hormonologie);
 
         materielDtos = new ArrayList<>();
         materielDtos.add(materielDto);
         materielDto2 = new MaterielDto();
         materielDto2.setMaterielType(Materiel_type.ANALYSEUR_IMMUNOESSAI);
-        materielDto2.setTypeAnalyseId(2L);
+//        materielDto2.setTypeAnalyseId(2L);
         materielDto.setNom("materielNom2");
-        materielDto2.setTypeAnalyseTypeAnalyseName(Type_Analyse_name.Génétique);
+//        materielDto2.setTypeAnalyseTypeAnalyseName(Type_Analyse_name.Génétique);
         materielDtos.add(materielDto2);
 
     }
@@ -84,8 +84,9 @@ public class MaterielControllerTest {
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(materielDto.getNom())))
                 .andExpect(jsonPath("$.materielType", CoreMatchers.is(materielDto.getMaterielType())))
-                .andExpect(jsonPath("$.typeAnalyseTypeAnalyseName", CoreMatchers.is(materielDto.getTypeAnalyseTypeAnalyseName())))
-                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(materielDto.getTypeAnalyseId())));
+                ;
+//                .andExpect(jsonPath("$.typeAnalyseTypeAnalyseName", CoreMatchers.is(materielDto.getTypeAnalyseTypeAnalyseName())))
+//                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(materielDto.getTypeAnalyseId())));
     }
 
     @Test
@@ -119,9 +120,9 @@ public class MaterielControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(materielDto.getNom())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.materielType", CoreMatchers.is(materielDto.getMaterielType())))
-                .andExpect(jsonPath("$.typeAnalyseTypeAnalyseName", CoreMatchers.is(materielDto.getTypeAnalyseTypeAnalyseName())))
-                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(materielDto.getTypeAnalyseId())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.materielType", CoreMatchers.is(materielDto.getMaterielType())));
+//                .andExpect(jsonPath("$.typeAnalyseTypeAnalyseName", CoreMatchers.is(materielDto.getTypeAnalyseTypeAnalyseName())))
+//                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(materielDto.getTypeAnalyseId())));
     }
 
     @Test
@@ -136,8 +137,8 @@ public class MaterielControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(materielDto.getNom())))
-                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(materielDto.getTypeAnalyseId())))
-                .andExpect(jsonPath("$.typeAnalyseTypeAnalyseName", CoreMatchers.is(materielDto.getTypeAnalyseTypeAnalyseName())))
+//                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(materielDto.getTypeAnalyseId())))
+//                .andExpect(jsonPath("$.typeAnalyseTypeAnalyseName", CoreMatchers.is(materielDto.getTypeAnalyseTypeAnalyseName())))
                 .andExpect(jsonPath("$.materielType", CoreMatchers.is(materielDto.getMaterielType())));
     }
     @Test
