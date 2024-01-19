@@ -1,7 +1,6 @@
 package com.example.LabTech.controller;
 
-import com.example.LabTech.DTO.TypeAnalyseDto;
-import com.example.LabTech.entite.Type_Analyse;
+import com.example.LabTech.DTO.Type_AnalyseDto;
 import com.example.LabTech.service.TypeAnalyseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/type-analyses")
@@ -20,30 +17,30 @@ public class TypeAnalyseController {
     private TypeAnalyseService typeAnalyseService;
 
     @GetMapping
-    public List<TypeAnalyseDto> getAllTypeAnalyses() {
+    public List<Type_AnalyseDto> getAllTypeAnalyses() {
       return typeAnalyseService.getAllttypeAnalyse();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TypeAnalyseDto> getTypeAnalyseById(@PathVariable long id) {
+    public ResponseEntity<Type_AnalyseDto> getTypeAnalyseById(@PathVariable long id) {
         return typeAnalyseService.gettypeAnalyseById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<TypeAnalyseDto> addTypeAnalyse(@RequestBody TypeAnalyseDto typeAnalyseDto) {
-        TypeAnalyseDto addedTypeAnalyse = typeAnalyseService.addtypeAnalyse(typeAnalyseDto);
+    public ResponseEntity<Type_AnalyseDto> addTypeAnalyse(@RequestBody Type_AnalyseDto typeAnalyseDto) {
+        Type_AnalyseDto addedTypeAnalyse = typeAnalyseService.addtypeAnalyse(typeAnalyseDto);
         return new ResponseEntity<>(addedTypeAnalyse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TypeAnalyseDto> updateTypeAnalyse(@PathVariable long id, @RequestBody TypeAnalyseDto typeAnalyseDto) {
+    public ResponseEntity<Type_AnalyseDto> updateTypeAnalyse(@PathVariable long id, @RequestBody Type_AnalyseDto typeAnalyseDto) {
         if (!typeAnalyseService.gettypeAnalyseById(id).isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         typeAnalyseDto.setId(id);
-        TypeAnalyseDto updatedTypeAnalyse = typeAnalyseService.updatetypeAnalyse(typeAnalyseDto);
+        Type_AnalyseDto updatedTypeAnalyse = typeAnalyseService.updatetypeAnalyse(typeAnalyseDto);
         return new ResponseEntity<>(updatedTypeAnalyse, HttpStatus.OK);
     }
 

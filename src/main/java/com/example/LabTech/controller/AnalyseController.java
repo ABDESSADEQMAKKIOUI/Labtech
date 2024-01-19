@@ -2,7 +2,6 @@ package com.example.LabTech.controller;
 
 
 import com.example.LabTech.DTO.AnalyseDto;
-import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.service.AnalyseService;
 import com.example.LabTech.service.PlanificationService;
 import org.springframework.beans.factory.annotation.Autowired;

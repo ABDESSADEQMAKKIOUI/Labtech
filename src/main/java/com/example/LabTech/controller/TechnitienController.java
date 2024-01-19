@@ -1,8 +1,6 @@
 package com.example.LabTech.controller;
 
-import com.example.LabTech.DTO.EnormDto;
 import com.example.LabTech.DTO.TechnitienDto;
-import com.example.LabTech.entite.Technitien;
 import com.example.LabTech.service.TechnitientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/technitiens")

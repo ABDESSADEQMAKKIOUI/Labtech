@@ -1,6 +1,7 @@
 package com.example.LabTech.DTO;
 
 import com.example.LabTech.entite.enums.Role;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class CompteDto implements Serializable {
     String username;
     private String password;

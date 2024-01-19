@@ -1,6 +1,6 @@
 package com.example.LabTech.servicesTesting;
 
-import com.example.LabTech.DTO.TypeAnalyseDto;
+import com.example.LabTech.DTO.Type_AnalyseDto;
 import com.example.LabTech.entite.Type_Analyse;
 import com.example.LabTech.repository.TypeAnalyseRepository;
 import com.example.LabTech.service.TypeAnalyseService;
@@ -35,7 +35,7 @@ public class TypeAnalyseServiceTest {
         typeAnalyseRepository.save(typeAnalyse2);
 
         // Act
-        List<TypeAnalyseDto> allTypeAnalyses = typeAnalyseService.getAllttypeAnalyse();
+        List<Type_AnalyseDto> allTypeAnalyses = typeAnalyseService.getAllttypeAnalyse();
 
         // Assert
         assertNotNull(allTypeAnalyses, "List of TypeAnalyses should not be null");
@@ -49,7 +49,7 @@ public class TypeAnalyseServiceTest {
         typeAnalyseRepository.save(typeAnalyse);
 
         // Act
-        Optional<TypeAnalyseDto> foundTypeAnalyse = typeAnalyseService.gettypeAnalyseById(typeAnalyse.getId());
+        Optional<Type_AnalyseDto> foundTypeAnalyse = typeAnalyseService.gettypeAnalyseById(typeAnalyse.getId());
 
         // Assert
         assertTrue(foundTypeAnalyse.isPresent(), "TypeAnalyse should be present");
@@ -59,10 +59,10 @@ public class TypeAnalyseServiceTest {
     @Test
     public void testAddtypeAnalyse() {
         // Arrange
-        TypeAnalyseDto typeAnalyseToAdd = createSampleTypeAnalyseDto();
+        Type_AnalyseDto typeAnalyseToAdd = createSampleTypeAnalyseDto();
 
         // Act
-        TypeAnalyseDto addedTypeAnalyse = typeAnalyseService.addtypeAnalyse(typeAnalyseToAdd);
+        Type_AnalyseDto addedTypeAnalyse = typeAnalyseService.addtypeAnalyse(typeAnalyseToAdd);
 
         // Assert
         assertNotNull(addedTypeAnalyse, "Added TypeAnalyse should not be null");
@@ -75,11 +75,11 @@ public class TypeAnalyseServiceTest {
         Type_Analyse typeAnalyse = createSampleTypeAnalyse();
         typeAnalyseRepository.save(typeAnalyse);
 
-        TypeAnalyseDto updatedTypeAnalyseDto = createSampleTypeAnalyseDto();
+        Type_AnalyseDto updatedTypeAnalyseDto = createSampleTypeAnalyseDto();
         updatedTypeAnalyseDto.setId(typeAnalyse.getId());
 
         // Act
-        TypeAnalyseDto updatedTypeAnalyse = typeAnalyseService.updatetypeAnalyse(updatedTypeAnalyseDto);
+        Type_AnalyseDto updatedTypeAnalyse = typeAnalyseService.updatetypeAnalyse(updatedTypeAnalyseDto);
 
         // Assert
         assertNotNull(updatedTypeAnalyse, "Updated TypeAnalyse should not be null");
@@ -96,7 +96,7 @@ public class TypeAnalyseServiceTest {
         typeAnalyseService.deletetypeAnalyse(typeAnalyse.getId());
 
         // Assert
-        Optional<TypeAnalyseDto> deletedTypeAnalyse = typeAnalyseService.gettypeAnalyseById(typeAnalyse.getId());
+        Optional<Type_AnalyseDto> deletedTypeAnalyse = typeAnalyseService.gettypeAnalyseById(typeAnalyse.getId());
         assertFalse(deletedTypeAnalyse.isPresent(), "TypeAnalyse should be deleted");
     }
 
@@ -106,8 +106,8 @@ public class TypeAnalyseServiceTest {
         return typeAnalyse;
     }
 
-    private TypeAnalyseDto createSampleTypeAnalyseDto() {
-        TypeAnalyseDto typeAnalyseDto = new TypeAnalyseDto();
+    private Type_AnalyseDto createSampleTypeAnalyseDto() {
+        Type_AnalyseDto typeAnalyseDto = new Type_AnalyseDto();
 
         return typeAnalyseDto;
     }

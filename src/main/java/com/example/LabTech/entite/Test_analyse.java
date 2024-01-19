@@ -25,7 +25,7 @@ public class Test_analyse {
     @ManyToOne
     private Technitien technitien;
     @ManyToOne
-    private Analyse analyse ;
+    private Type_Analyse typeAnalyse ;
 
     private float resultat;
     private String commentaire;

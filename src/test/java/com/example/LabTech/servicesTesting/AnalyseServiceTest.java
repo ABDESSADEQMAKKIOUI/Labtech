@@ -4,7 +4,6 @@ import com.example.LabTech.DTO.AnalyseDto;
 import com.example.LabTech.DTO.EnormDto;
 import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.entite.Enorm;
-import com.example.LabTech.entite.Test_analyse;
 import com.example.LabTech.entite.Type_Analyse;
 import com.example.LabTech.repository.AnalyseRepository;
 import com.example.LabTech.repository.EnormRepository;

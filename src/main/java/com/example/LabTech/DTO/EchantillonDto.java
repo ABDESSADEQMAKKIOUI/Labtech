@@ -1,8 +1,15 @@
 package com.example.LabTech.DTO;
 
+import com.example.LabTech.entite.Analyse;
+import com.example.LabTech.entite.Echantillon;
+import com.example.LabTech.entite.Materiel;
 import com.example.LabTech.entite.enums.Status;
 import com.example.LabTech.entite.enums.Status_Analyse;
+<<<<<<< HEAD
 import com.example.LabTech.entite.enums.Type_Analyse_name;
+=======
+import lombok.AllArgsConstructor;
+>>>>>>> 05a9764a6c5c576aab1ab3e79e5c4e48de72cc93
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
@@ -12,30 +19,37 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * DTO for {@link com.example.LabTech.entite.Echantillon}
+ * DTO for {@link Echantillon}
  */
-
 @Data
-@NoArgsConstructor(force = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class EchantillonDto implements Serializable {
-    private long id;
-
+    long id;
     Long patientId;
     String patientNom;
     String patientPrenom;
-    String patientAdress;
-    String patientEmail;
-    String patientTele;
     Date date_prend;
+    List<MaterielDto> materiels;
     List<AnalyseDto> analyses;
 
 
     /**
-     * DTO for {@link com.example.LabTech.entite.Analyse}
+     * DTO for {@link Materiel}
+     */
+    @Value
+    public static class MaterielDto implements Serializable {
+        long id;
+        String nom;
+    }
+
+    /**
+     * DTO for {@link Analyse}
      */
     @Value
     public static class AnalyseDto implements Serializable {
         long id;
+        String name;
         Date date_debut;
         Date date_fin;
         Status_Analyse statusAnalyse;

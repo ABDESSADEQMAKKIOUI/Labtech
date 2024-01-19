@@ -3,7 +3,7 @@ package com.example.LabTech.service;
 import com.example.LabTech.DTO.AnalyseDto;
 import com.example.LabTech.DTO.ResponsableDto;
 import com.example.LabTech.DTO.TechnitienDto;
-import com.example.LabTech.DTO.TestAnalyseDto;
+import com.example.LabTech.DTO.Test_analyseDto;
 import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.entite.Responsable;
 import com.example.LabTech.entite.Technitien;
@@ -29,7 +29,7 @@ public class PlanificationService implements IPlanificationService {
     private ModelMapper modelMapper;
 
     @Override
-    public void affecterTechnicien(TechnitienDto technitienDTO, TestAnalyseDto testAnalyseDTO) {
+    public void affecterTechnicien(TechnitienDto technitienDTO, Test_analyseDto testAnalyseDTO) {
         Technitien technitien = modelMapper.map(technitienDTO, Technitien.class);
         Test_analyse testAnalyse = modelMapper.map(testAnalyseDTO, Test_analyse.class);
         testAnalyse.setTechnitien(technitien);
@@ -45,7 +45,7 @@ public class PlanificationService implements IPlanificationService {
     }
 
     @Override
-    public void ChangerTechnicien(TechnitienDto technitienDTO, TestAnalyseDto testAnalyseDTO) {
+    public void ChangerTechnicien(TechnitienDto technitienDTO, Test_analyseDto testAnalyseDTO) {
         Technitien technitien = modelMapper.map(technitienDTO, Technitien.class);
         Test_analyse testAnalyse = modelMapper.map(testAnalyseDTO, Test_analyse.class);
         testAnalyse.setTechnitien(technitien);
@@ -61,10 +61,10 @@ public class PlanificationService implements IPlanificationService {
     }
 
     @Override
-    public void AjouterTest(AnalyseDto analyseDTO, TestAnalyseDto testAnalyseDTO) {
+    public void AjouterTest(AnalyseDto analyseDTO, Test_analyseDto testAnalyseDTO) {
         Analyse analyse = modelMapper.map(analyseDTO, Analyse.class);
         Test_analyse testAnalyse = modelMapper.map(testAnalyseDTO, Test_analyse.class);
-        analyse.getTestAnalyses().add(testAnalyse);
+//        analyse.getTestAnalyses().add(testAnalyse);
         analyseRepository.save(analyse);
     }
 }

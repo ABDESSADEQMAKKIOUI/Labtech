@@ -4,8 +4,13 @@ package com.example.LabTech.entite;
 import com.example.LabTech.entite.enums.Status;
 import com.example.LabTech.entite.enums.Status_Analyse;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,8 +29,7 @@ public class Analyse {
     @ManyToOne
     private Echantillon echantillon;
 
-    @ManyToOne
-    private Type_Analyse typeAnalyse ;
+   private String name ;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date date_debut;
@@ -38,8 +42,19 @@ public class Analyse {
 
     @ManyToOne
     private Responsable responsable;
+
     @OneToMany(mappedBy = "analyse", cascade = CascadeType.ALL)
-    private List<Test_analyse> testAnalyses = new ArrayList<>() ;
+    @ToString.Exclude
+    @JsonIgnore
+    @Fetch(FetchMode.SUBSELECT)
+    private List<AnalyseReactif> analyseReactifs = new ArrayList<>() ;
+
+    @OneToMany(mappedBy = "analyse", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @JsonIgnore
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Type_Analyse> typeAnalyses = new ArrayList<>() ;
+
     @Enumerated(EnumType.STRING)
     private Status status ;
 

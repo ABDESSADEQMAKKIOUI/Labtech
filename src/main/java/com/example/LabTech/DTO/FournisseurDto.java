@@ -1,5 +1,6 @@
 package com.example.LabTech.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
@@ -11,8 +12,9 @@ import java.util.List;
 /**
  * DTO for {@link com.example.LabTech.entite.Fournisseur}
  */
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class FournisseurDto implements Serializable {
     private long id;
 

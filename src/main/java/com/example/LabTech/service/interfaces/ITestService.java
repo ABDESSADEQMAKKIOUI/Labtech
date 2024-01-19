@@ -1,24 +1,22 @@
 package com.example.LabTech.service.interfaces;
 
-import com.example.LabTech.DTO.TestAnalyseDto;
-import com.example.LabTech.DTO.TypeAnalyseDto;
+import com.example.LabTech.DTO.Test_analyseDto;
 import com.example.LabTech.entite.Analyse;
-import com.example.LabTech.entite.Test_analyse;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ITestService {
 
-    List<TestAnalyseDto> getAllTests();
+    List<Test_analyseDto> getAllTests();
 
-    Optional<TestAnalyseDto> getTestById(long id);
+    Optional<Test_analyseDto> getTestById(long id);
 
-    TestAnalyseDto addTest(TestAnalyseDto testAnalyse);
+    Test_analyseDto addTest(Test_analyseDto testAnalyse);
 
-    TestAnalyseDto updateTest(TestAnalyseDto testAnalyse);
+    Test_analyseDto updateTest(Test_analyseDto testAnalyse);
 
     void deleteTest(long id);
 
-    List<TypeAnalyseDto> getTestsByAnalyse(Analyse analyse);
+    List<Test_analyseDto> getTestsByAnalyse(Analyse analyse);
 }
