@@ -33,7 +33,10 @@ public class Type_AnalyseDto implements Serializable {
     /**
      * DTO for {@link Test_analyse}
      */
-    @Value
+    //@Value
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Test_analyseDto implements Serializable {
         long id;
         float resultat;

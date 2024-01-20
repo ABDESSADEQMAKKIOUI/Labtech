@@ -5,7 +5,11 @@ import com.example.LabTech.entite.Echantillon;
 import com.example.LabTech.entite.Materiel;
 import com.example.LabTech.entite.enums.Status;
 import com.example.LabTech.entite.enums.Status_Analyse;
+<<<<<<< HEAD
+import com.example.LabTech.entite.enums.Type_Analyse_name;
+=======
 import lombok.AllArgsConstructor;
+>>>>>>> 05a9764a6c5c576aab1ab3e79e5c4e48de72cc93
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
@@ -24,6 +28,7 @@ public class EchantillonDto implements Serializable {
 
     Long patientId;
     Date date_prend;
+
 
 
     /**
@@ -46,5 +51,7 @@ public class EchantillonDto implements Serializable {
         Date date_fin;
         Status_Analyse statusAnalyse;
         Status status;
+        long typeAnalyseId;
+        Type_Analyse_name typeAnalyseTypeAnalyseName;
     }
 }
