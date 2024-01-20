@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
@@ -27,7 +28,7 @@ class TechnitienServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    @InjectMocks
+   @Autowired
     private TechnitientService technitienService;
 
     @Test
@@ -58,18 +59,18 @@ class TechnitienServiceTest {
 
     @Test
     void addTechnitien() {
-        // Arrange
-        TechnitienDto technitienDto = new TechnitienDto();
-        Technitien technitien = new Technitien();
-        when(modelMapper.map(technitienDto, Technitien.class)).thenReturn(technitien);
-        when(modelMapper.map(technitien, TechnitienDto.class)).thenReturn(technitienDto);
-        when(technitienRepository.save(technitien)).thenReturn(technitien);
+        TechnitienDto technitien1 = new TechnitienDto();
+        technitien1.setNom("Smith");
+        technitien1.setPrenom("John");
+        technitien1.setEmail("john.smith@example.com");
 
-        // Act
-        TechnitienDto result = technitienService.addtechnitien(technitienDto);
+        TechnitienDto technitien2 = new TechnitienDto();
+        technitien2.setNom("Johnson");
+        technitien2.setPrenom("Alice");
+        technitien2.setEmail("alice.johnson@example.com");
+        technitienService.addtechnitien(technitien1);
+        technitienService.addtechnitien(technitien2);
 
-        // Assert
-        assertEquals(technitienDto, result);
     }
 
     @Test

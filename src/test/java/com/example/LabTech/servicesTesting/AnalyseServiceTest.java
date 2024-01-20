@@ -5,6 +5,7 @@ import com.example.LabTech.DTO.EnormDto;
 import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.entite.Enorm;
 import com.example.LabTech.entite.Type_Analyse;
+import com.example.LabTech.entite.enums.Status;
 import com.example.LabTech.entite.enums.Status_Analyse;
 import com.example.LabTech.repository.AnalyseRepository;
 import com.example.LabTech.repository.EnormRepository;
@@ -16,14 +17,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+@SpringBootTest
 public class AnalyseServiceTest {
 
     @Mock
@@ -39,6 +43,7 @@ public class AnalyseServiceTest {
     private ModelMapper modelMapper;
 
 //    @InjectMocks
+    @Autowired
     private AnalyseService analyseService;
 
     @BeforeEach
@@ -83,14 +88,34 @@ public class AnalyseServiceTest {
     @Test
     void addAnalyseTest() {
         // Mock the behavior of the repository
-        AnalyseDto analyseDto = new AnalyseDto();
-        analyseDto.setStatusAnalyse(Status_Analyse.en_attente);
+//        AnalyseDto analyseDto = new AnalyseDto();
+//        analyseDto.setStatusAnalyse(Status_Analyse.en_attente);
+
 //        Analyse analyse = new Analyse();
 //        when(modelMapper.map(analyseDto, Analyse.class)).thenReturn(analyse);
 //        when(analyseRepository.save(analyse)).thenReturn(analyse);
 //
 //        // Call the method to be tested
-        AnalyseDto result = analyseService.addAnalyse(analyseDto);
+        AnalyseDto analyse1 = new AnalyseDto();
+        analyse1.setEchantillonId(1L);
+        analyse1.setName("Analyse 1");
+        analyse1.setDate_debut(new Date());
+        analyse1.setDate_fin(new Date(2024-06-30));
+        analyse1.setStatusAnalyse(Status_Analyse.en_attente);
+        analyse1.setResponsableId(1L);
+        analyse1.setStatus(Status.normal);
+
+        AnalyseDto analyse2 = new AnalyseDto();
+        analyse2.setEchantillonId(2L);
+        analyse2.setName("Analyse 2");
+        analyse2.setDate_debut(new Date());
+        analyse2.setDate_fin(new Date(2024-06-30));
+        analyse2.setStatusAnalyse(Status_Analyse.en_cours);
+        analyse2.setResponsableId(1L);
+        analyse2.setStatus(Status.anormal);
+       analyseService.addAnalyse(analyse2);
+        analyseService.addAnalyse(analyse1);
+
 //
 //        // Verify the interactions and assertions
 //        assertNotNull(result);

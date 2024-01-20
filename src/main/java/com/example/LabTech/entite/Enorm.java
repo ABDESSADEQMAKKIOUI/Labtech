@@ -19,8 +19,7 @@ public class Enorm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id ;
 
-    @OneToMany
-    @JoinColumn(name = "name", referencedColumnName = "name")
+    @OneToMany(mappedBy = "enorm", cascade = CascadeType.ALL)
     @ToString.Exclude
     @JsonIgnore
     @Fetch(FetchMode.SUBSELECT)

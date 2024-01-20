@@ -90,12 +90,34 @@ public class EchantillonServiceTest {
 //        verify(modelMapper, times(1)).map(echantillonDto, Echantillon.class);
 //        verify(echantillonRepository, times(1)).save(echantillon);
 //        verify(modelMapper, times(1)).map(echantillon, EchantillonDto.class);
-        EchantillonDto echantillon1 = new EchantillonDto( 1L, new Date()); // Vous devrez peut-être ajuster le format de date
-        EchantillonDto echantillon2 = new EchantillonDto( 2L, new Date());
-        EchantillonDto echantillon3 = new EchantillonDto( 3L, new Date());
-        EchantillonDto echantillon4 = new EchantillonDto(4L, new Date());
-        EchantillonDto echantillon5 = new EchantillonDto( 5L, new Date());
-        EchantillonDto echantillon6 = new EchantillonDto( 6L, new Date());
+         EchantillonDto echantillon1 = new EchantillonDto();
+        echantillon1.setPatientId(1L);
+        echantillon1.setDate_prend(new Date());
+
+        EchantillonDto echantillon2 = new EchantillonDto();
+        echantillon2.setId(2L);
+        echantillon2.setPatientId(2L);
+        echantillon2.setDate_prend(new Date());
+
+        EchantillonDto echantillon3 = new EchantillonDto();
+        echantillon3.setId(3L);
+        echantillon3.setPatientId(3L);
+        echantillon3.setDate_prend(new Date());
+
+        EchantillonDto echantillon4 = new EchantillonDto();
+        echantillon4.setId(4L);
+        echantillon4.setPatientId(4L);
+        echantillon4.setDate_prend(new Date());
+
+        EchantillonDto echantillon5 = new EchantillonDto();
+        echantillon5.setId(5L);
+        echantillon5.setPatientId(5L);
+        echantillon5.setDate_prend(new Date());
+
+        EchantillonDto echantillon6 = new EchantillonDto();
+        echantillon6.setId(6L);
+        echantillon6.setPatientId(6L);
+        echantillon6.setDate_prend(new Date());
         echantillonService.addEchantillon(echantillon1);
         echantillonService.addEchantillon(echantillon2);
         echantillonService.addEchantillon(echantillon6);

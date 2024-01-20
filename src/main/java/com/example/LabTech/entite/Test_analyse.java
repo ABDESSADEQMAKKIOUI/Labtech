@@ -19,7 +19,6 @@ public class Test_analyse {
 
 
     @ManyToOne
-    @JoinColumn(name = "name", referencedColumnName = "name")
     private Enorm enorm;
 
     @ManyToOne
