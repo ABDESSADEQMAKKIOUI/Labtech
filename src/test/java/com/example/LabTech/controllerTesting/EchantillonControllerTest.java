@@ -1,168 +1,166 @@
 package com.example.LabTech.controllerTesting;
 
-import com.example.LabTech.DTO.CompteDto;
 import com.example.LabTech.DTO.EchantillonDto;
-import com.example.LabTech.controller.CompteController;
 import com.example.LabTech.controller.EchantillonController;
-import com.example.LabTech.entite.Compte;
-import com.example.LabTech.entite.Echantillon;
-import com.example.LabTech.entite.enums.Role;
-import com.example.LabTech.service.CompteService;
 import com.example.LabTech.service.EchantillonService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(controllers = EchantillonController.class)
-@AutoConfigureMockMvc(addFilters = false)
-@ExtendWith(MockitoExtension.class)
-public class EchantillonControllerTest {
+@WebMvcTest(EchantillonController.class)
+class EchantillonControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private EchantillonService echantillonService;
-
     @Autowired
     private ObjectMapper objectMapper;
-    private EchantillonDto echantillonDto, echantillonDto2;
-    private List<EchantillonDto> echantillonDtos;
-    private Echantillon echantillon;
+
+    @MockBean
+    private EchantillonService echantillonService;
+    EchantillonDto echantillonDto;
+
 
     @BeforeEach
     public void init() {
-        echantillonDto = new EchantillonDto(); // Initialize  echantillonDto
-        echantillonDto.setPatientNom("fawaaz");
-        echantillonDto.setPatientPrenom("fawzi");
-        echantillonDto.setPatientAdress("Rue abc n 200");
-        echantillonDto.setPatientTele("000000000");
-        echantillonDto.setPatientEmail("fawaaz@gmail");
+        echantillonDto = new EchantillonDto();
+        echantillonDto.setId(1);
+        echantillonDto.setPatientId(123L);
+        echantillonDto.setPatientNom("ahmedi");
+        echantillonDto.setPatientPrenom("Ahmed");
         echantillonDto.setDate_prend(new Date());
-/*
-        ArrayList<Dto> analyseDtoList = new ArrayList<>();
+        echantillonDto.setMateriels(Collections.emptyList());
+        echantillonDto.setAnalyses(Collections.emptyList());
+    }
+    @Test
+    void getAllEchantillonsTest() throws Exception {
+        // Mock the service method
+        Mockito.when(echantillonService.getAllEchantillons())
+                .thenReturn(Collections.singletonList(echantillonDto));
 
-        // Ajout d'instances de AnalyseDto à la liste avec des valeurs
-        analyseDtoList.add(new AnalyseDto(1, new Date(), new Date(), Status_Analyse.IN_PROGRESS, Status.ACTIVE, 123, Type_Analyse_name.TYPE1));
-        analyseDtoList.add(new AnalyseDto(2, new Date(), new Date(), Status_Analyse.COMPLETED, Status.INACTIVE, 456, Type_Analyse_name.TYPE2));
-*/
-        //echantillonDto.setAnalyses(new ArrayList<>(){});
+        // Performing HTTP GET request using MockMvc
+        ResultActions response = mockMvc.perform(get("/api/echantillons"));
 
-        echantillonDtos = new ArrayList<>();
-        echantillonDtos.add(echantillonDto);
-        echantillonDto2 = new EchantillonDto();
-        echantillonDto2.setPatientNom("tamara");
-        echantillonDto2.setPatientPrenom("ranam");
-        echantillonDto2.setPatientAdress("Rue rgt n 100");
-        echantillonDto2.setPatientTele("000000110");
-        echantillonDto2.setPatientEmail("tamara@gmail");
-        echantillonDto2.setDate_prend(new Date());
-        echantillonDtos.add(echantillonDto2);
+        // Verifying HTTP status and JSON content
+        response.andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].patientId", is(123)))
+                .andExpect(jsonPath("$[0].patientNom", is("ahmedi")))
+                .andExpect(jsonPath("$[0].patientPrenom", is("Ahmed")))
+                .andExpect(jsonPath("$[0].date_prend", is("2024-01-18T00:00:00.000Z")))
+                .andExpect(jsonPath("$[0].materiels", hasSize(0)))
+                .andExpect(jsonPath("$[0].analyses", hasSize(0)));
 
     }
 
     @Test
-    public void addEchantillonTest() throws Exception {
-        // Mocking the service behavior
- /*       given(compteService.addCompte(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
+    void getEchantillonByIdTest() throws Exception {
+        // Mock the service method that the controller calls
+        Mockito.when(echantillonService.getEchantillonById(1))
+                .thenReturn(java.util.Optional.of(echantillonDto));
 
-        // Performing HTTP POST request
-        ResultActions response = mockMvc.perform(post("/api/comptes")
+        // Performing HTTP GET request using MockMvc
+        ResultActions response = mockMvc.perform(get("/api/echantillons/1"));
+
+        // Verifying HTTP status and JSON content
+        response.andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.patientId", is(123)))
+                .andExpect(jsonPath("$.patientNom", is("ahmedi")))
+                .andExpect(jsonPath("$.patientPrenom", is("Ahmed")))
+                .andExpect(jsonPath("$.date_prend", is("2024-01-18T00:00:00.000Z")))
+                .andExpect(jsonPath("$.materiels", hasSize(0)))
+                .andExpect(jsonPath("$.analyses", hasSize(0)));
+
+    }
+
+    @Test
+    void addEchantillonTest() throws Exception {
+        // Mock the service method that the controller calls
+        Mockito.when(echantillonService.addEchantillon(ArgumentMatchers.any()))
+                .thenReturn(echantillonDto);
+
+        // Performing HTTP POST request using MockMvc
+        ResultActions response = mockMvc.perform(post("/api/echantillons")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(compteDto))); // Setting JSON content
+                .content(objectMapper.writeValueAsString(echantillonDto))); // Add the actual JSON content
 
         // Verifying HTTP status and JSON content
         response.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.username", CoreMatchers.is(compteDto.getUsername())))
-                .andExpect(jsonPath("$.password", CoreMatchers.is(compteDto.getPassword())))
-                .andExpect(jsonPath("$.role", CoreMatchers.is(compteDto.getRole().toString())));*/
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.patientId", is(123)))
+                .andExpect(jsonPath("$.patientNom", is("ahmedi")))
+                .andExpect(jsonPath("$.patientPrenom", is("Ahmed")))
+                .andExpect(jsonPath("$.date_prend", is("2024-01-18T00:00:00.000Z")))
+                .andExpect(jsonPath("$.materiels", hasSize(0)))
+                .andExpect(jsonPath("$.analyses", hasSize(0)));
+
     }
 
     @Test
-    public void getAllEchantillonsTest() throws Exception {/*
-        Mockito.when(compteService.getAllComptes()).thenReturn(compteDtos);
-        mockMvc.perform(get("/api/comptes"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(compteDtos.size()))
-                .andDo(print());
+    void updateEchantillonTest() throws Exception {
+        // Mock the service method that the controller calls
+        Mockito.when(echantillonService.getEchantillonById(1))
+                .thenReturn(java.util.Optional.of(echantillonDto));
 
-//                             .andExpect(jsonPath("$[0].username").value("sami"))
-//                             .andExpect(jsonPath("$[0].role").value("technicien"))
-//
-//                             .andExpect(jsonPath("$[1].id").value(2))
-//                             .andExpect(jsonPath("$[1].username").value("ahmed"))
-//                             .andExpect(jsonPath("$[1].role").value("responsable"))
-//
-//                             .andReturn();
-*/
-    }
+        Mockito.when(echantillonService.updateEchantillon(ArgumentMatchers.any()))
+                .thenReturn(echantillonDto);
 
-    @Test
-    public void getEchantillonByIdTest() throws Exception {/*
-        Long compteId = 1L;
-        Mockito.when(compteService.getCompteById(compteId)).thenReturn(
-                Optional.of(compteDto));
-
-        ResultActions response = mockMvc.perform(get("/api/comptes/1")
+        // Performing HTTP PUT request using MockMvc
+        ResultActions response = mockMvc.perform(put("/api/echantillons/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(compteDto)));
+                .content(objectMapper.writeValueAsString(echantillonDto))); // Add the actual JSON content
 
+        // Verifying HTTP status and JSON content
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.username", CoreMatchers.is(compteDto.getUsername())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(compteDto.getPassword())))
-                .andExpect(jsonPath("$.role", CoreMatchers.is(compteDto.getRole().toString())));*/
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.patientId", is(123)))
+                .andExpect(jsonPath("$.patientNom", is("ahmedi")))
+                .andExpect(jsonPath("$.patientPrenom", is("Ahmed")))
+                .andExpect(jsonPath("$.date_prend", is("2024-01-18T00:00:00.000Z")))
+                .andExpect(jsonPath("$.materiels", hasSize(0)))
+                .andExpect(jsonPath("$.analyses", hasSize(0)));
+
     }
 
     @Test
-    public void deleteEchantillonTest() throws Exception {/*
-        Long compteId = 1L;
-        when(compteService.updateCompte(compteDto)).thenReturn(compteDto);
+    void deleteEchantillonTest() throws Exception {
 
-        ResultActions response;
-        response = mockMvc.perform(put("/api/comptes/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(compteDto)));
+        // Performing HTTP DELETE
+        ResultActions response = mockMvc.perform(delete("/api/echantillons/1"));
 
-        response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.username", CoreMatchers.is(compteDto.getUsername())))
-                .andExpect(jsonPath("$.role", CoreMatchers.is(compteDto.getRole().toString())));*/
+        // Verifying HTTP status
+        response.andExpect(status().isNoContent());
+
+        //      Long echantillonId = 1L;
+//        doNothing().when(echantillonService).deleteCompte(echantillonId);
+//
+//        ResultActions response = mockMvc.perform(delete("/api/echantillons/1")
+//                .contentType(MediaType.APPLICATION_JSON));
+//
+//        response.andExpect(status().isOk());*/
+
     }
 
-    @Test
-    public void updateEchantillonTest() throws Exception {/*
-        Long compteId = 1L;
-        doNothing().when(compteService).deleteCompte(compteId);
 
-        ResultActions response = mockMvc.perform(delete("/api/utilisateurs/1")
-                .contentType(MediaType.APPLICATION_JSON));
-
-        response.andExpect(status().isOk());*/
-    }
 }
-
