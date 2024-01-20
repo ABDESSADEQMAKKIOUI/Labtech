@@ -59,11 +59,19 @@ public class ReactifService implements IReactifService {
         return reactif != null && reactif.getQuantity() >= 0 && reactif.getQuantity() < 5;
     }
 
+
     @Override
     public boolean checkExpirationDate(long reactifId) {
         Reactif reactif = reactifRepository.findById(reactifId).orElse(null);
         Date currentDate = new Date();
         return reactif != null && reactif.getDate_expiration() != null && currentDate.before(reactif.getDate_expiration());
+    }
+
+    @Override
+    public void generateQuantity(int quantity , long reactifId) {
+        Reactif reactif = reactifRepository.findById(reactifId).orElse(null);
+        reactif.setQuantity(reactif.getQuantity()-quantity);
+        reactifRepository.save(reactif);
     }
 
     // Helper methods for mapping

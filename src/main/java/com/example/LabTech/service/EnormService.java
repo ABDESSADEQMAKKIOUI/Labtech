@@ -57,4 +57,5 @@ public class EnormService implements IEnormService {
     public void deleteEnorms(long id) {
         enormRepository.deleteById(id);
     }
+
 }

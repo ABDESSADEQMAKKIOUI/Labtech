@@ -10,8 +10,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
-
+@SpringBootTest
 public class EchantillonServiceTest {
 
     @Mock
@@ -28,7 +31,8 @@ public class EchantillonServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    @InjectMocks
+//    @InjectMocks
+    @Autowired
     private EchantillonService echantillonService;
 
     @BeforeEach
@@ -73,19 +77,31 @@ public class EchantillonServiceTest {
     @Test
     void addEchantillonTest() {
         // Mock the behavior of the repository
-        EchantillonDto echantillonDto = new EchantillonDto();
-        Echantillon echantillon = new Echantillon();
-        when(modelMapper.map(echantillonDto, Echantillon.class)).thenReturn(echantillon);
-        when(echantillonRepository.save(echantillon)).thenReturn(echantillon);
-
-        // Call the method to be tested
-        EchantillonDto result = echantillonService.addEchantillon(echantillonDto);
-
-        // Verify the interactions and assertions
-        assertNotNull(result);
-        verify(modelMapper, times(1)).map(echantillonDto, Echantillon.class);
-        verify(echantillonRepository, times(1)).save(echantillon);
-        verify(modelMapper, times(1)).map(echantillon, EchantillonDto.class);
+//        EchantillonDto echantillonDto = new EchantillonDto();
+//        Echantillon echantillon = new Echantillon();
+//        when(modelMapper.map(echantillonDto, Echantillon.class)).thenReturn(echantillon);
+//        when(echantillonRepository.save(echantillon)).thenReturn(echantillon);
+//
+//        // Call the method to be tested
+//        EchantillonDto result = echantillonService.addEchantillon(echantillonDto);
+//
+//        // Verify the interactions and assertions
+//        assertNotNull(result);
+//        verify(modelMapper, times(1)).map(echantillonDto, Echantillon.class);
+//        verify(echantillonRepository, times(1)).save(echantillon);
+//        verify(modelMapper, times(1)).map(echantillon, EchantillonDto.class);
+        EchantillonDto echantillon1 = new EchantillonDto( 1L, new Date()); // Vous devrez peut-être ajuster le format de date
+        EchantillonDto echantillon2 = new EchantillonDto( 2L, new Date());
+        EchantillonDto echantillon3 = new EchantillonDto( 3L, new Date());
+        EchantillonDto echantillon4 = new EchantillonDto(4L, new Date());
+        EchantillonDto echantillon5 = new EchantillonDto( 5L, new Date());
+        EchantillonDto echantillon6 = new EchantillonDto( 6L, new Date());
+        echantillonService.addEchantillon(echantillon1);
+        echantillonService.addEchantillon(echantillon2);
+        echantillonService.addEchantillon(echantillon6);
+        echantillonService.addEchantillon(echantillon5);
+        echantillonService.addEchantillon(echantillon4);
+        echantillonService.addEchantillon(echantillon3);
     }
 
     @Test

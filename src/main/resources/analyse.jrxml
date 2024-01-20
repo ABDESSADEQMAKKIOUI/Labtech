@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="analyse" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+    <field name="analyse_name" class="java.lang.String">
+
+    </field>
+    <field name="type_analyse_name" class="java.lang.String">
+
+    </field>
+    <field name="name" class="java.lang.String">
+    </field>
+    <field name="plage_normale_min" class="java.lang.Float">
+
+    </field>
+    <field name="plage_normale_max" class="java.lang.Float">
+
+    </field>
+    <field name="resultat" class="java.lang.Float">
+
+    </field>
+    <field name="unite_mesure" class="java.lang.String">
+
+    </field>
+    <field name="status" class="java.lang.String">
+
+    </field>
+    <group name="Group1">
+        <groupExpression><![CDATA[$F{analyse_name}]]></groupExpression>
+        <groupHeader>
+            <band height="3"/>
+        </groupHeader>
+        <groupFooter>
+            <band height="6"/>
+        </groupFooter>
+    </group>
+    <group name="Group2">
+        <groupExpression><![CDATA[$F{type_analyse_name}]]></groupExpression>
+        <groupHeader>
+            <band height="1">
+                <line>
+                    <reportElement positionType="FixRelativeToBottom" x="-11" y="0" width="555" height="1"/>
+                    <graphicElement>
+                        <pen lineWidth="0.5" lineColor="#999999"/>
+                    </graphicElement>
+                </line>
+            </band>
+        </groupHeader>
+    </group>
+    <group name="name">
+        <groupExpression><![CDATA[$F{name}]]></groupExpression>
+    </group>
+    <group name="plage_normale_min">
+        <groupExpression><![CDATA[$F{plage_normale_min}]]></groupExpression>
+    </group>
+    <group name="plage_normale_max">
+        <groupExpression><![CDATA[$F{plage_normale_max}]]></groupExpression>
+    </group>
+    <group name="resultat">
+        <groupExpression><![CDATA[$F{resultat}]]></groupExpression>
+    </group>
+    <group name="unite_mesure">
+        <groupExpression><![CDATA[$F{unite_mesure}]]></groupExpression>
+    </group>
+    <group name="status">
+        <groupExpression><![CDATA[$F{status}]]></groupExpression>
+    </group>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="70" splitType="Stretch">
+            <image>
+                <reportElement x="275" y="0" width="300" height="64" />
+                <imageExpression><![CDATA["leaf_banner_green.png"]]></imageExpression>
+            </image>
+            <staticText>
+                <reportElement style="Title" x="0" y="13" width="263" height="33" />
+                <textElement verticalAlignment="Middle"/>
+                <text><![CDATA[LabTech]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="SubTitle" x="100" y="46" width="174" height="22" />
+                <text><![CDATA[Straw Hats Team]]></text>
+            </staticText>
+        </band>
+    </title>
+    <pageHeader>
+        <band splitType="Stretch"/>
+    </pageHeader>
+    <columnHeader>
+        <band height="36" splitType="Stretch">
+            <line>
+                <reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" />
+                <graphicElement>
+                    <pen lineWidth="0.5" lineColor="#999999"/>
+                </graphicElement>
+            </line>
+            <textField>
+                <reportElement style="SubTitle" x="10" y="6" width="506" height="24" forecolor="#006600" />
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{analyse_name}]]></textFieldExpression>
+            </textField>
+        </band>
+    </columnHeader>
+    <detail>
+        <band splitType="Stretch"/>
+    </detail>
+    <columnFooter>
+        <band height="42" splitType="Stretch">
+            <line>
+                <reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+                <graphicElement>
+                    <pen lineWidth="0.5" lineColor="#999999"/>
+                </graphicElement>
+            </line>
+            <textField>
+                <reportElement style="SubTitle" x="20" y="10" width="460" height="20"/>
+                <textElement>
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{type_analyse_name}]]></textFieldExpression>
+            </textField>
+        </band>
+    </columnFooter>
+    <pageFooter>
+        <band height="36" splitType="Stretch">
+            <textField>
+                <reportElement style="Column header" x="10" y="6" width="50" height="20" />
+                <textElement textAlignment="Right">
+                    <font size="10" isBold="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement style="Column header" x="160" y="8" width="40" height="20" />
+                <textElement>
+                    <font size="10" isBold="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{plage_normale_min}]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement style="Column header" x="340" y="8" width="40" height="20" />
+                <textElement>
+                    <font size="10" isBold="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{resultat}]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement style="Column header" x="240" y="8" width="40" height="20"/>
+                <textElement>
+                    <font size="10" isBold="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{plage_normale_max}]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement style="Column header" x="515" y="6" width="40" height="20" />
+                <textElement>
+                    <font size="10" isBold="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement style="Column header" x="430" y="8" width="40" height="20" />
+                <textElement>
+                    <font size="10" isBold="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{unite_mesure}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+    <summary>
+        <band splitType="Stretch"/>
+    </summary>
+</jasperReport>

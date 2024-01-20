@@ -37,7 +37,7 @@ public class PatientController {
     @PutMapping("/{id}")
     public ResponseEntity<PatientDto> updatePatient(@PathVariable long id, @RequestBody PatientDto patientDto) {
         if (patientService.getPatientById(id).isPresent()) {
-            patientDto.setId(id);
+//            patientDto.setId(id);
             PatientDto updatedPatient = patientService.updatePatient(patientDto);
             return ResponseEntity.ok(updatedPatient);
         } else {

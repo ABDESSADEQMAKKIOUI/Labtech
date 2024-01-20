@@ -16,11 +16,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PatientDto implements Serializable {
-    private Long id;
     String nom;
     String prenom;
     String email;
-    Collection<EchantillonDto> echantillons;
+
 
     /**
      * DTO for {@link com.example.LabTech.entite.Echantillon}

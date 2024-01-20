@@ -20,12 +20,12 @@ pipeline {
 
         stage('Test AnalyseService') {
             steps {
-                bat 'mvn test -Dtest=AnalyseServiceTestAnalyse'
+                bat 'mvn test -Dtest=AnalyseServiceTest'
             }
         }
         stage('Test EchantillonService') {
             steps {
-                bat 'mvn test -Dtest=EchantillonServiceTestAnalyse '
+                bat 'mvn test -Dtest=EchantillonServiceTest '
             }
         }
         stage('Test EnormService') {
@@ -35,7 +35,7 @@ pipeline {
         }
           stage('Test FournisseurService') {
                     steps {
-                        bat 'mvn test -Dtest=FournisseurServiceTestAnalyse'
+                        bat 'mvn test -Dtest=FournisseurServiceTest'
                     }
        }
          stage('Test MaterielService') {
@@ -45,12 +45,12 @@ pipeline {
        }
          stage('Test PatientService') {
                    steps {
-                       bat 'mvn test -Dtest=PatientServiceTestAnalyse'
+                       bat 'mvn test -Dtest=PatientServiceTest'
                    }
        }
          stage('Test ReactifService') {
                    steps {
-                       bat 'mvn test -Dtest=ReactifServiceTestAnalyse'
+                       bat 'mvn test -Dtest=ReactifServiceTest'
                    }
        }
          stage('Test ResponsableService') {

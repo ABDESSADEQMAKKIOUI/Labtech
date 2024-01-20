@@ -20,4 +20,5 @@ public interface IReactifService {
     boolean checkQuantity(long reactifId);
 
     boolean checkExpirationDate(long reactifId);
+    void generateQuantity(int quantity , long id);
 }

@@ -37,7 +37,7 @@ public class EchantillonController {
     @PutMapping("/{id}")
     public ResponseEntity<EchantillonDto> updateEchantillon(@PathVariable long id, @RequestBody EchantillonDto echantillonDto) {
         if (echantillonService.getEchantillonById(id).isPresent()) {
-            echantillonDto.setId(id);
+//            echantillonDto.setId(id);
             EchantillonDto updatedEchantillon = echantillonService.updateEchantillon(echantillonDto);
             return ResponseEntity.ok(updatedEchantillon);
         } else {

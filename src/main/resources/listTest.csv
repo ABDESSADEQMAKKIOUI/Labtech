@@ -1,0 +1,27 @@
+Name,Min,Max,Unit,reactif_id
+Acide urique,2.0,6.0,mg/dL,1
+Albumin�mie (M�thode immunologique),3.5,5.5,g/dL,1
+Ammoni�mie,15,45,�mol/L,1
+Bilirubine (Totale Directe et Indirecte),0.2,1.0,mg/dL,1
+Calcium,8.5,10.5,mg/dL,1
+Chlore,98,106,mmol/L,2
+Chlore Cholest�rol total,,200,mg/dL,2
+Cholest�rol est�rifi�,,150,mg/dL,2
+Cholest�rol H D L,,40,mg/dL,2
+Cholest�rol L D L,,130,mg/dL,2
+Cholest�rol HDL+ L D L,,45,mg/dL,2
+Cr�atinine,0.6,1.2,mg/dL,2
+Fer s�rique,70,150,�g/dL,2
+Fer s�rique+C T F,250,450,�g/dL,3
+Glyc�mie,70,100,mg/dL,3
+Lipoprot�ine A+B,,130,mg/dL,3
+Lithium,0.6,1.2,mmol/L,3
+Magn�sium plasmatique,1.7,2.2,mg/dL,4
+Magn�sium erythrocytaire,1.5,2.5,mEq/L,4
+Phosphore min�ral,2.5,4.5,mg/dL,4
+Prot�ines,6.4,8.3,g/dL,5
+Potassium,3.5,5.0,mmol/L,6
+Triglyc�rides,,150,mg/dL,8
+Ur�e,10,20,mg/dL,6
+
+

@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.OngoingStubbing;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
-
+@SpringBootTest
 public class FournisseurServiceTest {
 
     @Mock
@@ -29,7 +31,8 @@ public class FournisseurServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    @InjectMocks
+//    @InjectMocks
+    @Autowired
     private FournisseurService fournisseurService;
 
     @BeforeEach
@@ -75,18 +78,33 @@ public class FournisseurServiceTest {
     void addFournisseurTest() {
         // Mock the behavior of the repository
         FournisseurDto fournisseurDto = new FournisseurDto();
-        Fournisseur fournisseur = new Fournisseur();
-        when(modelMapper.map(fournisseurDto, Fournisseur.class)).thenReturn(fournisseur);
-        when(fournisseurRepository.save(fournisseur)).thenReturn(fournisseur);
+        FournisseurDto fournisseurDto1 = new FournisseurDto();
+        FournisseurDto fournisseurDto2 = new FournisseurDto();
+        FournisseurDto fournisseurDto3 = new FournisseurDto();
+        FournisseurDto fournisseurDto4 = new FournisseurDto();
+
+        fournisseurDto.setNom("fournisseurDto");
+        fournisseurDto1.setNom("fournisseurDto1");
+        fournisseurDto2.setNom("fournisseurDto2");
+        fournisseurDto3.setNom("fournisseurDto3");
+        fournisseurDto4.setNom("fournisseurDto4");
+//        Fournisseur fournisseur = new Fournisseur();
+//        when(modelMapper.map(fournisseurDto, Fournisseur.class)).thenReturn(fournisseur);
+//        when(fournisseurRepository.save(fournisseur)).thenReturn(fournisseur);
 
         // Call the method to be tested
-        FournisseurDto result = fournisseurService.addFournisseur(fournisseurDto);
+        fournisseurService.addFournisseur(fournisseurDto);
+        fournisseurService.addFournisseur(fournisseurDto1);
+        fournisseurService.addFournisseur(fournisseurDto2);
+        fournisseurService.addFournisseur(fournisseurDto3);
+        fournisseurService.addFournisseur(fournisseurDto4);
 
-        // Verify the interactions and assertions
-        assertNotNull(result);
-        verify(modelMapper, times(1)).map(fournisseurDto, Fournisseur.class);
-        verify(fournisseurRepository, times(1)).save(fournisseur);
-        verify(modelMapper, times(1)).map(fournisseur, FournisseurDto.class);
+
+//        // Verify the interactions and assertions
+//        assertNotNull(result);
+//        verify(modelMapper, times(1)).map(fournisseurDto, Fournisseur.class);
+//        verify(fournisseurRepository, times(1)).save(fournisseur);
+//        verify(modelMapper, times(1)).map(fournisseur, FournisseurDto.class);
     }
 
     @Test

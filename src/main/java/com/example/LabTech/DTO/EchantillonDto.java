@@ -21,13 +21,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EchantillonDto implements Serializable {
-    long id;
+
     Long patientId;
-    String patientNom;
-    String patientPrenom;
     Date date_prend;
-    List<MaterielDto> materiels;
-    List<AnalyseDto> analyses;
+
 
     /**
      * DTO for {@link Materiel}

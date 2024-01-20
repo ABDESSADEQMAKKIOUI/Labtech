@@ -1,15 +1,21 @@
 package com.example.LabTech.servicesTesting;
 
+import com.example.LabTech.DTO.EnormDto;
 import com.example.LabTech.DTO.ReactifDto;
 import com.example.LabTech.entite.Reactif;
 import com.example.LabTech.repository.ReactifRepository;
 import com.example.LabTech.service.ReactifService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -18,7 +24,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
+@SpringBootTest
 public class ReactifServiceTest {
 
     @Mock
@@ -27,7 +33,8 @@ public class ReactifServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    @InjectMocks
+//    @InjectMocks
+    @Autowired
     private ReactifService reactifService;
 
     @BeforeEach
@@ -128,6 +135,19 @@ public class ReactifServiceTest {
         // Verify the interactions and assertions
         assertTrue(result);
         verify(reactifRepository, times(1)).findById(1L);
+    }
+
+    @Rollback(value = false)
+    @ParameterizedTest
+    @CsvFileSource(resources = "/listreactif.csv", numLinesToSkip = 1)
+    void saveNorme(String Name,String Description,float Quantite,Date DateExperation,long fournisseur_id) {
+        ReactifDto reactifDto = new ReactifDto() ;
+        reactifDto.setDate_expiration(DateExperation);
+        reactifDto.setNom(Name);
+        reactifDto.setDescription(Description);
+        reactifDto.setFournisseurId(fournisseur_id);
+        reactifDto.setQuantity((int)Quantite);
+        reactifService.addReactif(reactifDto);
     }
 
     @Test

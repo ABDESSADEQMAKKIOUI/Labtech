@@ -6,10 +6,15 @@ import com.example.LabTech.repository.EnormRepository;
 import com.example.LabTech.service.EnormService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
-
+@SpringBootTest
 public class EnormServiceTest {
 
     @Mock
@@ -28,8 +33,10 @@ public class EnormServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    @InjectMocks
+//    @InjectMocks
+    @Autowired
     private EnormService enormService;
+
 
     @BeforeEach
     void setUp() {
@@ -106,7 +113,18 @@ public class EnormServiceTest {
         verify(enormRepository, times(1)).save(existingEnorm);
         verify(modelMapper, times(1)).map(existingEnorm, EnormDto.class);
     }
-
+    @Rollback(value = false)
+    @ParameterizedTest
+    @CsvFileSource(resources = "/listTest.csv", numLinesToSkip = 1)
+    void saveNorme(String name ,double min,double max,String unite ,long reactif_id) {
+        EnormDto normeDto = new EnormDto();
+        normeDto.setName(name);
+        normeDto.setReactifId(reactif_id);
+        normeDto.setPlage_normale_max((float) max);
+        normeDto.setPlage_normale_min((float) min);
+        normeDto.setUnite_mesure(unite);
+        enormService.addEnorms(normeDto);
+    }
     @Test
     void deleteEnormsTest() {
         // Call the method to be tested
