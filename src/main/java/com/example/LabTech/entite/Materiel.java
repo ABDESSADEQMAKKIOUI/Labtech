@@ -12,8 +12,10 @@ public class Materiel {
      @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id ;
     private String nom ;
+
     @ManyToOne
     private Echantillon echantillon ;
+
     @Enumerated(EnumType.STRING)
     private Materiel_type materielType ;
 }
