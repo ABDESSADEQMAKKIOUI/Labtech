@@ -1,6 +1,8 @@
 package com.example.LabTech.service;
 
+import com.example.LabTech.DTO.CompteDto;
 import com.example.LabTech.DTO.FournisseurDto;
+import com.example.LabTech.entite.Compte;
 import com.example.LabTech.entite.Fournisseur;
 import com.example.LabTech.repository.FournisseurRepository;
 import com.example.LabTech.service.interfaces.IFournisseurService;
@@ -44,6 +46,15 @@ public class FournisseurService implements IFournisseurService {
 
     @Override
     public FournisseurDto updateFournisseur(FournisseurDto fournisseurDTO) {
+//        Optional<Fournisseur> existingFournisseur = fournisseurRepository.findById(id);
+//        if (existingFournisseur.isPresent()) {
+//            Fournisseur fournisseur = modelMapper.map(fournisseurDTO, Fournisseur.class);
+//            fournisseur.setId(id);
+//            Fournisseur updatedFournisseur = fournisseurRepository.save(fournisseur);
+//            return modelMapper.map(updatedFournisseur, FournisseurDto.class);
+//        }
+//        return null; // Gérer le cas où le compte n'existe pas
+
         Fournisseur fournisseur = convertToEntity(fournisseurDTO);
         return convertToDto(fournisseurRepository.save(fournisseur));
     }

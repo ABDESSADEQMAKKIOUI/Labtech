@@ -123,9 +123,10 @@ public class CompteControllerTest {
     @Test
     public void updateCompteTest() throws Exception {
         Long compteId = 1L;
-        when(compteService.updateCompte(any(CompteDto.class), eq(compteId))).thenReturn(compteDto);
+        when(compteService.getCompteById(compteId)).thenReturn(Optional.of(compteDto));
+        when(compteService.updateCompte(any(CompteDto.class))).thenReturn(compteDto);
 
-        ResultActions response = mockMvc.perform(put("/api/comptes/1")
+        ResultActions response = mockMvc.perform(put("/api/comptes/{id}",compteId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(compteDto)));
 
@@ -134,7 +135,8 @@ public class CompteControllerTest {
                 .andExpect(jsonPath("$.id", CoreMatchers.is((int)compteDto.getId())))
                 .andExpect(jsonPath("$.username", CoreMatchers.is(compteDto.getUsername())))
                 .andExpect(jsonPath("$.password", CoreMatchers.is(compteDto.getPassword())))
-                .andExpect(jsonPath("$.role", CoreMatchers.is(compteDto.getRole().toString())));
+                .andExpect(jsonPath("$.role", CoreMatchers.is(compteDto.getRole().toString())))
+                .andReturn();
     }
     @Test
     public void deleteCompteTest() throws Exception {

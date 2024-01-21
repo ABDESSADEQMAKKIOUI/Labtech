@@ -36,13 +36,11 @@ public class CompteController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CompteDto> updateCompte(@PathVariable long id, @RequestBody CompteDto compteDto) {
-//        if (!compteService.getCompteById(id).isPresent()) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-        CompteDto updatedCompte = compteService.updateCompte(compteDto, id);
-        return updatedCompte != null
-                ? new ResponseEntity<>(updatedCompte, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (!compteService.getCompteById(id).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        CompteDto updatedCompte = compteService.updateCompte(compteDto);
+        return new ResponseEntity<>(updatedCompte, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

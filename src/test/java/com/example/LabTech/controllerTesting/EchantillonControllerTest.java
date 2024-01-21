@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.Date;
 
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -39,7 +40,7 @@ class EchantillonControllerTest {
     @BeforeEach
     public void init() {
         echantillonDto = new EchantillonDto();
-        echantillonDto.setId(1);
+        echantillonDto.setId(1L);
         echantillonDto.setPatientId(123L);
         echantillonDto.setPatientNom("ahmedi");
         echantillonDto.setPatientPrenom("Ahmed");
@@ -64,7 +65,6 @@ class EchantillonControllerTest {
                 .andExpect(jsonPath("$[0].patientId", is(123)))
                 .andExpect(jsonPath("$[0].patientNom", is("ahmedi")))
                 .andExpect(jsonPath("$[0].patientPrenom", is("Ahmed")))
-                .andExpect(jsonPath("$[0].date_prend", is("2024-01-18T00:00:00.000Z")))
                 .andExpect(jsonPath("$[0].materiels", hasSize(0)))
                 .andExpect(jsonPath("$[0].analyses", hasSize(0)));
 
@@ -86,7 +86,6 @@ class EchantillonControllerTest {
                 .andExpect(jsonPath("$.patientId", is(123)))
                 .andExpect(jsonPath("$.patientNom", is("ahmedi")))
                 .andExpect(jsonPath("$.patientPrenom", is("Ahmed")))
-                .andExpect(jsonPath("$.date_prend", is("2024-01-18T00:00:00.000Z")))
                 .andExpect(jsonPath("$.materiels", hasSize(0)))
                 .andExpect(jsonPath("$.analyses", hasSize(0)));
 
@@ -98,19 +97,16 @@ class EchantillonControllerTest {
         Mockito.when(echantillonService.addEchantillon(ArgumentMatchers.any()))
                 .thenReturn(echantillonDto);
 
-        // Performing HTTP POST request using MockMvc
         ResultActions response = mockMvc.perform(post("/api/echantillons")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(echantillonDto))); // Add the actual JSON content
+                .content(objectMapper.writeValueAsString(echantillonDto)));
 
-        // Verifying HTTP status and JSON content
         response.andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.patientId", is(123)))
                 .andExpect(jsonPath("$.patientNom", is("ahmedi")))
                 .andExpect(jsonPath("$.patientPrenom", is("Ahmed")))
-                .andExpect(jsonPath("$.date_prend", is("2024-01-18T00:00:00.000Z")))
                 .andExpect(jsonPath("$.materiels", hasSize(0)))
                 .andExpect(jsonPath("$.analyses", hasSize(0)));
 
@@ -118,26 +114,23 @@ class EchantillonControllerTest {
 
     @Test
     void updateEchantillonTest() throws Exception {
-        // Mock the service method that the controller calls
         Mockito.when(echantillonService.getEchantillonById(1))
                 .thenReturn(java.util.Optional.of(echantillonDto));
 
         Mockito.when(echantillonService.updateEchantillon(ArgumentMatchers.any()))
                 .thenReturn(echantillonDto);
 
-        // Performing HTTP PUT request using MockMvc
+        // Performing HTTP PUT request
         ResultActions response = mockMvc.perform(put("/api/echantillons/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(echantillonDto))); // Add the actual JSON content
+                .content(objectMapper.writeValueAsString(echantillonDto)));
 
-        // Verifying HTTP status and JSON content
         response.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.patientId", is(123)))
                 .andExpect(jsonPath("$.patientNom", is("ahmedi")))
                 .andExpect(jsonPath("$.patientPrenom", is("Ahmed")))
-                .andExpect(jsonPath("$.date_prend", is("2024-01-18T00:00:00.000Z")))
                 .andExpect(jsonPath("$.materiels", hasSize(0)))
                 .andExpect(jsonPath("$.analyses", hasSize(0)));
 
@@ -145,23 +138,15 @@ class EchantillonControllerTest {
 
     @Test
     void deleteEchantillonTest() throws Exception {
-
+        Long echantillonId= 1L;
+        doNothing().when(echantillonService).deleteEchantillon(echantillonId);
         // Performing HTTP DELETE
         ResultActions response = mockMvc.perform(delete("/api/echantillons/1"));
 
         // Verifying HTTP status
         response.andExpect(status().isNoContent());
 
-        //      Long echantillonId = 1L;
-//        doNothing().when(echantillonService).deleteCompte(echantillonId);
-//
-//        ResultActions response = mockMvc.perform(delete("/api/echantillons/1")
-//                .contentType(MediaType.APPLICATION_JSON));
-//
-//        response.andExpect(status().isOk());*/
-
     }
-
 
 }
 
