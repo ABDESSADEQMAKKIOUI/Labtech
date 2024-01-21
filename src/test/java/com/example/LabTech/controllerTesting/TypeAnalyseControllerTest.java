@@ -60,10 +60,10 @@ public class TypeAnalyseControllerTest {
     public void init() {
 
         // Create a Type_AnalyseDto instance with specific attribute values
-        Type_AnalyseDto typeAnalyseDto = new Type_AnalyseDto();
-        typeAnalyseDto.setId(1);
+        typeAnalyseDto = new Type_AnalyseDto();
+        typeAnalyseDto.setId(1L);
         typeAnalyseDto.setName("TestType");
-        typeAnalyseDto.setAnalyseId(2);
+        typeAnalyseDto.setAnalyseId(2L);
         typeAnalyseDto.setAnalyseName("TestAnalyse");
         typeAnalyseDto.setAnalyseDate_debut(new Date());
         typeAnalyseDto.setAnalyseDate_fin(new Date());
@@ -72,13 +72,13 @@ public class TypeAnalyseControllerTest {
 
         // Create a Test_analyseDto instance with specific attribute values
         Type_AnalyseDto.Test_analyseDto testAnalyseDto = new Type_AnalyseDto.Test_analyseDto();
-        testAnalyseDto.setId(3);
+        testAnalyseDto.setId(3L);
         testAnalyseDto.setResultat(98.5f);
         testAnalyseDto.setCommentaire("Good result");
         testAnalyseDto.setStatus(Status.normal);
 
         Type_AnalyseDto.Test_analyseDto testAnalyseDto2 = new Type_AnalyseDto.Test_analyseDto();
-        testAnalyseDto2.setId(4);
+        testAnalyseDto2.setId(4L);
         testAnalyseDto2.setResultat(88.5f);
         testAnalyseDto2.setCommentaire("Good result");
         testAnalyseDto2.setStatus(Status.normal);
@@ -93,8 +93,7 @@ public class TypeAnalyseControllerTest {
     @Test
     public void addTypeAnalyseTest() throws Exception {
         // Mocking the service behavior
-        given(typeAnalyseService.addtypeAnalyse(any())).willAnswer((invocation -> invocation.getArgument(0)));
-
+        given(typeAnalyseService.addtypeAnalyse(any())).willReturn(typeAnalyseDto);
         // Performing HTTP POST request
         ResultActions response = mockMvc.perform(post("/api/type-analyses")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -102,12 +101,11 @@ public class TypeAnalyseControllerTest {
 
         // Verifying HTTP status and JSON content
         response.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id", CoreMatchers.is(1)))
-                .andExpect(jsonPath("$.name", CoreMatchers.is("TestType")))
-                .andExpect(jsonPath("$.analyseId", CoreMatchers.is(2)))
-                .andExpect(jsonPath("$.analyseName", CoreMatchers.is("TestAnalyse")))
-                .andExpect(jsonPath("$.size()").value(typeAnalyseDtos.size()))
-                .andExpect(jsonPath("$.testAnalyses", hasSize(1)))
+                .andExpect(jsonPath("$.id", CoreMatchers.is((int)typeAnalyseDto.getId())))
+                .andExpect(jsonPath("$.name", CoreMatchers.is(typeAnalyseDto.getName())))
+                .andExpect(jsonPath("$.analyseId", CoreMatchers.is((int)typeAnalyseDto.getAnalyseId())))
+                .andExpect(jsonPath("$.analyseName", CoreMatchers.is(typeAnalyseDto.getAnalyseName())))
+                .andExpect(jsonPath("$.testAnalyses", hasSize(2)))
                 .andExpect(jsonPath("$.testAnalyses[0].id", CoreMatchers.is(3)))
                 .andExpect(jsonPath("$.testAnalyses[0].resultat", CoreMatchers.is(98.5)))
                 .andExpect(jsonPath("$.testAnalyses[0].commentaire", CoreMatchers.is("Good result")))
@@ -139,7 +137,7 @@ public class TypeAnalyseControllerTest {
                 .andExpect(jsonPath("$.name", CoreMatchers.is("TestType")))
                 .andExpect(jsonPath("$.analyseId", CoreMatchers.is(2)))
                 .andExpect(jsonPath("$.analyseName", CoreMatchers.is("TestAnalyse")))
-                .andExpect(jsonPath("$.testAnalyses", hasSize(1)))
+                .andExpect(jsonPath("$.testAnalyses", hasSize(2)))
                 .andExpect(jsonPath("$.testAnalyses[0].id", CoreMatchers.is(3)))
                 .andExpect(jsonPath("$.testAnalyses[0].resultat", CoreMatchers.is(98.5)))
                 .andExpect(jsonPath("$.testAnalyses[0].commentaire", CoreMatchers.is("Good result")))
@@ -149,6 +147,7 @@ public class TypeAnalyseControllerTest {
     @Test
     public void updateTypeAnalyseTest() throws Exception {
         Long typeAnalyseId = 1L;
+        when(typeAnalyseService.gettypeAnalyseById(typeAnalyseId)).thenReturn(Optional.of(typeAnalyseDto));
         when(typeAnalyseService.updatetypeAnalyse(typeAnalyseDto)).thenReturn(typeAnalyseDto);
 
         ResultActions response;
@@ -157,11 +156,11 @@ public class TypeAnalyseControllerTest {
                 .content(objectMapper.writeValueAsString(typeAnalyseDto)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", CoreMatchers.is(1)))
-                .andExpect(jsonPath("$.name", CoreMatchers.is("TestType")))
-                .andExpect(jsonPath("$.analyseId", CoreMatchers.is(2)))
-                .andExpect(jsonPath("$.analyseName", CoreMatchers.is("TestAnalyse")))
-                .andExpect(jsonPath("$.testAnalyses", hasSize(1)))
+                .andExpect(jsonPath("$.id", CoreMatchers.is((int)typeAnalyseDto.getId())))
+                .andExpect(jsonPath("$.name", CoreMatchers.is(typeAnalyseDto.getName())))
+                .andExpect(jsonPath("$.analyseId", CoreMatchers.is((int)typeAnalyseDto.getAnalyseId())))
+                .andExpect(jsonPath("$.analyseName", CoreMatchers.is(typeAnalyseDto.getAnalyseName())))
+                .andExpect(jsonPath("$.testAnalyses", hasSize(2)))
                 .andExpect(jsonPath("$.testAnalyses[0].id", CoreMatchers.is(3)))
                 .andExpect(jsonPath("$.testAnalyses[0].resultat", CoreMatchers.is(98.5)))
                 .andExpect(jsonPath("$.testAnalyses[0].commentaire", CoreMatchers.is("Good result")))
@@ -170,12 +169,13 @@ public class TypeAnalyseControllerTest {
     @Test
     public void deleteTypeAnalyseTest() throws Exception {
         Long typeAnalyseId = 1L;
+        when(typeAnalyseService.gettypeAnalyseById(typeAnalyseId)).thenReturn(Optional.of(typeAnalyseDto));
         doNothing().when(typeAnalyseService).deletetypeAnalyse(typeAnalyseId);
 
         ResultActions response = mockMvc.perform(delete("/api/type-analyses/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isOk());
+        response.andExpect(status().isNoContent());
     }
 
 }

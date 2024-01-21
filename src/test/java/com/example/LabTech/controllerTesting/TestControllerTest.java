@@ -95,10 +95,10 @@ public class TestControllerTest {
         testDto.setEnormId(1L);
         testDto.setResultat(10f);
         testDto.setStatus(Status.anormal);
-        testDto.setEnormPlage_normale_max(20f);
+        testDto.setEnormPlage_normale_max(20);
         testDto.setTechnitienId(1L);
         testDto.setTechnitienNom("amine");
-        testDto.setEnormPlage_normale_min(8f);
+        testDto.setEnormPlage_normale_min(8);
         testDto.setTypeAnalyseId(1L);
         testDto.setEnormUnite_mesure("10/5ml");
         testDto.setTypeAnalyseName("1typeAnalyseName1");
@@ -125,7 +125,7 @@ public class TestControllerTest {
     @Test
     public void addTestTest() throws Exception {
         // Mocking the service behavior
-        given(testService.addTest(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
+        given(testService.addTest(ArgumentMatchers.any())).willReturn(testDto);
 
         // Performing HTTP POST request
         ResultActions response = mockMvc.perform(post("/api/tests")
@@ -134,18 +134,18 @@ public class TestControllerTest {
 
         // Verifying HTTP status and JSON content
         response.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.resultat", CoreMatchers.is(testDto.getResultat())))
+                .andExpect(jsonPath("$.resultat", CoreMatchers.is((double)testDto.getResultat())))
                 .andExpect(jsonPath("$.commentaire", CoreMatchers.is(testDto.getCommentaire())))
-                .andExpect(jsonPath("$.status", CoreMatchers.is(testDto.getStatus())))
-                .andExpect(jsonPath("$.enormId", CoreMatchers.is(testDto.getEnormId())))
+                .andExpect(jsonPath("$.status", CoreMatchers.is(testDto.getStatus().toString())))
+                .andExpect(jsonPath("$.enormId", CoreMatchers.is((int)testDto.getEnormId())))
                 .andExpect(jsonPath("$.enormName", CoreMatchers.is(testDto.getEnormName())))
-                .andExpect(jsonPath("$.enormPlage_normale_max", CoreMatchers.is(testDto.getEnormPlage_normale_max())))
-                .andExpect(jsonPath("$.enormPlage_normale_min", CoreMatchers.is(testDto.getEnormPlage_normale_min())))
+                .andExpect(jsonPath("$.enormPlage_normale_max", CoreMatchers.is((double)testDto.getEnormPlage_normale_max())))
+                .andExpect(jsonPath("$.enormPlage_normale_min", CoreMatchers.is((double)testDto.getEnormPlage_normale_min())))
                 .andExpect(jsonPath("$.enormUnite_mesure", CoreMatchers.is(testDto.getEnormUnite_mesure())))
-                .andExpect(jsonPath("$.technitienId", CoreMatchers.is(testDto.getTechnitienId())))
+                .andExpect(jsonPath("$.technitienId", CoreMatchers.is(testDto.getTechnitienId().intValue())))
                 .andExpect(jsonPath("$.technitienNom", CoreMatchers.is(testDto.getTechnitienNom())))
                 .andExpect(jsonPath("$.enormName", CoreMatchers.is(testDto.getEnormName())))
-                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(testDto.getTypeAnalyseId())));
+                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is((int)testDto.getTypeAnalyseId())));
     }
 
     @Test
@@ -155,15 +155,6 @@ public class TestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(testDtos.size()))
                 .andDo(print());
-
-//                             .andExpect(jsonPath("$[0].username").value("sami"))
-//                             .andExpect(jsonPath("$[0].role").value("technicien"))
-//
-//                             .andExpect(jsonPath("$[1].id").value(2))
-//                             .andExpect(jsonPath("$[1].username").value("ahmed"))
-//                             .andExpect(jsonPath("$[1].role").value("responsable"))
-//
-//                             .andReturn();
 
     }
 
@@ -178,23 +169,25 @@ public class TestControllerTest {
                 .content(objectMapper.writeValueAsString(testDto)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.resultat", CoreMatchers.is(testDto.getResultat())))
+                .andExpect(jsonPath("$.resultat", CoreMatchers.is((double)testDto.getResultat())))
                 .andExpect(jsonPath("$.commentaire", CoreMatchers.is(testDto.getCommentaire())))
-                .andExpect(jsonPath("$.status", CoreMatchers.is(testDto.getStatus())))
-                .andExpect(jsonPath("$.enormId", CoreMatchers.is(testDto.getEnormId())))
+                .andExpect(jsonPath("$.status", CoreMatchers.is(testDto.getStatus().toString())))
+                .andExpect(jsonPath("$.enormId", CoreMatchers.is((int)testDto.getEnormId())))
                 .andExpect(jsonPath("$.enormName", CoreMatchers.is(testDto.getEnormName())))
-                .andExpect(jsonPath("$.enormPlage_normale_max", CoreMatchers.is(testDto.getEnormPlage_normale_max())))
-                .andExpect(jsonPath("$.enormPlage_normale_min", CoreMatchers.is(testDto.getEnormPlage_normale_min())))
+                .andExpect(jsonPath("$.enormPlage_normale_max", CoreMatchers.is((double)testDto.getEnormPlage_normale_max())))
+                .andExpect(jsonPath("$.enormPlage_normale_min", CoreMatchers.is((double)testDto.getEnormPlage_normale_min())))
                 .andExpect(jsonPath("$.enormUnite_mesure", CoreMatchers.is(testDto.getEnormUnite_mesure())))
-                .andExpect(jsonPath("$.technitienId", CoreMatchers.is(testDto.getTechnitienId())))
+                .andExpect(jsonPath("$.technitienId", CoreMatchers.is(testDto.getTechnitienId().intValue())))
                 .andExpect(jsonPath("$.technitienNom", CoreMatchers.is(testDto.getTechnitienNom())))
                 .andExpect(jsonPath("$.enormName", CoreMatchers.is(testDto.getEnormName())))
-                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(testDto.getTypeAnalyseId())));
+                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is((int)testDto.getTypeAnalyseId())));
     }
 
     @Test
     public void updateTestTest() throws Exception {
         Long testId = 1L;
+        testDto.setId(testId);
+        when(testService.getTestById(testId)).thenReturn(Optional.of(testDto));
         when(testService.updateTest(testDto)).thenReturn(testDto);
 
         ResultActions response;
@@ -203,28 +196,29 @@ public class TestControllerTest {
                 .content(objectMapper.writeValueAsString(testDto)));
 
         response.andExpect(status().isOk())
-                .andExpect(jsonPath("$.resultat", CoreMatchers.is(testDto.getResultat())))
+                .andExpect(jsonPath("$.resultat", CoreMatchers.is((double)testDto.getResultat())))
                 .andExpect(jsonPath("$.commentaire", CoreMatchers.is(testDto.getCommentaire())))
-                .andExpect(jsonPath("$.status", CoreMatchers.is(testDto.getStatus())))
-                .andExpect(jsonPath("$.enormId", CoreMatchers.is(testDto.getEnormId())))
+                .andExpect(jsonPath("$.status", CoreMatchers.is(testDto.getStatus().toString())))
+                .andExpect(jsonPath("$.enormId", CoreMatchers.is((int)testDto.getEnormId())))
                 .andExpect(jsonPath("$.enormName", CoreMatchers.is(testDto.getEnormName())))
-                .andExpect(jsonPath("$.enormPlage_normale_max", CoreMatchers.is(testDto.getEnormPlage_normale_max())))
-                .andExpect(jsonPath("$.enormPlage_normale_min", CoreMatchers.is(testDto.getEnormPlage_normale_min())))
+                .andExpect(jsonPath("$.enormPlage_normale_max", CoreMatchers.is((double)testDto.getEnormPlage_normale_max())))
+                .andExpect(jsonPath("$.enormPlage_normale_min", CoreMatchers.is((double)testDto.getEnormPlage_normale_min())))
                 .andExpect(jsonPath("$.enormUnite_mesure", CoreMatchers.is(testDto.getEnormUnite_mesure())))
-                .andExpect(jsonPath("$.technitienId", CoreMatchers.is(testDto.getTechnitienId())))
+                .andExpect(jsonPath("$.technitienId", CoreMatchers.is(testDto.getTechnitienId().intValue())))
                 .andExpect(jsonPath("$.technitienNom", CoreMatchers.is(testDto.getTechnitienNom())))
                 .andExpect(jsonPath("$.enormName", CoreMatchers.is(testDto.getEnormName())))
-                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(testDto.getTypeAnalyseId())));
+                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is((int)testDto.getTypeAnalyseId())));
     }
     @Test
     public void deleteTestTest() throws Exception {
         Long testId = 1L;
+        when(testService.getTestById(testId)).thenReturn(Optional.of(testDto));
         doNothing().when(testService).deleteTest(testId);
 
         ResultActions response = mockMvc.perform(delete("/api/tests/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isOk());
+        response.andExpect(status().isNoContent());
     }
 
 }
