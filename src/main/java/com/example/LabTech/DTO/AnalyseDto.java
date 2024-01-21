@@ -30,13 +30,14 @@ public class AnalyseDto implements Serializable {
     Long responsableId;
     String responsableNom;
     List<AnalyseReactifDto> analyseReactifs;
+
     List<Type_AnalyseDto> typeAnalyses;
     Status status;
 
     /**
      * DTO for {@link com.example.LabTech.entite.AnalyseReactif}
      */
-    @Value
+    @Data
     public static class AnalyseReactifDto implements Serializable {
         int id;
         String reactifNom;
@@ -46,7 +47,7 @@ public class AnalyseDto implements Serializable {
     /**
      * DTO for {@link com.example.LabTech.entite.Type_Analyse}
      */
-    @Value
+    @Data
     public static class Type_AnalyseDto implements Serializable {
         long id;
         String name;

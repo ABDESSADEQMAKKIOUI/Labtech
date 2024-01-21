@@ -6,6 +6,7 @@ import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.entite.Enorm;
 import com.example.LabTech.entite.Test_analyse;
 import com.example.LabTech.entite.Type_Analyse;
+import com.example.LabTech.repository.AnalyseReactifRepository;
 import com.example.LabTech.repository.AnalyseRepository;
 import com.example.LabTech.repository.EnormRepository;
 import com.example.LabTech.repository.TestRepository;
@@ -28,6 +29,8 @@ public class AnalyseService {
 
     @Autowired
     private EnormRepository enormRepository;
+    @Autowired
+    AnalyseReactifService analyseReactifService ;
 
     @Autowired
     private ModelMapper modelMapper; // Ajout du ModelMapper

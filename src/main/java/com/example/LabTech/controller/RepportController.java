@@ -7,6 +7,7 @@ import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileNotFoundException;
@@ -28,8 +29,8 @@ public class RepportController {
             throws FileNotFoundException, JRException {
         return service.exportReportAnalyseByDate(format,date_debut,date_end);
     }
-    @GetMapping("/report/{status}/{format}")
-    public String generateReportAnalyseByStatus(@PathVariable String format , @PathVariable Status_Analyse status) throws FileNotFoundException, JRException {
-        return service.exportReportAnalyseByStatus(format,status);
+    @GetMapping("/report/format/status")
+    public String generateReportAnalyseByStatus(@RequestParam("reportFormat") String reportFormat, @RequestParam("status") Status_Analyse status) throws FileNotFoundException, JRException {
+        return service.exportReportAnalyseByStatus(reportFormat, status);
     }
 }

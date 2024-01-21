@@ -14,7 +14,7 @@ public class TestAnalyseTest {
     @Test
     void addtest(){
         Test_analyseDto testAnalyse1 = new Test_analyseDto();
-        testAnalyse1.setEnormId(3L);
+        testAnalyse1.setEnormId(1L);
         testAnalyse1.setTechnitienId(1L);
         testAnalyse1.setTypeAnalyseId(1L);
         testAnalyse1.setResultat(10.5f);
@@ -22,7 +22,7 @@ public class TestAnalyseTest {
         testAnalyse1.setStatus(Status.normal);
 
         Test_analyseDto testAnalyse2 = new Test_analyseDto();
-        testAnalyse2.setEnormId(2L);
+        testAnalyse2.setEnormId(1L);
         testAnalyse2.setTechnitienId(2L);
         testAnalyse2.setTypeAnalyseId(1L);
         testAnalyse2.setResultat(25.3f);
@@ -38,7 +38,7 @@ public class TestAnalyseTest {
         testAnalyse1.setStatus(Status.normal);
 
         Test_analyseDto testAnalyse4 = new Test_analyseDto();
-        testAnalyse2.setEnormId(2L);
+        testAnalyse2.setEnormId(1L);
         testAnalyse2.setTechnitienId(2L);
         testAnalyse2.setTypeAnalyseId(2L);
         testAnalyse2.setResultat(25.3f);
