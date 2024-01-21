@@ -31,6 +31,7 @@ public class PatientServiceTest {
     private ModelMapper modelMapper;
 
     @Autowired
+    @InjectMocks
     private PatientService patientService;
 
     @BeforeEach
@@ -40,15 +41,38 @@ public class PatientServiceTest {
 
     @Test
     void getAllPatientsTest() {
+        Patient patient1 = new Patient();
+        patient1.setId(1L);
+        patient1.setNom("patientName1");
+        patient1.setPrenom("patientPrenom1");
+        patient1.setEmail("patient1@gmail");
+
+        Patient patient2 = new Patient();
+        patient2.setId(2L);
+        patient2.setNom("patientName2");
+        patient2.setPrenom("patientPrenom2");
+        patient2.setEmail("patient2@gmail");
+
+        PatientDto patientDto1 = new PatientDto();
+       // patientDto1.set(1L);
+        patientDto1.setNom("patientName1");
+        patientDto1.setPrenom("patientPrenom1");
+        patientDto1.setEmail("patient1@gmail");
+
+        PatientDto patientDto2 = new PatientDto();
+        //patientDto2.setId(2L);
+        patientDto2.setNom("patientName2");
+        patientDto2.setPrenom("patientPrenom2");
+        patientDto2.setEmail("patient2@gmail");
+
         // Mock the behavior of the repository
-        when(patientRepository.findAll()).thenReturn(Arrays.asList(new Patient(), new Patient()));
+        when(patientRepository.findAll()).thenReturn(Arrays.asList(patient1, patient2));
 
         // Mock the behavior of the ModelMapper
-        when(modelMapper.map(any(), eq(PatientDto.class))).thenReturn(new PatientDto());
-
+        when(modelMapper.map(patient1, PatientDto.class)).thenReturn(patientDto1);
+        when(modelMapper.map(patient2, PatientDto.class)).thenReturn(patientDto2);
         // Call the method to be tested
         List<PatientDto> result = patientService.getAllPatients();
-
         // Verify the interactions and assertions
         assertEquals(2, result.size());
         verify(patientRepository, times(1)).findAll();
@@ -95,15 +119,15 @@ public class PatientServiceTest {
         PatientDto patientDto = new PatientDto();
         Patient existingPatient = new Patient();
 //        when(patientRepository.findById(patientDto.getId())).thenReturn(Optional.of(existingPatient));
+        when(modelMapper.map(patientDto, Patient.class)).thenReturn(existingPatient);
         when(patientRepository.save(existingPatient)).thenReturn(existingPatient);
-
+        when(modelMapper.map(existingPatient, PatientDto.class)).thenReturn(patientDto);
         // Call the method to be tested
         PatientDto result = patientService.updatePatient(patientDto);
-
         // Verify the interactions and assertions
         assertNotNull(result);
 //        verify(patientRepository, times(1)).findById(patientDto.getId());
-        verify(modelMapper, times(1)).map(patientDto, existingPatient);
+        verify(modelMapper, times(1)).map(patientDto,Patient.class /*existingPatient*/);
         verify(patientRepository, times(1)).save(existingPatient);
         verify(modelMapper, times(1)).map(existingPatient, PatientDto.class);
     }
