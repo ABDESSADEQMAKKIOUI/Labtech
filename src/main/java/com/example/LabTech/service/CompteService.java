@@ -1,6 +1,8 @@
 package com.example.LabTech.service;
 
+import com.example.LabTech.DTO.AnalyseDto;
 import com.example.LabTech.DTO.CompteDto;
+import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.entite.Compte;
 import com.example.LabTech.repository.CompteRepository;
 import com.example.LabTech.service.interfaces.ICompteService;
@@ -44,10 +46,15 @@ public class CompteService implements ICompteService {
     }
 
     @Override
-    public CompteDto updateCompte(CompteDto compteDto) {
-        Compte compte = modelMapper.map(compteDto, Compte.class);
-        Compte updatedCompte = compteRepository.save(compte);
-        return modelMapper.map(updatedCompte, CompteDto.class);
+    public CompteDto updateCompte(CompteDto compteDto, long id) {
+        Optional<Compte> existingCompte = compteRepository.findById(id);
+        if (existingCompte.isPresent()) {
+            Compte compte = modelMapper.map(compteDto, Compte.class);
+            compte.setId(id);
+            Compte updatedCompte = compteRepository.save(compte);
+            return modelMapper.map(updatedCompte, CompteDto.class);
+        }
+        return null; // Gérer le cas où le compte n'existe pas
     }
 
     @Override

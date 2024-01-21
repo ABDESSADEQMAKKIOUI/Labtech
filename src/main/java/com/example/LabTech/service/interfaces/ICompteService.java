@@ -14,7 +14,7 @@ public interface ICompteService {
 
     CompteDto addCompte(CompteDto compte);
 
-    CompteDto updateCompte(CompteDto compte);
+    CompteDto updateCompte(CompteDto compte, long id);
 
     void deleteCompte(long id);
 }

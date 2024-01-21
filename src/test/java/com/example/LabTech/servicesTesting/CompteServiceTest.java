@@ -95,7 +95,7 @@ public class CompteServiceTest {
         when(compteRepository.save(compte)).thenReturn(compte);
 
         // Call the method to be tested
-        CompteDto result = compteService.updateCompte(compteDto);
+        CompteDto result = compteService.updateCompte(compteDto,compteDto.getId());
 
         // Verify the interactions and assertions
         assertNotNull(result);

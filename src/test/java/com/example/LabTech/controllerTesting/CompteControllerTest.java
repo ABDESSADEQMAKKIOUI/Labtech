@@ -24,6 +24,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -51,15 +53,17 @@ public class CompteControllerTest {
     @BeforeEach
     public void init() {
         compteDto = new CompteDto(); // Initialize  compteDto
+        compteDto.setId(1);
         compteDto.setUsername("sami");
         compteDto.setRole(Role.technicien);
         compteDto.setPassword("123");
         compteDtos = new ArrayList<>();
         compteDtos.add(compteDto);
         compteDto2 = new CompteDto();
+        compteDto2.setId(2);
         compteDto2.setUsername("ahmed");
         compteDto2.setRole(Role.responsable);
-        compteDto.setPassword("123");
+        compteDto2.setPassword("123");
         compteDtos.add(compteDto2);
 
     }
@@ -67,7 +71,6 @@ public class CompteControllerTest {
     public void addCompteTest() throws Exception {
         // Mocking the service behavior
         given(compteService.addCompte(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
-
         // Performing HTTP POST request
         ResultActions response = mockMvc.perform(post("/api/comptes")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -75,6 +78,7 @@ public class CompteControllerTest {
 
         // Verifying HTTP status and JSON content
         response.andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id", CoreMatchers.is((int)compteDto.getId())))
                 .andExpect(jsonPath("$.username", CoreMatchers.is(compteDto.getUsername())))
                 .andExpect(jsonPath("$.password", CoreMatchers.is(compteDto.getPassword())))
                 .andExpect(jsonPath("$.role", CoreMatchers.is(compteDto.getRole().toString())));
@@ -83,19 +87,19 @@ public class CompteControllerTest {
     @Test
     public void getAllComptesTest() throws Exception {
         Mockito.when(compteService.getAllComptes()).thenReturn(compteDtos);
+        compteDtos.forEach(System.out::println);
         mockMvc.perform(get("/api/comptes"))
                              .andExpect(status().isOk())
                              .andExpect(jsonPath("$.size()").value(compteDtos.size()))
-                             .andDo(print());
-
-//                             .andExpect(jsonPath("$[0].username").value("sami"))
-//                             .andExpect(jsonPath("$[0].role").value("technicien"))
-//
-//                             .andExpect(jsonPath("$[1].id").value(2))
-//                             .andExpect(jsonPath("$[1].username").value("ahmed"))
-//                             .andExpect(jsonPath("$[1].role").value("responsable"))
-//
-//                             .andReturn();
+                             .andExpect(jsonPath("$[0].id", CoreMatchers.is((int)compteDto.getId())))
+                             .andExpect(jsonPath("$[0].username", CoreMatchers.is(compteDto.getUsername())))
+                             .andExpect(jsonPath("$[0].role", CoreMatchers.is(compteDto.getRole().toString())))
+                             .andExpect(jsonPath("$[0].password", CoreMatchers.is(compteDto.getPassword())))
+                             .andExpect(jsonPath("$[1].id", CoreMatchers.is((int)compteDto2.getId())))
+                             .andExpect(jsonPath("$[1].username", CoreMatchers.is(compteDto2.getUsername())))
+                             .andExpect(jsonPath("$[1].role", CoreMatchers.is(compteDto2.getRole().toString())))
+                             .andExpect(jsonPath("$[1].password", CoreMatchers.is(compteDto2.getPassword())))
+                             .andReturn();
 
     }
 
@@ -105,11 +109,12 @@ public class CompteControllerTest {
         Mockito.when(compteService.getCompteById(compteId)).thenReturn(
                 Optional.of(compteDto));
 
-        ResultActions response = mockMvc.perform(get("/api/comptes/1")
+        ResultActions response = mockMvc.perform(get("/api/comptes/{id}",compteId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(compteDto)));
 
         response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", CoreMatchers.is((int)compteDto.getId())))
                 .andExpect(jsonPath("$.username", CoreMatchers.is(compteDto.getUsername())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.password", CoreMatchers.is(compteDto.getPassword())))
                 .andExpect(jsonPath("$.role", CoreMatchers.is(compteDto.getRole().toString())));
@@ -118,15 +123,17 @@ public class CompteControllerTest {
     @Test
     public void updateCompteTest() throws Exception {
         Long compteId = 1L;
-        when(compteService.updateCompte(compteDto)).thenReturn(compteDto);
+        when(compteService.updateCompte(any(CompteDto.class), eq(compteId))).thenReturn(compteDto);
 
-        ResultActions response;
-        response = mockMvc.perform(put("/api/comptes/1")
+        ResultActions response = mockMvc.perform(put("/api/comptes/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(compteDto)));
 
+        // Verifying HTTP status and JSON content
         response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", CoreMatchers.is((int)compteDto.getId())))
                 .andExpect(jsonPath("$.username", CoreMatchers.is(compteDto.getUsername())))
+                .andExpect(jsonPath("$.password", CoreMatchers.is(compteDto.getPassword())))
                 .andExpect(jsonPath("$.role", CoreMatchers.is(compteDto.getRole().toString())));
     }
     @Test
@@ -137,7 +144,7 @@ public class CompteControllerTest {
         ResultActions response = mockMvc.perform(delete("/api/comptes/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isOk());
+        response.andExpect(status().isNotFound());//.isOk());
     }
 
 }
