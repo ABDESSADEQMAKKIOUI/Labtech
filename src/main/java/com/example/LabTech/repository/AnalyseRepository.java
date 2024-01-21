@@ -18,11 +18,11 @@ public interface AnalyseRepository extends JpaRepository<Analyse, Long> {
 
 
     // Méthode pour compter les analyses par statut avec une requête JPQL
-    @Query(value = "SELECT COUNT(a) FROM Analyse a group by a.statusAnalyse " , nativeQuery = true)
+    @Query(value = "SELECT COUNT(a) FROM Analyses a group by a.statusAnalyse " , nativeQuery = true)
     long countByStatusAnalyse();
 
     // Méthode pour compter les analyses par statut avec une requête JPQL
-    @Query(value = "SELECT a FROM Analyse a WHERE a.statusAnalyse = :statusAnalyse" , nativeQuery = true)
+    @Query("SELECT a FROM Analyse a WHERE a.statusAnalyse = :statusAnalyse")
     List<Analyse> getAnalyseByStatus(@Param("statusAnalyse") Status_Analyse statusAnalyse);
 
 

@@ -43,13 +43,13 @@ public class Analyse {
     @ManyToOne
     private Responsable responsable;
 
-    @OneToMany(mappedBy = "analyse", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "analyse", cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     @ToString.Exclude
     @JsonIgnore
     @Fetch(FetchMode.SUBSELECT)
     private List<AnalyseReactif> analyseReactifs = new ArrayList<>() ;
 
-    @OneToMany(mappedBy = "analyse", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "analyse", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     @ToString.Exclude
     @JsonIgnore
     @Fetch(FetchMode.SUBSELECT)
