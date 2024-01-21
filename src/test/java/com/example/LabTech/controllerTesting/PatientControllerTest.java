@@ -1,6 +1,7 @@
 package com.example.LabTech.controllerTesting;
 
 import com.example.LabTech.controller.CompteController;
+import com.example.LabTech.controller.PatientController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,7 @@ import com.example.LabTech.DTO.PatientDto;
 import com.example.LabTech.entite.Patient;
 import com.example.LabTech.service.PatientService;
 
-@WebMvcTest(controllers = CompteController.class)
+@WebMvcTest(controllers = PatientController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 public class PatientControllerTest {
@@ -54,19 +55,19 @@ public class PatientControllerTest {
     @BeforeEach
     public void init() {
         patientDto = new PatientDto(); // Initialize  patientDto
+      //  patientDto.setId(1L);
         patientDto.setNom("fawzi");
         patientDto.setPrenom("faysa");
         patientDto.setEmail("fawzi@gmail");
-
 
         patientDtos = new ArrayList<>();
         patientDtos.add(patientDto);
 
         patientDto2 = new PatientDto(); // Initialize  patientDto
+     //   patientDto2.setId(2L);
         patientDto2.setNom("doumi");
         patientDto2.setPrenom("douna");
         patientDto2.setEmail("douna@gmail");
-
         patientDtos.add(patientDto2);
 
     }
@@ -82,6 +83,7 @@ public class PatientControllerTest {
 
         // Verifying HTTP status and JSON content
         response.andExpect(status().isCreated())
+              //  .andExpect(jsonPath("$.id", CoreMatchers.is(patientDto.getId())))
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(patientDto.getNom())))
                 .andExpect(jsonPath("$.prenom", CoreMatchers.is(patientDto.getPrenom())))
                 .andExpect(jsonPath("$.email", CoreMatchers.is(patientDto.getEmail())));
@@ -92,24 +94,14 @@ public class PatientControllerTest {
         Mockito.when(patientService.getAllPatients()).thenReturn(patientDtos);
         mockMvc.perform(get("/api/patients"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(patientDtos.size()))
+                .andExpect(jsonPath("$.size()").value(patientDtos.size()))
                 .andDo(print());
-
-//                             .andExpect(jsonPath("$[0].username").value("sami"))
-//                             .andExpect(jsonPath("$[0].role").value("technicien"))
-//
-//                             .andExpect(jsonPath("$[1].id").value(2))
-//                             .andExpect(jsonPath("$[1].username").value("ahmed"))
-//                             .andExpect(jsonPath("$[1].role").value("responsable"))
-//
-//                             .andReturn();
 
     }
 
     @Test
     public void getPatientByIdTest() throws Exception {
         Long patientId = 1L;
-        PatientDto patientDto = new PatientDto(); // assuming you have initialized patientDto
 
         when(patientService.getPatientById(patientId)).thenReturn(Optional.of(patientDto));
 
@@ -125,6 +117,7 @@ public class PatientControllerTest {
     @Test
     public void updatePatientTest() throws Exception {
         Long patientId = 1L;
+        when(patientService.getPatientById(patientId)).thenReturn(Optional.of(patientDto));
         when(patientService.updatePatient(patientDto)).thenReturn(patientDto);
 
         ResultActions response;
@@ -145,7 +138,7 @@ public class PatientControllerTest {
         ResultActions response = mockMvc.perform(delete("/api/patients/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isOk());
+        response.andExpect(status().isNoContent());
     }
 
 }

@@ -18,6 +18,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PatientDto implements Serializable {
+    //long id;
     String nom;
     String prenom;
     String email;

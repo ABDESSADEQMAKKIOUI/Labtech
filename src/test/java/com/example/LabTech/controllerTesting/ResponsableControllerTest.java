@@ -3,6 +3,7 @@ package com.example.LabTech.controllerTesting;
 
 import com.example.LabTech.DTO.ResponsableDto;
 import com.example.LabTech.controller.CompteController;
+import com.example.LabTech.controller.ResponsableController;
 import com.example.LabTech.entite.Responsable;
 import com.example.LabTech.service.ResponsableService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(controllers = CompteController.class)
+@WebMvcTest(controllers = ResponsableController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 public class ResponsableControllerTest {
@@ -94,15 +95,6 @@ public class ResponsableControllerTest {
                 .andExpect(jsonPath("$.size()").value(responsableDtos.size()))
                 .andDo(print());
 
-//                             .andExpect(jsonPath("$[0].username").value("sami"))
-//                             .andExpect(jsonPath("$[0].role").value("technicien"))
-//
-//                             .andExpect(jsonPath("$[1].id").value(2))
-//                             .andExpect(jsonPath("$[1].username").value("ahmed"))
-//                             .andExpect(jsonPath("$[1].role").value("responsable"))
-//
-//                             .andReturn();
-
     }
 
     @Test
@@ -124,27 +116,31 @@ public class ResponsableControllerTest {
     @Test
     public void updateResponsableTest() throws Exception {
         Long responsableId = 1L;
+        responsableDto.setId(1L);
+        when(responsableService.getResponsableById(responsableId)).thenReturn(Optional.of(responsableDto));
         when(responsableService.updateResponsable(responsableDto)).thenReturn(responsableDto);
 
         ResultActions response;
-        response = mockMvc.perform(put("/api/responsables/1")
+        response = mockMvc.perform(put("/api/responsables/{id}",responsableId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(responsableDto)));
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(responsableDto.getNom())))
                 .andExpect(jsonPath("$.email", CoreMatchers.is(responsableDto.getEmail())))
-                .andExpect(jsonPath("$.prenom", CoreMatchers.is(responsableDto.getPrenom())));
+                .andExpect(jsonPath("$.prenom", CoreMatchers.is(responsableDto.getPrenom())))
+                .andDo(print());
     }
     @Test
     public void deleteResponsableTest() throws Exception {
         Long responsableId = 1L;
+        when(responsableService.getResponsableById(responsableId)).thenReturn(Optional.of(responsableDto));
         doNothing().when(responsableService).deleteResponsable(responsableId);
 
         ResultActions response = mockMvc.perform(delete("/api/responsables/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isOk());
+        response.andExpect(status().isNoContent());
     }
 
 }

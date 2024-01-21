@@ -2,6 +2,7 @@ package com.example.LabTech.controllerTesting;
 
 import com.example.LabTech.DTO.ReactifDto;
 import com.example.LabTech.controller.MaterielController;
+import com.example.LabTech.controller.ReactifController;
 import com.example.LabTech.entite.Reactif;
 import com.example.LabTech.service.ReactifService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(controllers = MaterielController.class)
+@WebMvcTest(controllers = ReactifController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 public class ReactifControllerTest {
