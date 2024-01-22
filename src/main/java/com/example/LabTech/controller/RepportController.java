@@ -28,7 +28,7 @@ public class RepportController {
     private ModelMapper modelMapper;
     @GetMapping("/report/{id}/{format}")
     public String generateReport(@PathVariable String format , @PathVariable long id ) throws FileNotFoundException, JRException {
-        return service.generateAnalyseReport(format,id);
+        return service.exportRepport(format,id);
     }
     @GetMapping("/report/{format}/{date_debut}/{date_end}")
     public String generateReportAnalyseByDate(@PathVariable String format ,

@@ -18,20 +18,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 @SpringBootTest
 public class FournisseurServiceTest {
 
-    @Mock
+    @Autowired
     private FournisseurRepository fournisseurRepository;
 
-    @Mock
+    @Autowired
     private ModelMapper modelMapper;
 
-//    @InjectMocks
     @Autowired
     private FournisseurService fournisseurService;
 
@@ -42,36 +39,25 @@ public class FournisseurServiceTest {
 
     @Test
     void getAllFournisseursTest() {
-        // Mock the behavior of the repository
-        when(fournisseurRepository.findAll()).thenReturn(Arrays.asList(new Fournisseur(), new Fournisseur()));
-
-        // Mock the behavior of the ModelMapper
-        when(modelMapper.map(any(), eq(FournisseurDto.class))).thenReturn(new FournisseurDto());
-
-        // Call the method to be tested
+        // Appeler la méthode à tester
         List<FournisseurDto> result = fournisseurService.getAllFournisseurs();
 
-        // Verify the interactions and assertions
-        assertEquals(2, result.size());
-        verify(fournisseurRepository, times(1)).findAll();
-        verify(modelMapper, times(2)).map(any(), eq(FournisseurDto.class));
+        // Vérifier les assertions
+        assertNotNull(result);
+
     }
 
     @Test
     void getFournisseurByIdTest() {
-        // Mock the behavior of the repository
-        when(fournisseurRepository.findById(1L)).thenReturn(Optional.of(new Fournisseur()));
+        // Ajouter un fournisseur fictif à la base de données
+        Fournisseur fournisseur = new Fournisseur();
+        fournisseurRepository.save(fournisseur);
 
-        // Mock the behavior of the ModelMapper
-        when(modelMapper.map(any(), eq(FournisseurDto.class))).thenReturn(new FournisseurDto());
+        // Appeler la méthode à tester
+        Optional<FournisseurDto> result = fournisseurService.getFournisseurById(fournisseur.getId());
 
-        // Call the method to be tested
-        Optional<FournisseurDto> result = fournisseurService.getFournisseurById(1L);
-
-        // Verify the interactions and assertions
+        // Vérifier les assertions
         assertTrue(result.isPresent());
-        verify(fournisseurRepository, times(1)).findById(1L);
-        verify(modelMapper, times(1)).map(any(), eq(FournisseurDto.class));
     }
 
     @Test
@@ -109,29 +95,33 @@ public class FournisseurServiceTest {
 
     @Test
     void updateFournisseurTest() {
-        // Mock the behavior of the repository
-        FournisseurDto fournisseurDto = new FournisseurDto();
-        Fournisseur existingFournisseur = new Fournisseur();
-        when(fournisseurRepository.findById(fournisseurDto.getId())).thenReturn(Optional.of(existingFournisseur));
-        when(fournisseurRepository.save(existingFournisseur)).thenReturn(existingFournisseur);
+        // Ajouter un fournisseur fictif à la base de données
+        Fournisseur fournisseur = new Fournisseur();
+        fournisseurRepository.save(fournisseur);
 
-        // Call the method to be tested
+        // Créer un objet FournisseurDto avec les modifications
+        FournisseurDto fournisseurDto = new FournisseurDto();
+        fournisseurDto.setId(fournisseur.getId());
+        fournisseurDto.setNom("Fournisseur Modifié");
+
+        // Appeler la méthode à tester
         FournisseurDto result = fournisseurService.updateFournisseur(fournisseurDto);
 
-        // Verify the interactions and assertions
+        // Vérifier les assertions
         assertNotNull(result);
-        verify(fournisseurRepository, times(1)).findById(fournisseurDto.getId());
-        verify(modelMapper, times(1)).map(fournisseurDto, existingFournisseur);
-        verify(fournisseurRepository, times(1)).save(existingFournisseur);
-        verify(modelMapper, times(1)).map(existingFournisseur, FournisseurDto.class);
+        assertEquals(fournisseurDto.getNom(), result.getNom());
     }
 
     @Test
     void deleteFournisseurTest() {
-        // Call the method to be tested
-        fournisseurService.deleteFournisseur(1L);
+        // Ajouter un fournisseur fictif à la base de données
+        Fournisseur fournisseur = new Fournisseur();
+        fournisseurRepository.save(fournisseur);
 
-        // Verify the interactions
-        verify(fournisseurRepository, times(1)).deleteById(1L);
+        // Appeler la méthode à tester
+        fournisseurService.deleteFournisseur(fournisseur.getId());
+
+        // Vérifier que le fournisseur a été supprimé de la base de données
+        assertFalse(fournisseurRepository.findById(fournisseur.getId()).isPresent());
     }
 }

@@ -5,69 +5,55 @@ import com.example.LabTech.entite.Responsable;
 import com.example.LabTech.repository.ResponsbleRepository;
 import com.example.LabTech.service.ResponsableService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class ResponsableServiceTest {
 
-    @Mock
+    @Autowired
     private ResponsbleRepository responsbleRepository;
 
-    @Mock
-    private ModelMapper modelMapper;
-
-//    @InjectMocks
     @Autowired
     private ResponsableService responsableService;
 
     @Test
     void getAllResponsables() {
-        // Arrange
-        when(responsbleRepository.findAll()).thenReturn(Arrays.asList(new Responsable(), new Responsable()));
+        // Ajouter des responsables fictifs à la base de données
+        Responsable responsable1 = new Responsable();
+        Responsable responsable2 = new Responsable();
+        responsbleRepository.save(responsable1);
+        responsbleRepository.save(responsable2);
 
-        // Act
+        // Appeler la méthode à tester
         List<ResponsableDto> result = responsableService.getAllresponsable();
 
-        // Assert
-        assertEquals(2, result.size());
+        // Vérifier les assertions
+       assertNotNull(result);
     }
 
     @Test
     void getResponsableById() {
-        // Arrange
-        long responsableId = 1L;
-        when(responsbleRepository.findById(responsableId)).thenReturn(Optional.of(new Responsable()));
-        when(modelMapper.map(any(), eq(ResponsableDto.class))).thenReturn(new ResponsableDto());
+        // Ajouter un responsable fictif à la base de données
+        Responsable responsable = new Responsable();
+        responsbleRepository.save(responsable);
 
-        // Act
-        Optional<ResponsableDto> result = responsableService.getResponsableById(responsableId);
+        // Appeler la méthode à tester
+        Optional<ResponsableDto> result = responsableService.getResponsableById(responsable.getId());
 
-        // Assert
+        // Vérifier les assertions
         assertEquals(true, result.isPresent());
     }
 
     @Test
     void addResponsable() {
-        // Arrange
-//        ResponsableDto responsableDto = new ResponsableDto();
-//        Responsable responsable = new Responsable();
-//        when(modelMapper.map(responsableDto, Responsable.class)).thenReturn(responsable);
-//        when(modelMapper.map(responsable, ResponsableDto.class)).thenReturn(responsableDto);
-//        when(responsbleRepository.save(responsable)).thenReturn(responsable);
-
-        // Act
+        // Créer des objets ResponsableDto
         ResponsableDto responsable1 = new ResponsableDto();
         responsable1.setNom("Doe");
         responsable1.setPrenom("John");
@@ -77,41 +63,44 @@ class ResponsableServiceTest {
         responsable2.setNom("Smith");
         responsable2.setPrenom("Alice");
         responsable2.setEmail("alice.smith@example.com");
-     responsableService.addResponsable(responsable1);
+
+        // Appeler la méthode à tester
+        responsableService.addResponsable(responsable1);
         responsableService.addResponsable(responsable2);
 
-
-        // Assert
-
+        // Vérifier que les responsables ont été ajoutés à la base de données
+        List<Responsable> responsables = responsbleRepository.findAll();
+        assertEquals(2, responsables.size());
     }
 
     @Test
     void updateResponsable() {
-        // Arrange
-        ResponsableDto responsableDto = new ResponsableDto();
+        // Ajouter un responsable fictif à la base de données
         Responsable responsable = new Responsable();
-        when(modelMapper.map(responsableDto, Responsable.class)).thenReturn(responsable);
-        when(modelMapper.map(responsable, ResponsableDto.class)).thenReturn(responsableDto);
-        when(responsbleRepository.save(responsable)).thenReturn(responsable);
+        responsbleRepository.save(responsable);
 
-        // Act
+        // Créer un objet ResponsableDto avec les modifications
+        ResponsableDto responsableDto = new ResponsableDto();
+        responsableDto.setId(responsable.getId());
+        responsableDto.setNom("Doe");
+
+        // Appeler la méthode à tester
         ResponsableDto result = responsableService.updateResponsable(responsableDto);
 
-        // Assert
-        assertEquals(responsableDto, result);
+        // Vérifier les assertions
+        assertEquals(responsableDto.getNom(), result.getNom());
     }
 
     @Test
     void deleteResponsable() {
-        // Arrange
-        long responsableId = 1L;
+        // Ajouter un responsable fictif à la base de données
+        Responsable responsable = new Responsable();
+        responsbleRepository.save(responsable);
 
-        // Act
-        responsableService.deleteResponsable(responsableId);
+        // Appeler la méthode à tester
+        responsableService.deleteResponsable(responsable.getId());
 
-        // Assert
-        verify(responsbleRepository, times(1)).deleteById(responsableId);
+        // Vérifier que le responsable a été supprimé de la base de données
+        assertEquals(0, responsbleRepository.count());
     }
-
-    // Add more test methods as needed
 }

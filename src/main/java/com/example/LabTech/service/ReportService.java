@@ -1,5 +1,6 @@
 package com.example.LabTech.service;
 
+import com.example.LabTech.DTO.RapportDto;
 import com.example.LabTech.entite.*;
 import com.example.LabTech.entite.enums.Status_Analyse;
 import com.example.LabTech.repository.AnalyseRepository;
@@ -148,4 +149,31 @@ public class ReportService implements IReportService {
     }
 
 
-}
+    public String exportRepport(String reportFormat , long id) throws FileNotFoundException, JRException {
+        String path = "C:\\Users\\asus\\Desktop\\hebrnate anotation";
+        List<Object[]> results = analyseRepository.getAnalysisReport(id);
+        List<RapportDto> rapportDtos = new ArrayList<>();
+        for (Object[] result : results) {
+            RapportDto rapportDto = new RapportDto(result);
+            rapportDtos.add(rapportDto);
+        }
+        //load file and compile it
+        File file = ResourceUtils.getFile("classpath:analyse.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(rapportDtos);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("createdBy", "STRAW HATS");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+        if (reportFormat.equalsIgnoreCase("html")) {
+            JasperExportManager.exportReportToHtmlFile(jasperPrint, path + "\\analyse.html");
+        }
+        if (reportFormat.equalsIgnoreCase("pdf")) {
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\analyse.pdf");
+        }
+
+        return "report generated in path : " + path;
+    }
+    }
+
+
+

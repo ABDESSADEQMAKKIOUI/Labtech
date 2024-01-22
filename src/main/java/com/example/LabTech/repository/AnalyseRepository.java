@@ -29,5 +29,21 @@ public interface AnalyseRepository extends JpaRepository<Analyse, Long> {
     @Query("SELECT a FROM Analyse a WHERE a.echantillon = :echantllon")
     List<Analyse> getAnalyseByEchantillon(@Param("echantllon") Echantillon echantllon);
 
+    @Query("SELECT\n" +
+            "    a.name AS nomAnalyse,\n" +
+            "    p.nom AS Nom,\n" +
+            "    p.prenom AS Prenom,\n" +
+            "    p.tele AS Numero,\n" +
+            "    p.adress AS Adresse,\n" +
+            "    ta.name AS NomTypeAnalyse,\n" +
+            "    te.status AS Resultat,\n" +
+            "    n.name AS libelleNorme,\n" +
+            "    n.plage_normale_max AS maxValueNorme,\n" +
+            "    n.plage_normale_min AS minValueNorme,\n" +
+            "    n.unite_mesure AS uniteNorme " +
+            "FROM Analyse a JOIN a.echantillon e JOIN e.patient p JOIN a.typeAnalyses ta JOIN ta.testAnalyses te " +
+            "JOIN te.enorm n WHERE a.id = ?1")
+    List<Object[]> getAnalysisReport(@Param("id") Long id);
+
 
 }
