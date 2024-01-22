@@ -31,13 +31,13 @@ pipeline {
                    }
                }
 
-       }
+
          stage('Test PatientService') {
                    steps {
                        bat 'mvn test -Dtest=PatientServiceTest'
                    }
        }
-       }
+
          stage('Test ResponsableService') {
                    steps {
                        bat 'mvn test -Dtest=ResponsableServiceTest'
@@ -48,7 +48,7 @@ pipeline {
                               bat 'mvn test -Dtest=TechnitienServiceTest'
                           }
         }
-    }
+
 
     post {
         success {
