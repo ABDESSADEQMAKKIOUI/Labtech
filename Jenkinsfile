@@ -17,11 +17,13 @@ pipeline {
                 bat 'mvn clean compile'
             }
         }
+
         stage('Test AnalyseService') {
             steps {
                 bat 'mvn test -Dtest=AnalyseServiceTest'
             }
         }
+
         stage('Test EchantillonService') {
             steps {
                 bat 'mvn test -Dtest=EchantillonServiceTest'
@@ -76,38 +78,6 @@ pipeline {
             }
         }
     }
-
-          stage('Test FournisseurService') {
-                    steps {
-                        bat 'mvn test -Dtest=FournisseurServiceTest'
-                    }
-
-       }
-        stage('Test EchantillonService') {
-                   steps {
-                       bat 'mvn test -Dtest=EchantillonServiceTest '
-                   }
-               }
-
-
-         stage('Test PatientService') {
-                   steps {
-                       bat 'mvn test -Dtest=PatientServiceTest'
-                   }
-       }
-
-         stage('Test ResponsableService') {
-                   steps {
-                       bat 'mvn test -Dtest=ResponsableServiceTest'
-                   }
-       }
-        stage('Test TechnitienService') {
-                          steps {
-                              bat 'mvn test -Dtest=TechnitienServiceTest'
-                          }
-        }
-
-
 
     post {
         success {
