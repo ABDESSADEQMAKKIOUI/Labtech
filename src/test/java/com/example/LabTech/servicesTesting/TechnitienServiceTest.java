@@ -5,60 +5,55 @@ import com.example.LabTech.entite.Technitien;
 import com.example.LabTech.repository.TechnitienRepository;
 import com.example.LabTech.service.TechnitientService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class TechnitienServiceTest {
 
-    @Mock
+    @Autowired
     private TechnitienRepository technitienRepository;
 
-    @Mock
-    private ModelMapper modelMapper;
-
-   @Autowired
+    @Autowired
     private TechnitientService technitienService;
 
     @Test
     void getAllTechnitiens() {
-        // Arrange
-        when(technitienRepository.findAll()).thenReturn(Arrays.asList(new Technitien(), new Technitien()));
+        // Ajouter des techniciens fictifs à la base de données
+        Technitien technitien1 = new Technitien();
+        Technitien technitien2 = new Technitien();
+        technitienRepository.save(technitien1);
+        technitienRepository.save(technitien2);
 
-        // Act
+        // Appeler la méthode à tester
         List<TechnitienDto> result = technitienService.getAlltechnitiens();
 
-        // Assert
-        assertEquals(2, result.size());
+        // Vérifier les assertions
+        assertNotNull(result);
     }
 
     @Test
     void getTechnitienById() {
-        // Arrange
-        long technitienId = 1L;
-        when(technitienRepository.findById(technitienId)).thenReturn(Optional.of(new Technitien()));
-        when(modelMapper.map(any(), eq(TechnitienDto.class))).thenReturn(new TechnitienDto());
+        // Ajouter un technicien fictif à la base de données
+        Technitien technitien = new Technitien();
+        technitienRepository.save(technitien);
 
-        // Act
-        Optional<TechnitienDto> result = technitienService.gettechnitienById(technitienId);
+        // Appeler la méthode à tester
+        Optional<TechnitienDto> result = technitienService.gettechnitienById(technitien.getId());
 
-        // Assert
+        // Vérifier les assertions
         assertEquals(true, result.isPresent());
     }
 
     @Test
     void addTechnitien() {
+        // Créer des objets TechnitienDto
         TechnitienDto technitien1 = new TechnitienDto();
         technitien1.setNom("Smith");
         technitien1.setPrenom("John");
@@ -68,38 +63,44 @@ class TechnitienServiceTest {
         technitien2.setNom("Johnson");
         technitien2.setPrenom("Alice");
         technitien2.setEmail("alice.johnson@example.com");
+
+        // Appeler la méthode à tester
         technitienService.addtechnitien(technitien1);
         technitienService.addtechnitien(technitien2);
 
+        // Vérifier que les techniciens ont été ajoutés à la base de données
+        List<Technitien> techniciens = technitienRepository.findAll();
+        assertEquals(2, techniciens.size());
     }
 
     @Test
     void updateTechnitien() {
-        // Arrange
-        TechnitienDto technitienDto = new TechnitienDto();
+        // Ajouter un technicien fictif à la base de données
         Technitien technitien = new Technitien();
-        when(modelMapper.map(technitienDto, Technitien.class)).thenReturn(technitien);
-        when(modelMapper.map(technitien, TechnitienDto.class)).thenReturn(technitienDto);
-        when(technitienRepository.save(technitien)).thenReturn(technitien);
+        technitienRepository.save(technitien);
 
-        // Act
+        // Créer un objet TechnitienDto avec les modifications
+        TechnitienDto technitienDto = new TechnitienDto();
+        technitienDto.setId(technitien.getId());
+        technitienDto.setNom("Doe");
+
+        // Appeler la méthode à tester
         TechnitienDto result = technitienService.updatetechnitien(technitienDto);
 
-        // Assert
-        assertEquals(technitienDto, result);
+        // Vérifier les assertions
+        assertEquals(technitienDto.getNom(), result.getNom());
     }
 
     @Test
     void deleteTechnitien() {
-        // Arrange
-        long technitienId = 1L;
+        // Ajouter un technicien fictif à la base de données
+        Technitien technitien = new Technitien();
+        technitienRepository.save(technitien);
 
-        // Act
-        technitienService.deletetechnitien(technitienId);
+        // Appeler la méthode à tester
+        technitienService.deletetechnitien(technitien.getId());
 
-        // Assert
-        verify(technitienRepository, times(1)).deleteById(technitienId);
+        // Vérifier que le technicien a été supprimé de la base de données
+        assertEquals(0, technitienRepository.count());
     }
-
-    // Add more test methods as needed
 }

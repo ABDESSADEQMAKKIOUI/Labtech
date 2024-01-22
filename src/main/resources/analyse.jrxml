@@ -1,66 +1,195 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-              name="AnalyseReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail">
-    <queryString>
-        <![CDATA[]]>
-    </queryString>
-    <field name="analyseName" class="java.lang.String"/>
-    <field name="typeAnalyseName" class="java.lang.String"/>
-    <field name="testName" class="java.lang.String"/>
-    <field name="plageNormaleMax" class="java.lang.Double"/>
-    <field name="plageNormaleMin" class="java.lang.Double"/>
-    <field name="resultat" class="java.lang.String"/>
-    <field name="uniteMesure" class="java.lang.String"/>
-    <field name="status" class="java.lang.String"/>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="analysee" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1367e020-474b-4907-900f-5defeca9f6dd">
+    <field name="nomanalyse" class="java.lang.String">
 
-    <!-- Title -->
+    </field>
+    <field name="nom" class="java.lang.String">
+
+    </field>
+    <field name="prenom" class="java.lang.String">
+
+    </field>
+    <field name="numero" class="java.lang.String">
+
+    </field>
+    <field name="adresse" class="java.lang.String">
+
+    </field>
+    <field name="nomtypeanalyse" class="java.lang.String">
+
+    </field>
+    <field name="resultat" class="java.lang.String">
+
+    </field>
+    <field name="libellenorme" class="java.lang.String">
+
+    </field>
+    <field name="maxvaluenorme" class="java.lang.Float">
+
+    </field>
+    <field name="minvaluenorme" class="java.lang.Float">
+
+    </field>
+    <field name="unitenorme" class="java.lang.String">
+
+    </field>
+    <group name="nomanalyse">
+        <groupExpression><![CDATA[$F{nomanalyse}]]></groupExpression>
+    </group>
+    <group name="nom">
+        <groupExpression><![CDATA[$F{nom}]]></groupExpression>
+    </group>
+    <group name="prenom">
+        <groupExpression><![CDATA[$F{prenom}]]></groupExpression>
+    </group>
+    <group name="numero">
+        <groupExpression><![CDATA[$F{numero}]]></groupExpression>
+    </group>
+    <group name="adresse">
+        <groupExpression><![CDATA[$F{adresse}]]></groupExpression>
+    </group>
+    <group name="nomtypeanalyse">
+        <groupExpression><![CDATA[$F{nomtypeanalyse}]]></groupExpression>
+    </group>
+    <group name="resultat">
+        <groupExpression><![CDATA[$F{resultat}]]></groupExpression>
+    </group>
+    <group name="libellenorme">
+        <groupExpression><![CDATA[$F{libellenorme}]]></groupExpression>
+    </group>
+    <group name="maxvaluenorme">
+        <groupExpression><![CDATA[$F{maxvaluenorme}]]></groupExpression>
+    </group>
+    <group name="minvaluenorme">
+        <groupExpression><![CDATA[$F{minvaluenorme}]]></groupExpression>
+    </group>
+    <group name="unitenorme">
+        <groupExpression><![CDATA[$F{unitenorme}]]></groupExpression>
+    </group>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
     <title>
-        <band height="30">
+        <band height="81" splitType="Stretch">
             <staticText>
-                <reportElement x="0" y="0" width="100" height="30" backcolor="red"/>
-                <text><![CDATA[Analyse Report]]></text>
+                <reportElement x="120" y="30" width="310" height="40" forecolor="#0FF71E" uuid="49a1f575-a9cf-4476-8eac-1d032f78b5e9"/>
+                <box padding="0">
+                    <pen lineWidth="1.0" lineColor="#C0C4C3"/>
+                    <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                    <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font fontName="Arial Black" size="24"/>
+                </textElement>
+                <text><![CDATA[Sraw Hats Lab ]]></text>
             </staticText>
         </band>
     </title>
-
-    <!-- Detail band -->
-    <detail>
-        <!-- Analyse Result -->
-        <band height="20">
-            <textField>
-                <reportElement x="0" y="0" width="100" height="20"/>
-                <textFieldExpression><![CDATA[$F{analyseName}]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="100" y="0" width="100" height="20"/>
-                <textFieldExpression><![CDATA[$F{typeAnalyseName}]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="200" y="0" width="100" height="20"/>
-                <textFieldExpression><![CDATA[$F{testName}]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="300" y="0" width="100" height="20"/>
-                <textFieldExpression><![CDATA[$F{plageNormaleMax}]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="400" y="0" width="100" height="20"/>
-                <textFieldExpression><![CDATA[$F{plageNormaleMin}]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="500" y="0" width="100" height="20"/>
-                <textFieldExpression><![CDATA[$F{resultat}]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="600" y="0" width="100" height="20"/>
-                <textFieldExpression><![CDATA[$F{uniteMesure}]]></textFieldExpression>
-            </textField>
-            <textField>
-                <reportElement x="700" y="0" width="100" height="20"/>
-                <textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+    <pageHeader>
+        <band height="59" splitType="Stretch">
+            <textField evaluationTime="Page">
+                <reportElement x="197" y="15" width="160" height="31" forecolor="#1BF271" uuid="55718e4a-9cbc-4aa5-8c7b-7144863eb08c"/>
+                <box>
+                    <pen lineWidth="1.0" lineStyle="Solid" lineColor="#0A0A0A"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nomanalyse}]]></textFieldExpression>
             </textField>
         </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="82" splitType="Stretch">
+            <textField>
+                <reportElement x="90" y="4" width="80" height="30" uuid="66e36c3f-bc1e-45b6-b5ff-f9fa1ff34f33"/>
+                <textElement>
+                    <font size="18"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nom}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="4" width="80" height="30" uuid="a3663977-33a6-4c8d-b6d5-8efd851e34e9"/>
+                <textElement>
+                    <font size="18"/>
+                </textElement>
+                <text><![CDATA[Mr ]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="180" y="4" width="100" height="30" uuid="43bc645d-a8a9-4cf7-9951-35f9ca9ac315"/>
+                <textElement>
+                    <font size="18"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{prenom}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="40" width="81" height="31" uuid="c440fe63-2eb1-4e29-8c01-45f0a43df17a"/>
+                <textElement>
+                    <font size="18"/>
+                </textElement>
+                <text><![CDATA[Tel : ]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="100" y="40" width="114" height="31" uuid="475d715d-f8c4-4282-bd1f-6a5cb302994b"/>
+                <textElement>
+                    <font size="16"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+            </textField>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="125" splitType="Stretch">
+            <textField>
+                <reportElement x="60" y="0" width="150" height="20" uuid="3d14c4a5-acb9-423c-886c-5eab5af38a40"/>
+                <textElement>
+                    <font size="14"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nomtypeanalyse}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="40" width="90" height="20" uuid="35f31c10-05ed-4bce-ae1b-99cfae3f7d2f"/>
+                <textFieldExpression><![CDATA[$F{libellenorme}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="100" y="40" width="101" height="21" uuid="639e5c5d-32fc-42b9-92de-6177ea2a4679"/>
+                <textFieldExpression><![CDATA[$F{maxvaluenorme}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="210" y="40" width="87" height="20" uuid="6773ed26-005c-4514-9679-ee3a1be019e3"/>
+                <textFieldExpression><![CDATA[$F{minvaluenorme}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="320" y="39" width="81" height="21" uuid="9098a009-bad3-4aaf-bcc5-75bee54e70b5"/>
+                <textFieldExpression><![CDATA[$F{unitenorme}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="460" y="39" width="91" height="21" uuid="00b8d2d3-97a1-4a14-a68e-d5e9150f6074"/>
+                <textFieldExpression><![CDATA[$F{resultat}]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement x="-20" y="30" width="574" height="1" uuid="04a29f46-88fd-4b43-9479-41a4e9b3ca2a"/>
+            </line>
+        </band>
     </detail>
+    <columnFooter>
+        <band height="45" splitType="Stretch"/>
+    </columnFooter>
+    <pageFooter>
+        <band height="54" splitType="Stretch"/>
+    </pageFooter>
+    <summary>
+        <band height="42" splitType="Stretch">
+            <staticText>
+                <reportElement x="120" y="6" width="301" height="31" uuid="c47fea0d-0af4-4e5c-b1ae-e1dcaee86406"/>
+                <textElement>
+                    <font size="14"/>
+                </textElement>
+                <text><![CDATA[Created by straw hats lab Tel : 0522346821]]></text>
+            </staticText>
+        </band>
+    </summary>
 </jasperReport>

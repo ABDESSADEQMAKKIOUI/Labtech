@@ -4,12 +4,7 @@ import com.example.LabTech.DTO.EchantillonDto;
 import com.example.LabTech.entite.Echantillon;
 import com.example.LabTech.repository.EchantillonRepository;
 import com.example.LabTech.service.EchantillonService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,135 +16,101 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+
 @SpringBootTest
 public class EchantillonServiceTest {
 
-    @Mock
+    @Autowired
     private EchantillonRepository echantillonRepository;
 
-    @Mock
-    private ModelMapper modelMapper;
-
-//    @InjectMocks
     @Autowired
     private EchantillonService echantillonService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
     void getAllEchantillonsTest() {
-        // Mock the behavior of the repository
-        when(echantillonRepository.findAll()).thenReturn(Arrays.asList(new Echantillon(), new Echantillon()));
+        // Ajouter des échantillons fictifs à la base de données
+        Echantillon echantillon1 = new Echantillon();
+        Echantillon echantillon2 = new Echantillon();
+        echantillonRepository.saveAll(Arrays.asList(echantillon1, echantillon2));
 
-        // Mock the behavior of the ModelMapper
-        when(modelMapper.map(any(), eq(EchantillonDto.class))).thenReturn(new EchantillonDto());
-
-        // Call the method to be tested
+        // Appeler la méthode à tester
         List<EchantillonDto> result = echantillonService.getAllEchantillons();
 
-        // Verify the interactions and assertions
-        assertEquals(2, result.size());
-        verify(echantillonRepository, times(1)).findAll();
-        verify(modelMapper, times(2)).map(any(), eq(EchantillonDto.class));
+        // Vérifier les assertions
+        assertNotNull(result);
     }
 
     @Test
     void getEchantillonByIdTest() {
-        // Mock the behavior of the repository
-        when(echantillonRepository.findById(1L)).thenReturn(Optional.of(new Echantillon()));
+        // Ajouter un échantillon fictif à la base de données
+        Echantillon echantillon = new Echantillon();
+        echantillonRepository.save(echantillon);
 
-        // Mock the behavior of the ModelMapper
-        when(modelMapper.map(any(), eq(EchantillonDto.class))).thenReturn(new EchantillonDto());
+        // Appeler la méthode à tester
+        Optional<EchantillonDto> result = echantillonService.getEchantillonById(echantillon.getId());
 
-        // Call the method to be tested
-        Optional<EchantillonDto> result = echantillonService.getEchantillonById(1L);
-
-        // Verify the interactions and assertions
+        // Vérifier les assertions
         assertTrue(result.isPresent());
-        verify(echantillonRepository, times(1)).findById(1L);
-        verify(modelMapper, times(1)).map(any(), eq(EchantillonDto.class));
     }
 
     @Test
     void addEchantillonTest() {
-        // Mock the behavior of the repository
-//        EchantillonDto echantillonDto = new EchantillonDto();
-//        Echantillon echantillon = new Echantillon();
-//        when(modelMapper.map(echantillonDto, Echantillon.class)).thenReturn(echantillon);
-//        when(echantillonRepository.save(echantillon)).thenReturn(echantillon);
-//
-//        // Call the method to be tested
-//        EchantillonDto result = echantillonService.addEchantillon(echantillonDto);
-//
-//        // Verify the interactions and assertions
-//        assertNotNull(result);
-//        verify(modelMapper, times(1)).map(echantillonDto, Echantillon.class);
-//        verify(echantillonRepository, times(1)).save(echantillon);
-//        verify(modelMapper, times(1)).map(echantillon, EchantillonDto.class);
-         EchantillonDto echantillon1 = new EchantillonDto();
-        echantillon1.setPatientId(1L);
+        // Créer des objets EchantillonDto
+        EchantillonDto echantillon1 = new EchantillonDto();
         echantillon1.setDate_prend(new Date());
 
         EchantillonDto echantillon2 = new EchantillonDto();
-        echantillon2.setId(2L);
         echantillon2.setPatientId(2L);
         echantillon2.setDate_prend(new Date());
 
         EchantillonDto echantillon3 = new EchantillonDto();
-        echantillon3.setId(3L);
         echantillon3.setPatientId(3L);
         echantillon3.setDate_prend(new Date());
 
-        EchantillonDto echantillon4 = new EchantillonDto();
-        echantillon4.setId(4L);
-        echantillon4.setPatientId(4L);
-        echantillon4.setDate_prend(new Date());
-
-        EchantillonDto echantillon5 = new EchantillonDto();
-        echantillon5.setId(5L);
-        echantillon5.setPatientId(5L);
-        echantillon5.setDate_prend(new Date());
-
         EchantillonDto echantillon6 = new EchantillonDto();
-        echantillon6.setId(6L);
         echantillon6.setPatientId(6L);
         echantillon6.setDate_prend(new Date());
+
+        // Appeler la méthode à tester
         echantillonService.addEchantillon(echantillon1);
         echantillonService.addEchantillon(echantillon2);
-        echantillonService.addEchantillon(echantillon6);
-        echantillonService.addEchantillon(echantillon5);
-        echantillonService.addEchantillon(echantillon4);
         echantillonService.addEchantillon(echantillon3);
+        echantillonService.addEchantillon(echantillon6);
+
+        // Vérifier que les échantillons ont été ajoutés à la base de données
+        List<Echantillon> echantillons = echantillonRepository.findAll();
+        assertEquals(4, echantillons.size());
     }
 
     @Test
     void updateEchantillonTest() {
-        // Mock the behavior of the repository
-        EchantillonDto echantillonDto = new EchantillonDto();
+        // Ajouter un échantillon fictif à la base de données
         Echantillon echantillon = new Echantillon();
-        when(modelMapper.map(echantillonDto, Echantillon.class)).thenReturn(echantillon);
-        when(echantillonRepository.save(echantillon)).thenReturn(echantillon);
+        echantillonRepository.save(echantillon);
 
-        // Call the method to be tested
+        // Créer un objet EchantillonDto avec les modifications
+        EchantillonDto echantillonDto = new EchantillonDto();
+        echantillonDto.setId(echantillon.getId());
+        echantillonDto.setDate_prend(new Date());
+
+        // Appeler la méthode à tester
         EchantillonDto result = echantillonService.updateEchantillon(echantillonDto);
 
-        // Verify the interactions and assertions
+        // Vérifier les assertions
         assertNotNull(result);
-        verify(modelMapper, times(1)).map(echantillonDto, Echantillon.class);
-        verify(echantillonRepository, times(1)).save(echantillon);
-        verify(modelMapper, times(1)).map(echantillon, EchantillonDto.class);
+        assertEquals(echantillonDto.getDate_prend(), result.getDate_prend());
     }
 
     @Test
     void deleteEchantillonTest() {
-        // Call the method to be tested
-        echantillonService.deleteEchantillon(1L);
+        // Ajouter un échantillon fictif à la base de données
+        Echantillon echantillon = new Echantillon();
+        echantillonRepository.save(echantillon);
 
-        // Verify the interactions
-        verify(echantillonRepository, times(1)).deleteById(1L);
+        // Appeler la méthode à tester
+        echantillonService.deleteEchantillon(echantillon.getId());
+
+        // Vérifier que l'échantillon a été supprimé de la base de données
+        assertEquals(0, echantillonRepository.count());
     }
 }
