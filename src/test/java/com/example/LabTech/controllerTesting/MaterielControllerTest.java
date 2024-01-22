@@ -24,9 +24,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -56,17 +58,24 @@ public class MaterielControllerTest {
     public void init() {
         materielDto = new MaterielDto(); // Initialize  materielDto
         materielDto.setMaterielType(Materiel_type.AUTOMATE_ANALYSE);
-//        materielDto.setTypeAnalyseId(1L);
+        materielDto.setId(1L);
+        materielDto.setEchantillonId(1L);
         materielDto.setNom("materielNom1");
-//        materielDto.setTypeAnalyseTypeAnalyseName(Type_Analyse_name.Hormonologie);
+        materielDto.setEchantillonPatientId(1L);
+        materielDto.setEchantillonDate_prend(new Date());
+        materielDto.setEchantillonPatientNom("amani");
 
         materielDtos = new ArrayList<>();
         materielDtos.add(materielDto);
-        materielDto2 = new MaterielDto();
-        materielDto2.setMaterielType(Materiel_type.ANALYSEUR_IMMUNOESSAI);
-//        materielDto2.setTypeAnalyseId(2L);
-        materielDto.setNom("materielNom2");
-//        materielDto2.setTypeAnalyseTypeAnalyseName(Type_Analyse_name.Génétique);
+
+        materielDto2 = new MaterielDto(); // Initialize  materielDto
+        materielDto2.setMaterielType(Materiel_type.AUTOMATE_ANALYSE);
+        materielDto2.setId(2L);
+        materielDto2.setEchantillonId(2L);
+        materielDto2.setNom("materielNom2");
+        materielDto2.setEchantillonPatientId(2L);
+        materielDto2.setEchantillonDate_prend(new Date());
+        materielDto2.setEchantillonPatientNom("kamali");
         materielDtos.add(materielDto2);
 
     }
@@ -83,10 +92,14 @@ public class MaterielControllerTest {
         // Verifying HTTP status and JSON content
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(materielDto.getNom())))
-                .andExpect(jsonPath("$.materielType", CoreMatchers.is(materielDto.getMaterielType())))
-                ;
-//                .andExpect(jsonPath("$.typeAnalyseTypeAnalyseName", CoreMatchers.is(materielDto.getTypeAnalyseTypeAnalyseName())))
-//                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(materielDto.getTypeAnalyseId())));
+                .andExpect(jsonPath("$.echantillonPatientId", CoreMatchers.is(materielDto.getEchantillonPatientId().intValue())))
+                .andExpect(jsonPath("$.materielType", CoreMatchers.is((materielDto.getMaterielType().toString()))))
+                .andExpect(jsonPath("$.id", CoreMatchers.is((int) materielDto.getId())))
+                .andExpect(jsonPath("$.echantillonId", CoreMatchers.is(( (int) materielDto.getEchantillonId()))))
+                .andExpect(jsonPath("$.echantillonPatientNom", CoreMatchers.is((materielDto.getEchantillonPatientNom()))))
+                .andReturn();
+
+
     }
 
     @Test
@@ -95,16 +108,19 @@ public class MaterielControllerTest {
         mockMvc.perform(get("/api/materiels"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(materielDtos.size()))
-                .andDo(print());
-
-//                             .andExpect(jsonPath("$[0].username").value("sami"))
-//                             .andExpect(jsonPath("$[0].role").value("technicien"))
-//
-//                             .andExpect(jsonPath("$[1].id").value(2))
-//                             .andExpect(jsonPath("$[1].username").value("ahmed"))
-//                             .andExpect(jsonPath("$[1].role").value("responsable"))
-//
-//                             .andReturn();
+                .andExpect(jsonPath("$[0].nom", CoreMatchers.is(materielDto.getNom())))
+                .andExpect(jsonPath("$[0].echantillonPatientId", CoreMatchers.is(materielDto.getEchantillonPatientId().intValue())))
+                .andExpect(jsonPath("$[0].materielType", CoreMatchers.is((materielDto.getMaterielType().toString()))))
+                .andExpect(jsonPath("$[0].id", CoreMatchers.is((int) materielDto.getId())))
+                .andExpect(jsonPath("$[0].echantillonId", CoreMatchers.is(( (int) materielDto.getEchantillonId()))))
+                .andExpect(jsonPath("$[0].echantillonPatientNom", CoreMatchers.is((materielDto.getEchantillonPatientNom()))))
+                .andExpect(jsonPath("$[1].nom", CoreMatchers.is(materielDto2.getNom())))
+                .andExpect(jsonPath("$[1].echantillonPatientId", CoreMatchers.is(materielDto2.getEchantillonPatientId().intValue())))
+                .andExpect(jsonPath("$[1].materielType", CoreMatchers.is((materielDto2.getMaterielType().toString()))))
+                .andExpect(jsonPath("$[1].id", CoreMatchers.is((int) materielDto2.getId())))
+                .andExpect(jsonPath("$[1].echantillonId", CoreMatchers.is(( (int) materielDto2.getEchantillonId()))))
+                .andExpect(jsonPath("$[1].echantillonPatientNom", CoreMatchers.is((materielDto2.getEchantillonPatientNom()))))
+                .andReturn();
 
     }
 
@@ -120,14 +136,18 @@ public class MaterielControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(materielDto.getNom())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.materielType", CoreMatchers.is(materielDto.getMaterielType())));
-//                .andExpect(jsonPath("$.typeAnalyseTypeAnalyseName", CoreMatchers.is(materielDto.getTypeAnalyseTypeAnalyseName())))
-//                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(materielDto.getTypeAnalyseId())));
+                .andExpect(jsonPath("$.echantillonPatientId", CoreMatchers.is(materielDto.getEchantillonPatientId().intValue())))
+                .andExpect(jsonPath("$.materielType", CoreMatchers.is((materielDto.getMaterielType().toString()))))
+                .andExpect(jsonPath("$.id", CoreMatchers.is((int) materielDto.getId())))
+                .andExpect(jsonPath("$.echantillonId", CoreMatchers.is(( (int) materielDto.getEchantillonId()))))
+                .andExpect(jsonPath("$.echantillonPatientNom", CoreMatchers.is((materielDto.getEchantillonPatientNom()))))
+                .andReturn();
     }
 
     @Test
     public void updateMaterielTest() throws Exception {
         Long materielId = 1L;
+        when(materielService.getMaterielById(materielId)).thenReturn(Optional.of(materielDto));
         when(materielService.updateMateriel(materielDto)).thenReturn(materielDto);
 
         ResultActions response;
@@ -137,9 +157,12 @@ public class MaterielControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(materielDto.getNom())))
-//                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(materielDto.getTypeAnalyseId())))
-//                .andExpect(jsonPath("$.typeAnalyseTypeAnalyseName", CoreMatchers.is(materielDto.getTypeAnalyseTypeAnalyseName())))
-                .andExpect(jsonPath("$.materielType", CoreMatchers.is(materielDto.getMaterielType())));
+                .andExpect(jsonPath("$.echantillonPatientId", CoreMatchers.is(materielDto.getEchantillonPatientId().intValue())))
+                .andExpect(jsonPath("$.materielType", CoreMatchers.is((materielDto.getMaterielType().toString()))))
+                .andExpect(jsonPath("$.id", CoreMatchers.is((int) materielDto.getId())))
+                .andExpect(jsonPath("$.echantillonId", CoreMatchers.is(( (int) materielDto.getEchantillonId()))))
+                .andExpect(jsonPath("$.echantillonPatientNom", CoreMatchers.is((materielDto.getEchantillonPatientNom()))))
+                .andReturn();
     }
     @Test
     public void deleteMaterielTest() throws Exception {
@@ -149,7 +172,7 @@ public class MaterielControllerTest {
         ResultActions response = mockMvc.perform(delete("/api/materiels/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isOk());
+        response.andExpect(status().isNoContent());
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.LabTech.controllerTesting;
 
 import com.example.LabTech.DTO.EnormDto;
 import com.example.LabTech.controller.CompteController;
+import com.example.LabTech.controller.EnormController;
 import com.example.LabTech.entite.Enorm;
 import com.example.LabTech.entite.enums.Type_Analyse_name;
 import com.example.LabTech.service.EnormService;
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = CompteController.class)
+@WebMvcTest(controllers = EnormController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 public class EnormControllerTest {
@@ -53,13 +55,16 @@ public class EnormControllerTest {
 
     @BeforeEach
     public void init() {
-//        enormDto = new EnormDto(); // Initialize  compteDto
-//        enormDto.setName("enormNom");
-//        enormDto.setReactifNom("reactifNom");
-//        enormDto.setPlage_normale_min(10f);
-//        enormDto.setUnite_mesure("Unitedemesure");
-//        enormDto.setPlage_normale_max(50f);
-//
+        enormDto = new EnormDto(); // Initialize  compteDto
+        enormDto.setId(1L);
+        enormDto.setName("enormNom");
+        enormDto.setReactifNom("reactifNom");
+        enormDto.setReactifId(1L);
+        enormDto.setPlage_normale_min(10f);
+        enormDto.setUnite_mesure("Unitedemesure");
+        enormDto.setPlage_normale_max(50f);
+        enormDto.setTestAnalyses(Collections.emptyList());
+
 //        enormDto.setTypeAnalyseTypeAnalyseName(Type_Analyse_name.Biochimie);
 //        enormDto.setTypeAnalyseId(1L);
 //
@@ -102,20 +107,11 @@ public class EnormControllerTest {
 
     @Test
     public void getAllEnormsTest() throws Exception {
-        Mockito.when(enormService.getAllEnorms()).thenReturn(enormDtos);
+        Mockito.when(enormService.getAllEnorms()).thenReturn(Collections.singletonList(enormDto)/*enormDtos*/);
         mockMvc.perform(get("/api/enorms"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(enormDtos.size()))
+                .andExpect(jsonPath("$.size()").value(1))
                 .andDo(print());
-
-//                             .andExpect(jsonPath("$[0].username").value("sami"))
-//                             .andExpect(jsonPath("$[0].role").value("technicien"))
-//
-//                             .andExpect(jsonPath("$[1].id").value(2))
-//                             .andExpect(jsonPath("$[1].username").value("ahmed"))
-//                             .andExpect(jsonPath("$[1].role").value("responsable"))
-//
-//                             .andReturn();
 
     }
 
@@ -129,39 +125,40 @@ public class EnormControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(enormDto)));
 
-//        response.andExpect(status().isOk())
-//                .andExpect(jsonPath("$.name", CoreMatchers.is(enormDto.getName())))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.typeAnalyseTypeAnalyseName", CoreMatchers.is(enormDto.getTypeAnalyseTypeAnalyseName())))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(enormDto.getName())))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.typeAnalyseId", CoreMatchers.is(enormDto.getTypeAnalyseId())))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.plage_normale_max", CoreMatchers.is(enormDto.getPlage_normale_max())))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.plage_normale_min", CoreMatchers.is(enormDto.getPlage_normale_min())))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.reactifNom", CoreMatchers.is(enormDto.getReactifNom())))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.unite_mesure", CoreMatchers.is(enormDto.getUnite_mesure())))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.id", CoreMatchers.is(enormDto.getId())));
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", CoreMatchers.is(enormDto.getName())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.reactifId", CoreMatchers.is((int)enormDto.getReactifId())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(enormDto.getName())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.testAnalyses", CoreMatchers.is(enormDto.getTestAnalyses())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.plage_normale_max", CoreMatchers.is((double)enormDto.getPlage_normale_max())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.plage_normale_min", CoreMatchers.is((double)enormDto.getPlage_normale_min())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.reactifNom", CoreMatchers.is(enormDto.getReactifNom())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.unite_mesure", CoreMatchers.is(enormDto.getUnite_mesure())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", CoreMatchers.is((int)enormDto.getId())));
 
                     }
 
     @Test
     public void updateEnormTest() throws Exception {
         Long enormId = 1L;
+        when(enormService.getEnormsById(enormId)).thenReturn(Optional.of(enormDto));
         when(enormService.updateEnorms(enormDto)).thenReturn(enormDto);
 
         ResultActions response;
         response = mockMvc.perform(put("/api/enorms/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(enormDto)));
-//
-//        response.andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id", CoreMatchers.is(enormDto.getId())))
-//                .andExpect(jsonPath("$.name", CoreMatchers.is(enormDto.getName())))
-//                .andExpect(jsonPath("$.plage_normale_min", CoreMatchers.is(enormDto.getPlage_normale_min())))
-//                .andExpect(jsonPath("$.reactifNom", CoreMatchers.is(enormDto.getReactifNom())))
-//                .andExpect(jsonPath("$.plage_normale_max", CoreMatchers.is(enormDto.getPlage_normale_max())))
-//                .andExpect(jsonPath("$.unite_mesure", CoreMatchers.is(enormDto.getUnite_mesure())))
-//                .andExpect(jsonPath("$.typeAnalyseId", CoreMatchers.is(enormDto.getTypeAnalyseId())))
-//                .andExpect(jsonPath("$.typeAnalyseTypeAnalyseName", CoreMatchers.is(enormDto.getTypeAnalyseTypeAnalyseName())));
 
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", CoreMatchers.is(enormDto.getName())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.reactifId", CoreMatchers.is((int)enormDto.getReactifId())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name", CoreMatchers.is(enormDto.getName())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.testAnalyses", CoreMatchers.is(enormDto.getTestAnalyses())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.plage_normale_max", CoreMatchers.is((double)enormDto.getPlage_normale_max())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.plage_normale_min", CoreMatchers.is((double)enormDto.getPlage_normale_min())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.reactifNom", CoreMatchers.is(enormDto.getReactifNom())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.unite_mesure", CoreMatchers.is(enormDto.getUnite_mesure())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", CoreMatchers.is((int)enormDto.getId())));
     }
     @Test
     public void deleteEnormTest() throws Exception {
@@ -171,7 +168,7 @@ public class EnormControllerTest {
         ResultActions response = mockMvc.perform(delete("/api/enorms/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isOk());
+        response.andExpect(status().isNoContent());
     }
 
 }

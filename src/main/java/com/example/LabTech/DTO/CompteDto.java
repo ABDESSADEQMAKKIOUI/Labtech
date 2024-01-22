@@ -17,6 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CompteDto implements Serializable {
+    long id;
     String username;
     private String password;
     Role role;

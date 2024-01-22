@@ -23,13 +23,16 @@ public class TechnitienController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TechnitienDto> getTechnitienById(@PathVariable long id ,TechnitienDto technitienDto) {
-        if (technitienService.gettechnitienById(id).isPresent()) {
-            technitienDto.setId(id);
-            TechnitienDto updatedEnorm = technitienService.updatetechnitien(technitienDto);
-            return ResponseEntity.ok(updatedEnorm);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return technitienService.gettechnitienById(id)
+                .map(technicien -> new ResponseEntity<>(technicien, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+//        if (technitienService.gettechnitienById(id).isPresent()) {
+//            technitienDto.setId(id);
+//            TechnitienDto updatedEnorm = technitienService.updatetechnitien(technitienDto);
+//            return ResponseEntity.ok(updatedEnorm);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
     }
 
     @PostMapping

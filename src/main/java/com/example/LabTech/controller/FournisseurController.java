@@ -1,5 +1,6 @@
 package com.example.LabTech.controller;
 
+import com.example.LabTech.DTO.CompteDto;
 import com.example.LabTech.DTO.FournisseurDto;
 import com.example.LabTech.service.FournisseurService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class FournisseurController {
 
     @PutMapping("/{id}")
     public ResponseEntity<FournisseurDto> updateFournisseur(@PathVariable long id, @RequestBody FournisseurDto fournisseurDto) {
+
         if (fournisseurService.getFournisseurById(id).isPresent()) {
             fournisseurDto.setId(id);
             FournisseurDto updatedFournisseur = fournisseurService.updateFournisseur(fournisseurDto);

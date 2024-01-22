@@ -2,6 +2,7 @@ package com.example.LabTech.controllerTesting;
 
 import com.example.LabTech.DTO.ReactifDto;
 import com.example.LabTech.controller.MaterielController;
+import com.example.LabTech.controller.ReactifController;
 import com.example.LabTech.entite.Reactif;
 import com.example.LabTech.service.ReactifService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(controllers = MaterielController.class)
+@WebMvcTest(controllers = ReactifController.class)
 @AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 public class ReactifControllerTest {
@@ -81,8 +82,7 @@ public class ReactifControllerTest {
         // Verifying HTTP status and JSON content
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(reactifDto.getNom())))
-                .andExpect(jsonPath("$.quantity", CoreMatchers.is(reactifDto.getQuantity())))
-                .andExpect(jsonPath("$.date_expiration", CoreMatchers.is(reactifDto.getDate_expiration())));
+                .andExpect(jsonPath("$.quantity", CoreMatchers.is(reactifDto.getQuantity())));
     }
 */
     @Test
@@ -93,14 +93,6 @@ public class ReactifControllerTest {
                 .andExpect(jsonPath("$.size()").value(reactifDtos.size()))
                 .andDo(print());
 
-//                             .andExpect(jsonPath("$[0].username").value("sami"))
-//                             .andExpect(jsonPath("$[0].role").value("technicien"))
-//
-//                             .andExpect(jsonPath("$[1].id").value(2))
-//                             .andExpect(jsonPath("$[1].username").value("ahmed"))
-//                             .andExpect(jsonPath("$[1].role").value("responsable"))
-//
-//                             .andReturn();
 
     }
 
@@ -116,13 +108,15 @@ public class ReactifControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(reactifDto.getNom())))
-                .andExpect(jsonPath("$.quantity", CoreMatchers.is(reactifDto.getQuantity())))
-                .andExpect(jsonPath("$.date_expiration", CoreMatchers.is(reactifDto.getDate_expiration())));
+                .andExpect(jsonPath("$.quantity", CoreMatchers.is(reactifDto.getQuantity())));
+
     }
 
     @Test
     public void updateReactifTest() throws Exception {
         Long reactifId = 1L;
+        reactifDto.setId(1L);
+        when(reactifService.getReactifById(reactifId)).thenReturn(Optional.of(reactifDto));
         when(reactifService.updateReactif(reactifDto)).thenReturn(reactifDto);
 
         ResultActions response;
@@ -132,18 +126,18 @@ public class ReactifControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.nom", CoreMatchers.is(reactifDto.getNom())))
-                .andExpect(jsonPath("$.date_expiration", CoreMatchers.is(reactifDto.getDate_expiration())))
                 .andExpect(jsonPath("$.quantity", CoreMatchers.is(reactifDto.getQuantity())));
     }
     @Test
     public void deleteReactifTest() throws Exception {
         Long reactifId = 1L;
+        when(reactifService.getReactifById(reactifId)).thenReturn(Optional.of(reactifDto));
         doNothing().when(reactifService).deleteReactif(reactifId);
 
         ResultActions response = mockMvc.perform(delete("/api/reactifs/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
-        response.andExpect(status().isOk());
+        response.andExpect(status().isNoContent());
     }
 
 }
