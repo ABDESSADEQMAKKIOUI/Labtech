@@ -5,6 +5,7 @@ import com.example.LabTech.entite.enums.Type_Analyse_name;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -20,6 +21,7 @@ public class Type_Analyse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id ;
+    @NotBlank(message = "Le nom ne peut pas être vide.")
     private String name ;
 
     @OneToMany(mappedBy = "typeAnalyse", cascade = CascadeType.ALL)

@@ -1,6 +1,7 @@
 package com.example.LabTech.service;
 
 import com.example.LabTech.DTO.PatientDto;
+import com.example.LabTech.Exception.PatientNotFoundException;
 import com.example.LabTech.entite.Patient;
 import com.example.LabTech.repository.PatientRepository;
 import com.example.LabTech.service.interfaces.IPatientService;
@@ -32,7 +33,12 @@ public class PatientService implements IPatientService {
     @Override
     public Optional<PatientDto> getPatientById(long id) {
         Optional<Patient> patient = patientRepository.findById(id);
-        return patient.map(this::convertToDto);
+
+        if (patient.isPresent()) {
+            return patient.map(this::convertToDto);
+        } else {
+            throw new PatientNotFoundException("Patient non trouvé avec l'ID : " + id);
+        }
     }
 
     @Override

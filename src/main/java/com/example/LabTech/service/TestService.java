@@ -1,6 +1,7 @@
 package com.example.LabTech.service;
 
 import com.example.LabTech.DTO.Test_analyseDto;
+import com.example.LabTech.Exception.TestAnalyseNotFoundException;
 import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.entite.Test_analyse;
 import com.example.LabTech.repository.TestRepository;
@@ -33,9 +34,13 @@ public class TestService implements ITestService {
     @Override
     public Optional<Test_analyseDto> getTestById(long id) {
         Optional<Test_analyse> testAnalyse = testRepository.findById(id);
-        return testAnalyse.map(this::convertToDto);
-    }
 
+        if (testAnalyse.isPresent()) {
+            return testAnalyse.map(this::convertToDto);
+        } else {
+            throw new TestAnalyseNotFoundException("Test d'analyse non trouvé avec l'ID : " + id);
+        }
+    }
     @Override
     public Test_analyseDto addTest(Test_analyseDto testAnalyseDTO) {
         Test_analyse testAnalyse = convertToEntity(testAnalyseDTO);

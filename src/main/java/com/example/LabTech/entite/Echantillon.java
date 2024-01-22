@@ -3,6 +3,7 @@ package com.example.LabTech.entite;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -25,6 +26,7 @@ public class Echantillon {
     private Patient patient;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull(message = "La date de prise ne peut pas être nulle.")
     private Date date_prend;
 
     @OneToMany(mappedBy = "echantillon", cascade = CascadeType.ALL)

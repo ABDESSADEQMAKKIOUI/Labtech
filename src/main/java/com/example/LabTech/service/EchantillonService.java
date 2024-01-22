@@ -1,6 +1,7 @@
 package com.example.LabTech.service;
 
 import com.example.LabTech.DTO.EchantillonDto;
+import com.example.LabTech.Exception.EchantillonNotFoundException;
 import com.example.LabTech.entite.Echantillon;
 import com.example.LabTech.repository.EchantillonRepository;
 import com.example.LabTech.service.interfaces.IEchantillonService;
@@ -32,8 +33,14 @@ public class EchantillonService implements IEchantillonService {
 
     @Override
     public Optional<EchantillonDto> getEchantillonById(long id) {
-        return echantillonRepository.findById(id)
-                .map(echantillon -> modelMapper.map(echantillon, EchantillonDto.class));
+        Optional<Echantillon> echantillon = echantillonRepository.findById(id);
+
+        if (echantillon.isPresent()) {
+            return echantillon.map(value -> modelMapper.map(value, EchantillonDto.class));
+        } else {
+            throw new EchantillonNotFoundException("Échantillon non trouvé avec l'ID : " + id);
+        }
+
     }
 
     @Override

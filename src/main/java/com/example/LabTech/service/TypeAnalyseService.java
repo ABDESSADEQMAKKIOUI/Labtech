@@ -1,6 +1,7 @@
 package com.example.LabTech.service;
 
 import com.example.LabTech.DTO.Type_AnalyseDto;
+import com.example.LabTech.Exception.TypeAnalyseNotFoundException;
 import com.example.LabTech.entite.Type_Analyse;
 import com.example.LabTech.repository.TypeAnalyseRepository;
 import com.example.LabTech.service.interfaces.ITypeAnalyseService;
@@ -36,7 +37,12 @@ public class TypeAnalyseService implements ITypeAnalyseService {
     @Override
     public Optional<Type_AnalyseDto> gettypeAnalyseById(long id) {
         Optional<Type_Analyse> typeAnalyse = typeAnalyseRepository.findById(id);
-        return typeAnalyse.map(this::convertToDto);
+
+        if (typeAnalyse.isPresent()) {
+            return typeAnalyse.map(this::convertToDto);
+        } else {
+            throw new TypeAnalyseNotFoundException("Type d'analyse non trouvé avec l'ID : " + id);
+        }
     }
 
     @Override

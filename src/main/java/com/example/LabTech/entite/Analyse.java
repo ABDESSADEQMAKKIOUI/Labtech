@@ -6,6 +6,7 @@ import com.example.LabTech.entite.enums.Status_Analyse;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -29,7 +30,8 @@ public class Analyse {
     @ManyToOne
     private Echantillon echantillon;
 
-   private String name ;
+    @NotBlank(message = "Le champ 'name' ne peut pas être vide.")
+    private String name;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date date_debut;

@@ -1,6 +1,7 @@
 package com.example.LabTech.service;
 
 import com.example.LabTech.DTO.TechnitienDto;
+import com.example.LabTech.Exception.TecnitientNotFoundException;
 import com.example.LabTech.entite.Technitien;
 import com.example.LabTech.repository.TechnitienRepository;
 import com.example.LabTech.service.interfaces.ITechnitientService;
@@ -32,7 +33,12 @@ public class TechnitientService implements ITechnitientService {
     @Override
     public Optional<TechnitienDto> gettechnitienById(long id) {
         Optional<Technitien> technitien = technitienRepository.findById(id);
-        return technitien.map(this::convertToDto);
+
+        if (technitien.isPresent()) {
+            return technitien.map(this::convertToDto);
+        } else {
+            throw new TecnitientNotFoundException("Technicien non trouvé avec l'ID : " + id);
+        }
     }
 
    @Override

@@ -2,6 +2,7 @@ package com.example.LabTech.service;
 
 import com.example.LabTech.DTO.AnalyseDto;
 import com.example.LabTech.DTO.EnormDto;
+import com.example.LabTech.Exception.AnalyseNotFoundException;
 import com.example.LabTech.entite.Analyse;
 import com.example.LabTech.entite.Enorm;
 import com.example.LabTech.entite.Test_analyse;
@@ -43,8 +44,12 @@ public class AnalyseService {
     }
 
     public Optional<AnalyseDto> getAnalyseById(long id) {
-        Optional<Analyse> analyse = analyseRepository.findById(id);
-        return analyse.map(value -> modelMapper.map(value, AnalyseDto.class));
+        Optional<Analyse> analyse = analyseRepository.findById(id) ;
+        if (analyse.isPresent()) {
+            return analyse.map(value -> modelMapper.map(value, AnalyseDto.class));
+        } else {
+            throw new AnalyseNotFoundException("Analyse non trouvée avec l'ID : " + id);
+        }
     }
 
     public AnalyseDto addAnalyse(AnalyseDto analyseDto) {

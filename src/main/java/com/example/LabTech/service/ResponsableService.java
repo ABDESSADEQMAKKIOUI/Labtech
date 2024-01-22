@@ -1,6 +1,7 @@
 package com.example.LabTech.service;
 
 import com.example.LabTech.DTO.ResponsableDto;
+import com.example.LabTech.Exception.ResponsableNoteFoundException;
 import com.example.LabTech.entite.Responsable;
 import com.example.LabTech.repository.ResponsbleRepository;
 import com.example.LabTech.service.interfaces.IResponsableService;
@@ -34,7 +35,12 @@ public class ResponsableService implements IResponsableService {
     @Override
     public Optional<ResponsableDto> getResponsableById(long id) {
         Optional<Responsable> responsable = responsbleRepository.findById(id);
-        return responsable.map(this::convertToDto);
+
+        if (responsable.isPresent()) {
+            return responsable.map(this::convertToDto);
+        } else {
+            throw new ResponsableNoteFoundException("Responsable non trouvé avec l'ID : " + id);
+        }
     }
 
     @Override

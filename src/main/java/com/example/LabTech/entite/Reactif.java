@@ -3,6 +3,10 @@ package com.example.LabTech.entite;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -18,33 +22,40 @@ import java.util.List;
 @Data
 public class Reactif {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private long id;
 
-    private int quantity;
-    private String nom;
+        @PositiveOrZero(message = "La quantité doit être un nombre positif ou zéro.")
+        private int quantity;
 
-    @Temporal(TemporalType.DATE)
-    private Date date_expiration;
+        @NotBlank(message = "Le nom ne peut pas être vide.")
+        private String nom;
 
-    private String description;
+        @Temporal(TemporalType.DATE)
+        @FutureOrPresent(message = "La date d'expiration doit être dans le futur ou présente.")
+        private Date date_expiration;
 
-    @OneToMany(mappedBy = "reactif", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    @JsonIgnore
-    @Fetch(FetchMode.SUBSELECT)
-    private List<AnalyseReactif> analyseReactifs = new ArrayList<>() ;
+        private String description;
 
-    @OneToMany(mappedBy = "reactif", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    @JsonIgnore
-    @Fetch(FetchMode.SUBSELECT)
-    private List<Enorm> enorms = new ArrayList<>() ;
+        @OneToMany(mappedBy = "reactif", cascade = CascadeType.ALL)
+        @ToString.Exclude
+        @JsonIgnore
+        @Fetch(FetchMode.SUBSELECT)
+        private List<AnalyseReactif> analyseReactifs = new ArrayList<>();
 
-    @ManyToOne
-    private Fournisseur fournisseur;
+        @OneToMany(mappedBy = "reactif", cascade = CascadeType.ALL)
+        @ToString.Exclude
+        @JsonIgnore
+        @Fetch(FetchMode.SUBSELECT)
+        private List<Enorm> enorms = new ArrayList<>();
+
+        @ManyToOne
+        @NotNull(message = "Le fournisseur ne peut pas être nul.")
+        private Fournisseur fournisseur;
+
 
 
 }
+
 
