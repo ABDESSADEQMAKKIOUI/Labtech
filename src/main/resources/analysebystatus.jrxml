@@ -1,160 +1,103 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Waves_Landscape_Table_Based" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0">
-    <style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
-    <style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
-    <style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
-    <style name="Detail" fontName="Arial" fontSize="12"/>
-    <style name="Table">
-        <box>
-            <pen lineWidth="1.0" lineColor="#000000"/>
-            <topPen lineWidth="1.0" lineColor="#000000"/>
-            <leftPen lineWidth="1.0" lineColor="#000000"/>
-            <bottomPen lineWidth="1.0" lineColor="#000000"/>
-            <rightPen lineWidth="1.0" lineColor="#000000"/>
-        </box>
-    </style>
-    <style name="Table_TH" mode="Transparent" backcolor="#FFFFFF">
-        <box>
-            <pen lineWidth="1.0" lineColor="#000000"/>
-            <topPen lineWidth="0.5" lineColor="#CCCCCC"/>
-            <leftPen lineWidth="0.0" lineColor="#CCCCCC"/>
-            <bottomPen lineWidth="0.5" lineColor="#CCCCCC"/>
-            <rightPen lineWidth="0.0" lineColor="#CCCCCC"/>
-        </box>
-    </style>
-    <style name="Table_CH" mode="Transparent" forecolor="#B89F7D" backcolor="#70A9C6">
-        <box>
-            <pen lineWidth="0.5" lineColor="#CCCCCC"/>
-            <topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-            <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-            <bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-            <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-        </box>
-    </style>
-    <style name="Table_TD" mode="Transparent" backcolor="#FFFFFF">
-        <box>
-            <pen lineWidth="1.0" lineColor="#000000"/>
-            <topPen lineWidth="0.5" lineStyle="Solid" lineColor="#CCCCCC"/>
-            <leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-            <bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#CCCCCC"/>
-            <rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-        </box>
-    </style>
-    <style name="Table_CH_Label" style="SubTitle" mode="Opaque" forecolor="#FFFFFF" backcolor="#666666" fontSize="16" isBold="true">
-        <box leftPadding="2"/>
-    </style>
-    <subDataset name="tableDataset">
-        <field name="date_debut" class="java.sql.Timestamp">
-
-        </field>
-        <field name="date_fin" class="java.sql.Timestamp">
-
-        </field>
-        <field name="name" class="java.lang.String">
-
-        </field>
-        <field name="status" class="java.lang.String">
-
-        </field>
-        <field name="status_analyse" class="java.lang.String">
-
-        </field>
-        <field name="echantillon_id" class="java.lang.Long">
-
-        </field>
-        <field name="responsable_id" class="java.lang.Long">
-
-        </field>
-        <group name="date_debut">
-            <groupExpression><![CDATA[$F{date_debut}]]></groupExpression>
-        </group>
-        <group name="date_fin">
-            <groupExpression><![CDATA[$F{date_fin}]]></groupExpression>
-        </group>
-        <group name="name">
-            <groupExpression><![CDATA[$F{name}]]></groupExpression>
-        </group>
-        <group name="status">
-            <groupExpression><![CDATA[$F{status}]]></groupExpression>
-        </group>
-        <group name="status_analyse">
-            <groupExpression><![CDATA[$F{status_analyse}]]></groupExpression>
-        </group>
-        <group name="echantillon_id">
-            <groupExpression><![CDATA[$F{echantillon_id}]]></groupExpression>
-        </group>
-        <group name="responsable_id">
-            <groupExpression><![CDATA[$F{responsable_id}]]></groupExpression>
-        </group>
-    </subDataset>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="AnalyseReport" language="java" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail">
+    <style name="TitleStyle"    fontSize="14" isBold="true" hAlign="Center" />
     <queryString>
         <![CDATA[]]>
     </queryString>
-    <background>
-        <band height="575" splitType="Stretch">
-            <image vAlign="Bottom">
-                <reportElement positionType="Float" x="-20" y="66" width="105" height="409"/>
-                <imageExpression><![CDATA["waves.jpg"]]></imageExpression>
-            </image>
-            <frame>
-                <reportElement mode="Opaque" x="-20" y="475" width="105" height="100" backcolor="#666666"/>
-                <textField>
-                    <reportElement style="Column header" x="0" y="0" width="104" height="73" forecolor="#000000"/>
-                    <textElement textAlignment="Center" verticalAlignment="Middle">
-                        <font size="58" isBold="true"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
-                </textField>
+    <field name="id" class="java.lang.Long"/>
+    <field name="name" class="java.lang.String"/>
+    <field name="date_debut" class="java.util.Date"/>
+    <field name="date_fin" class="java.util.Date"/>
+    <field name="statusAnalyse" class="com.example.LabTech.entite.enums.Status_Analyse"/>
+    <field name="responsable" class="com.example.LabTech.entite.Responsable"/>
+    <field name="analyseReactifs" class="java.util.List"/>
+    <field name="typeAnalyses" class="java.util.List"/>
+    <field name="status" class="com.example.LabTech.entite.enums.Status"/>
 
-                <textField>
-                    <reportElement style="Column header" x="0" y="0" width="104" height="73" forecolor="#000000"/>
-                    <textElement textAlignment="Center" verticalAlignment="Middle">
-                        <font size="58" isBold="true"/>
-                    </textElement>
-                    <textFieldExpression><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
-                </textField>
-
-                <line>
-                    <reportElement mode="Transparent" x="42" y="73" width="20" height="1" backcolor="#FFFFFF"/>
-                </line>
-            </frame>
-        </band>
-    </background>
+    <!-- Column headers -->
     <title>
-        <band height="104" splitType="Stretch">
+        <band height="30">
             <staticText>
-                <reportElement style="Title" x="0" y="0" width="802" height="67"/>
-                <textElement textAlignment="Right" verticalAlignment="Middle">
-                    <font size="54" isBold="false"/>
-                </textElement>
-                <text><![CDATA[WAVES TITLE]]></text>
-            </staticText>
-            <staticText>
-                <reportElement style="SubTitle" x="232" y="67" width="568" height="37"/>
-                <textElement textAlignment="Right">
-                    <font size="26"/>
-                </textElement>
-                <text><![CDATA[Waves SubTitle]]></text>
+                <reportElement x="0" y="0" width="100" height="30" backcolor="red" style="TitleStyle" />
+                <text><![CDATA[Analyse Report]]></text>
             </staticText>
         </band>
     </title>
-    <pageFooter>
-        <band height="39" splitType="Stretch">
-            <textField pattern="EEEEE dd MMMMM yyyy">
-                <reportElement style="Column header" x="671" y="0" width="131" height="20" forecolor="#000000"/>
-                <textElement textAlignment="Right">
-                    <font size="12" isBold="false"/>
-                </textElement>
-                <textFieldExpression><![CDATA[new java.text.SimpleDateFormat("EEEEE dd MMMMM yyyy").format(new java.util.Date())]]></textFieldExpression>
-            </textField>
+    <columnHeader>
+        <band height="20">
             <staticText>
-                <reportElement x="96" y="0" width="267" height="20"/>
-                <textElement>
-                    <font size="12"/>
-                </textElement>
-                <text><![CDATA[Waves Title Report]]></text>
+                <reportElement x="0" y="0" width="50" height="20"/>
+                <text><![CDATA[Id]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="50" y="0" width="100" height="20"/>
+                <text><![CDATA[Name]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="150" y="0" width="120" height="20"/>
+                <text><![CDATA[Start Date]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="250" y="0" width="120" height="20"/>
+                <text><![CDATA[End Date]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="350" y="0" width="100" height="20"/>
+                <text><![CDATA[Status Analyse]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="430" y="0" width="120" height="20"/>
+                <text><![CDATA[Responsable]]></text>
+            </staticText>
+            <!-- Add headers for other fields as needed -->
+            <staticText>
+                <reportElement x="500" y="0" width="100" height="20"/>
+                <text><![CDATA[Status]]></text>
             </staticText>
         </band>
-    </pageFooter>
+    </columnHeader>
+
+    <!-- Detail band -->
+    <detail>
+        <band height="20">
+            <textField>
+                <reportElement x="0" y="0" width="50" height="20"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="50" y="0" width="100" height="20"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="150" y="0" width="120" height="20"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{date_debut}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="250" y="0" width="120" height="20"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{date_fin}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="350" y="0" width="100" height="20"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{statusAnalyse}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="430" y="0" width="120" height="20"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{responsable}.getNom()]]></textFieldExpression>
+            </textField>
+            <!-- Add text fields for other fields as needed -->
+            <textField>
+                <reportElement x="500" y="0" width="100" height="20" />
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
 </jasperReport>

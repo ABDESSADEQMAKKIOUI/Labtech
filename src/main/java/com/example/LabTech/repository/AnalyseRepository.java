@@ -2,6 +2,8 @@ package com.example.LabTech.repository;
 
 
 import com.example.LabTech.entite.Analyse;
+import com.example.LabTech.entite.Echantillon;
+import com.example.LabTech.entite.Patient;
 import com.example.LabTech.entite.enums.Status_Analyse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +26,8 @@ public interface AnalyseRepository extends JpaRepository<Analyse, Long> {
     // Méthode pour compter les analyses par statut avec une requête JPQL
     @Query("SELECT a FROM Analyse a WHERE a.statusAnalyse = :statusAnalyse")
     List<Analyse> getAnalyseByStatus(@Param("statusAnalyse") Status_Analyse statusAnalyse);
+    @Query("SELECT a FROM Analyse a WHERE a.echantillon = :echantllon")
+    List<Analyse> getAnalyseByEchantillon(@Param("echantllon") Echantillon echantllon);
 
 
 }

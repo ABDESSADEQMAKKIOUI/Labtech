@@ -1,11 +1,10 @@
 package com.example.LabTech.service;
 
-import com.example.LabTech.entite.Analyse;
-import com.example.LabTech.entite.ReportData;
-import com.example.LabTech.entite.Test_analyse;
-import com.example.LabTech.entite.Type_Analyse;
+import com.example.LabTech.entite.*;
 import com.example.LabTech.entite.enums.Status_Analyse;
 import com.example.LabTech.repository.AnalyseRepository;
+import com.example.LabTech.repository.EchantillonRepository;
+import com.example.LabTech.repository.PatientRepository;
 import com.example.LabTech.service.interfaces.IReportService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -23,6 +22,10 @@ public class ReportService implements IReportService {
 
     @Autowired
     private AnalyseRepository analyseRepository;
+    @Autowired
+    private PatientRepository patientRepository ;
+    @Autowired
+    private EchantillonRepository echantillonRepository ;
 
     @Override
     public String generateAnalyseReport(String reportFormat, long id) throws FileNotFoundException, JRException {
@@ -88,7 +91,7 @@ public class ReportService implements IReportService {
             JasperExportManager.exportReportToHtmlFile(jasperPrint, path + "\\employees.html");
         }
         if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\employees.pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\analysebydate.pdf");
         }
 
         return "report generated in path : " + path;
@@ -111,7 +114,34 @@ public class ReportService implements IReportService {
             JasperExportManager.exportReportToHtmlFile(jasperPrint, path + "\\employees.html");
         }
         if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\employees.pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\analysebystatus.pdf");
+        }
+
+        return "report generated in path : " + path;
+    }
+
+    @Override
+    public String exportReportAnalyseByPatent(String reportFormat , long id) throws FileNotFoundException, JRException {
+        String path = "C:\\Users\\asus\\Desktop\\hebrnate anotation";
+        Optional<Patient> patient = patientRepository.findById(id);
+       List<Echantillon> echantillons = echantillonRepository.getEchantillonByPatient(patient.get());
+       List<Analyse> analyses = new ArrayList<>();
+       for (Echantillon echantillon :echantillons){
+           List<Analyse> analyses1 = analyseRepository.getAnalyseByEchantillon(echantillon);
+           analyses.addAll(analyses1);
+       }
+        //load file and compile it
+        File file = ResourceUtils.getFile("classpath:analysebystatus.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(analyses);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("createdBy", "STRAW HATS");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+        if (reportFormat.equalsIgnoreCase("html")) {
+            JasperExportManager.exportReportToHtmlFile(jasperPrint, path + "\\employees.html");
+        }
+        if (reportFormat.equalsIgnoreCase("pdf")) {
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\analysePatien.pdf");
         }
 
         return "report generated in path : " + path;
