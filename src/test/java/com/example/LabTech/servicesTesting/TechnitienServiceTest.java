@@ -1,5 +1,6 @@
 package com.example.LabTech.servicesTesting;
 
+import com.example.LabTech.Annotation.MyTag;
 import com.example.LabTech.DTO.TechnitienDto;
 import com.example.LabTech.entite.Technitien;
 import com.example.LabTech.repository.TechnitienRepository;
@@ -23,7 +24,7 @@ class TechnitienServiceTest {
     @Autowired
     private TechnitientService technitienService;
 
-    @Test
+    @MyTag
     void getAllTechnitiens() {
         // Ajouter des techniciens fictifs à la base de données
         Technitien technitien1 = new Technitien();
@@ -38,7 +39,7 @@ class TechnitienServiceTest {
         assertNotNull(result);
     }
 
-    @Test
+    @MyTag
     void getTechnitienById() {
         // Ajouter un technicien fictif à la base de données
         Technitien technitien = new Technitien();
@@ -73,7 +74,7 @@ class TechnitienServiceTest {
         assertEquals(2, techniciens.size());
     }
 
-    @Test
+    @MyTag
     void updateTechnitien() {
         // Ajouter un technicien fictif à la base de données
         Technitien technitien = new Technitien();
@@ -91,7 +92,7 @@ class TechnitienServiceTest {
         assertEquals(technitienDto.getNom(), result.getNom());
     }
 
-    @Test
+    @MyTag
     void deleteTechnitien() {
         // Ajouter un technicien fictif à la base de données
         Technitien technitien = new Technitien();

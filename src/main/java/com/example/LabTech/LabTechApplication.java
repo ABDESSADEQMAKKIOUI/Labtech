@@ -8,7 +8,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableWebMvc
 @SpringBootApplication
-public class gitLabTechApplication {
+public class LabTechApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LabTechApplication.class, args);
